@@ -1,6 +1,9 @@
 package views;
 
+import factories.WorkSpaceViewElementFactory;
+import javafx.geometry.Point2D;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Circle;
 import models.WorkSpaceGraph;
 import models.WorkSpaceGraphElement;
 import models.WorkSpaceGraphListener;
@@ -17,6 +20,7 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
      * Creates an empty instance of a WorkSpaceView with no WorkSpaceGraph model
      */
     public WorkSpaceView() {
+        setStyle("-fx-background-color: cornflowerblue;");
     }
 
     // Public Methods
@@ -34,6 +38,30 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
         workSpaceGraph_ = workSpaceGraph;
         workSpaceGraph_.addSubscriber(this);
     }
+    
+    /**
+     * Converts the provided co-ordinates within the view to relative co-ordinates
+     * ranging from 0 (top/left) to 1 (bottom/right)
+     * @param positionX::double ~ The X position of the point to convert
+     * @param positionY::double ~ The Y position of the point to convert
+     * @return 
+     */
+    public Point2D getRelativePosition(double positionX, double positionY) {
+        double relativeX;
+        double relativeY;
+        
+        if(getWidth() == 0)
+            relativeX = 0;
+        else
+            relativeX = positionX / getWidth();
+        
+        if(getHeight() == 0)
+            relativeY = 0;
+        else
+            relativeY = positionY / getHeight();
+        
+        return new Point2D(relativeX, relativeY);
+    }
 
     /**
      * Handles a WorkSpaceGraph element being added to the WorkSpaceGraph model
@@ -43,7 +71,14 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
      */
     @Override
     public void onElementAdded(WorkSpaceGraphElement element) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        WorkSpaceViewElement elementToAdd = WorkSpaceViewElementFactory.viewElement(element);
+        
+        if(elementToAdd != null) {
+            double absolutePositionX = element.getX() * getWidth();
+            double absolutePositionY = element.getY() * getHeight();
+            elementToAdd.relocate(absolutePositionX, absolutePositionY);
+            getChildren().add(elementToAdd);
+        }
     }
 
     /**

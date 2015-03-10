@@ -1,8 +1,11 @@
 package controllers;
 
+import javafx.geometry.Point2D;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.TransferMode;
+import models.LinkedListElement;
 import models.WorkSpaceGraph;
+import models.WorkSpaceGraphElement;
 import views.WorkSpaceView;
 
 /**
@@ -22,6 +25,7 @@ public class WorkSpaceController {
      */
     public WorkSpaceController(WorkSpaceGraph model, WorkSpaceView view) {
         model_ = model;
+        view_ = view;
         
         // An item being dropped on the view from the toolbar
         view.setOnDragDropped((DragEvent event) -> {
@@ -34,6 +38,23 @@ public class WorkSpaceController {
                     + ", "
                     + event.getY()
                     + ")");
+            
+            String dragData = event.getDragboard().getString();
+            
+            WorkSpaceGraphElement elementToAdd = null;
+            if(dragData.equals("Linked List")) {
+                Point2D relativePosition = view_.getRelativePosition(event.getX(),event.getY());
+                elementToAdd = new LinkedListElement(relativePosition, model_);
+            } else if(dragData.equals("Linked List Node")) {
+                
+            } else if(dragData.equals("Array")) {
+                
+            }
+            
+            if(elementToAdd != null) {
+                model_.addElement(elementToAdd);
+            }
+                
         });
         
         // An dragged item entering the view
@@ -46,4 +67,5 @@ public class WorkSpaceController {
     
     // Private Member Variables
     private final WorkSpaceGraph model_;
+    private final WorkSpaceView view_;
 }
