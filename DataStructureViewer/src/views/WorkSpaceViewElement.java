@@ -9,5 +9,7 @@ import javafx.scene.layout.Pane;
  */
 public abstract class WorkSpaceViewElement extends Pane {
     
-        
+        // NOTE: At the moment this does nothing. This will need to be fully implemented
+        // but for now I just needed to set up the structure so that I could get the
+        // Drag 'n' Drop working. ~ Iain
 }

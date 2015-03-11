@@ -29,26 +29,18 @@ public class WorkSpaceController {
         
         // An item being dropped on the view from the toolbar
         view.setOnDragDropped((DragEvent event) -> {
-            // TODO: Signal to the model that an element of the type specified
-            // by the contained string should be added
-            System.out.println("Item of type " 
-                    + event.getDragboard().getString() 
-                    + " should be added at (" 
-                    + event.getX() 
-                    + ", "
-                    + event.getY()
-                    + ")");
-            
             String dragData = event.getDragboard().getString();
             
             WorkSpaceGraphElement elementToAdd = null;
-            if(dragData.equals("Linked List")) {
-                Point2D relativePosition = view_.getRelativePosition(event.getX(),event.getY());
-                elementToAdd = new LinkedListElement(relativePosition, model_);
-            } else if(dragData.equals("Linked List Node")) {
-                
-            } else if(dragData.equals("Array")) {
-                
+            switch (dragData) {
+                case "Linked List":
+                    Point2D relativePosition = view_.getRelativePosition(event.getX(),event.getY());
+                    elementToAdd = new LinkedListElement(relativePosition, model_);
+                    break;
+                case "Linked List Node":
+                    break;
+                case "Array":
+                    break;
             }
             
             if(elementToAdd != null) {
@@ -57,7 +49,7 @@ public class WorkSpaceController {
                 
         });
         
-        // An dragged item entering the view
+        // A dragged item entering the view
         view.setOnDragOver((DragEvent event) -> {
             event.acceptTransferModes(TransferMode.COPY);
             

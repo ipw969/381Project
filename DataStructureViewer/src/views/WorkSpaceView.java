@@ -3,7 +3,6 @@ package views;
 import factories.WorkSpaceViewElementFactory;
 import javafx.geometry.Point2D;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Circle;
 import models.WorkSpaceGraph;
 import models.WorkSpaceGraphElement;
 import models.WorkSpaceGraphListener;
