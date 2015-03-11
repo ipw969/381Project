@@ -1,6 +1,7 @@
 package views;
 
 import factories.WorkSpaceViewElementFactory;
+import java.util.ArrayList;
 import javafx.geometry.Point2D;
 import javafx.scene.layout.Pane;
 import models.WorkSpaceGraph;
@@ -20,6 +21,7 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
      */
     public WorkSpaceView() {
         setStyle("-fx-background-color: cornflowerblue;");
+        viewElements_ = new ArrayList<>();
     }
 
     // Public Methods
@@ -77,6 +79,7 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
             double absolutePositionY = element.getY() * getHeight();
             elementToAdd.relocate(absolutePositionX, absolutePositionY);
             getChildren().add(elementToAdd);
+            viewElements_.add(elementToAdd);
         }
     }
 
@@ -89,7 +92,13 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
      */
     @Override
     public void onElementRemoved(WorkSpaceGraphElement element) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        for(WorkSpaceViewElement viewElement : viewElements_) {
+            if(viewElement.getElement() == element) {
+                getChildren().remove(viewElement);
+                viewElements_.remove(viewElement);
+            }
+            return;
+        }
     }
 
     /**
@@ -101,10 +110,16 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
      */
     @Override
     public void onElementAltered(WorkSpaceGraphElement element) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        for(WorkSpaceViewElement viewElement : viewElements_) {
+            if(viewElement.getElement() == element) {
+                viewElement.update();
+            }
+            return;
+        }
     }
 
     // Private Member Variables
     private WorkSpaceGraph workSpaceGraph_;
+    private final ArrayList<WorkSpaceViewElement> viewElements_;
 
 }

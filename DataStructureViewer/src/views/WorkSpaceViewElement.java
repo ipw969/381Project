@@ -1,6 +1,7 @@
 package views;
 
 import javafx.scene.layout.Pane;
+import models.WorkSpaceGraphElement;
 
 /**
  * Abstract class from which all widgets used to represent WorkSpaceGraphElement
@@ -8,8 +9,33 @@ import javafx.scene.layout.Pane;
  * @author Iain Workman
  */
 public abstract class WorkSpaceViewElement extends Pane {
+
+    // Constructor
+    /**
+     * The default constructor for all classes which extend WorkSpaceViewElement.
+     * Is passed the WorkSpaceGraphElement that this view represents
+     * @param element::WorkSpaceGraphElement ~ The WorkSpaceGraphElement which 
+     * this view is representing
+     */
+    public WorkSpaceViewElement(WorkSpaceGraphElement element) {
+        element_ = element;
+    }
+       
+    // Public Methods
+    /**
+     * Abstract method which each WorkSpaceViewElement must implement to define
+     * how it should change its visualization of the element which it represents.
+     */
+    public abstract void update();
     
-        // NOTE: At the moment this does nothing. This will need to be fully implemented
-        // but for now I just needed to set up the structure so that I could get the
-        // Drag 'n' Drop working. ~ Iain
+    /**
+     * The WorkSpaceGraphElement which this view is visualizing.
+     * @return 
+     */
+    public WorkSpaceGraphElement getElement() {
+        return element_;
+    }
+    
+    // Private Member Variables
+    private final WorkSpaceGraphElement element_;
 }

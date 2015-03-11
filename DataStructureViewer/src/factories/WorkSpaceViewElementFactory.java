@@ -20,7 +20,7 @@ public class WorkSpaceViewElementFactory {
      */
     public static WorkSpaceViewElement viewElement(WorkSpaceGraphElement element) {
         if(element instanceof LinkedListElement) {
-            return new LinkedListViewElement();                    
+            return new LinkedListViewElement((LinkedListElement)element);                    
         }
         return null;
     }
