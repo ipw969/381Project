@@ -25,7 +25,7 @@ public class LinkedListViewElement extends WorkSpaceViewElement {
      */
     public LinkedListViewElement (LinkedListElement element) {
         super(element);
-        setMinSize(85, 65);
+        setMinSize(element.getWidth(), element.getHeight());
         
         // Initialize UI
         backgroundRectangle_ = new Rectangle(0, 0, getWidth(), getHeight());
@@ -62,6 +62,15 @@ public class LinkedListViewElement extends WorkSpaceViewElement {
     public void update() {
         backgroundRectangle_.setWidth(this.getWidth());
         backgroundRectangle_.setHeight(this.getHeight());
+    }
+    
+    @Override
+    public void setIsSelected(boolean selectionState) {
+        super.setIsSelected(selectionState);
+        if(selectionState)
+            backgroundRectangle_.setStroke(Color.RED);
+        else
+            backgroundRectangle_.setStroke(Color.BLACK);
     }
     
     // Private Member Variables

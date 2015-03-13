@@ -1,6 +1,7 @@
 package models;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A class which represents the structure of elements which are being
@@ -66,6 +67,44 @@ public class WorkSpaceGraph {
         subscribers_.remove(subscriber);
     }
 
+    /**
+     * The WorkSpaceGraphElement which lies under the provided coordinates, or
+     * null if no WorkSpaceGraphElement lies under the provided coordinates.
+     *
+     * 
+     * @param pointX::double ~ The x coordinate of the point to check
+     * @param pointY::double ~ The y coordinate of the point to check
+     * @return The element under the provided point, or null if no element lies
+     * under the provided point.
+     */
+    public WorkSpaceGraphElement getElementAt(double pointX, double pointY) {
+        for (WorkSpaceGraphElement currentElement : elements_) {
+            if(currentElement.containsPoint(pointX, pointY)) {
+                return currentElement;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Returns a list of all the elements which are contained wholly within the
+     * provided rectangle
+     *
+     * @param rectangleX1::double ~ The relative top left X position of the
+     * rectangle
+     * @param rectangleY1::double ~ The relative top left Y position of the
+     * rectangle
+     * @param rectangleX2::double ~ The relative bottom right X position of the
+     * rectangle
+     * @param rectangleY2::double ~ The relative bottom right Y position of the
+     * rectangle
+     * @return
+     */
+    public List<WorkSpaceGraphElement> getElementsWithin(double rectangleX1,
+            double rectangleY1, double rectangleX2, double rectangleY2) {
+        throw new RuntimeException("Not done yet");
+    }
+
     // Private Methods
     /**
      * Notifies all subscribers that a WorkSpaceGraphElement has been added to
@@ -108,6 +147,6 @@ public class WorkSpaceGraph {
     }
 
     // Private Member Variables
-    ArrayList<WorkSpaceGraphElement> elements_;
-    ArrayList<WorkSpaceGraphListener> subscribers_;
+    private final ArrayList<WorkSpaceGraphElement> elements_;
+    private final ArrayList<WorkSpaceGraphListener> subscribers_;
 }

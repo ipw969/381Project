@@ -2,7 +2,7 @@ package views;
 
 import factories.WorkSpaceViewElementFactory;
 import java.util.ArrayList;
-import javafx.geometry.Point2D;
+import java.util.List;
 import javafx.scene.layout.Pane;
 import models.WorkSpaceGraph;
 import models.WorkSpaceGraphElement;
@@ -20,8 +20,9 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
      * Creates an empty instance of a WorkSpaceView with no WorkSpaceGraph model
      */
     public WorkSpaceView() {
-        setStyle("-fx-background-color: cornflowerblue;");
         viewElements_ = new ArrayList<>();
+        selectionSet_ = new ArrayList<>();
+        setStyle("-fx-background-color: CORNFLOWERBLUE");
     }
 
     // Public Methods
@@ -39,29 +40,70 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
         workSpaceGraph_ = workSpaceGraph;
         workSpaceGraph_.addSubscriber(this);
     }
-    
+
     /**
-     * Converts the provided co-ordinates within the view to relative co-ordinates
-     * ranging from 0 (top/left) to 1 (bottom/right)
-     * @param positionX::double ~ The X position of the point to convert
-     * @param positionY::double ~ The Y position of the point to convert
-     * @return 
+     * Selects an WorkSpaceViewElement at the provided position of the
+     * WorkSpaveView.
+     *
+     * @param positionX::double ~ The X position of the coordinate to select an
+     * item at
+     * @param positionY::double ~ The Y position of the coordinate to select an
+     * item at
+     * @param appendToSelection::boolean ~ Whether the item under to coordinate
+     * should be appended to the selection set.
      */
-    public Point2D getRelativePosition(double positionX, double positionY) {
-        double relativeX;
-        double relativeY;
-        
-        if(getWidth() == 0)
-            relativeX = 0;
-        else
-            relativeX = positionX / getWidth();
-        
-        if(getHeight() == 0)
-            relativeY = 0;
-        else
-            relativeY = positionY / getHeight();
-        
-        return new Point2D(relativeX, relativeY);
+    public void selectAt(double positionX, double positionY, boolean appendToSelection) {
+        WorkSpaceGraphElement elementUnderPoint
+                = workSpaceGraph_.getElementAt(positionX, positionY);
+
+        if (elementUnderPoint != null) {
+            selectViewForElement(elementUnderPoint, appendToSelection);
+        }
+    }
+
+    /**
+     *  Selects all the WorkSpaceGraphViewElements which are contained within
+     * the provided rectangle
+     * @param rectangleX1::double ~ The X coordinate of the rectangle top left
+     * @param rectangleY1::double ~ The Y coordinate of the rectangle top left
+     * @param rectangleX2::double ~ The X coordinate of the rectangle bottom right
+     * @param rectangleY2::double ~ The Y coordinate of the rectangle bottom right
+     * @param appendToSelection::boolean ~ Whether to append the contents of the
+     * rectangle to the current selection or to form a new one.
+     */
+    public void selectWithRectangle(double rectangleX1,
+            double rectangleY1,
+            double rectangleX2,
+            double rectangleY2, boolean appendToSelection) {
+
+        List<WorkSpaceGraphElement> containedElements
+                = workSpaceGraph_.getElementsWithin(rectangleX1, rectangleY1,
+                        rectangleX2, rectangleY2);
+
+        if (!appendToSelection) {
+            clearSelection();
+        }
+
+        for (WorkSpaceGraphElement currentElement : containedElements) {
+            for (WorkSpaceViewElement viewElement : viewElements_) {
+                if (viewElement.getElement() == currentElement) {
+                    if (!selectionSet_.contains(viewElement)) {
+                        selectionSet_.add(viewElement);
+                        viewElement.setIsSelected(true);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Clears the current selection of items in the WorkSpaceView
+     */
+    public void clearSelection() {
+        for (WorkSpaceViewElement currentViewElement : viewElements_) {
+            currentViewElement.setIsSelected(false);
+        }
+        selectionSet_.clear();
     }
 
     /**
@@ -73,11 +115,9 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
     @Override
     public void onElementAdded(WorkSpaceGraphElement element) {
         WorkSpaceViewElement elementToAdd = WorkSpaceViewElementFactory.viewElement(element);
-        
-        if(elementToAdd != null) {
-            double absolutePositionX = element.getX() * getWidth();
-            double absolutePositionY = element.getY() * getHeight();
-            elementToAdd.relocate(absolutePositionX, absolutePositionY);
+
+        if (elementToAdd != null) {
+            elementToAdd.relocate(element.getX(), element.getY());
             getChildren().add(elementToAdd);
             viewElements_.add(elementToAdd);
         }
@@ -92,8 +132,8 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
      */
     @Override
     public void onElementRemoved(WorkSpaceGraphElement element) {
-        for(WorkSpaceViewElement viewElement : viewElements_) {
-            if(viewElement.getElement() == element) {
+        for (WorkSpaceViewElement viewElement : viewElements_) {
+            if (viewElement.getElement() == element) {
                 getChildren().remove(viewElement);
                 viewElements_.remove(viewElement);
             }
@@ -110,16 +150,43 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
      */
     @Override
     public void onElementAltered(WorkSpaceGraphElement element) {
-        for(WorkSpaceViewElement viewElement : viewElements_) {
-            if(viewElement.getElement() == element) {
+        for (WorkSpaceViewElement viewElement : viewElements_) {
+            if (viewElement.getElement() == element) {
                 viewElement.update();
             }
             return;
         }
     }
 
+    // Private Methods
+    /**
+     * Selects the WorkSpaceViewElement which is being used to visualize the
+     * provided WorkSpaceGraphElement
+     *
+     * @param element::WorkSpaceGraphElement ~ The model element which the
+     * WorkSpaceViewElement to be selected is visualizing
+     * @param appendToSelection::boolean ~ Whether to append to the current
+     * selection, or start a new selection
+     */
+    private void selectViewForElement(WorkSpaceGraphElement element,
+            boolean appendToSelection) {
+        for (WorkSpaceViewElement viewElement : viewElements_) {
+            if (viewElement.getElement() == element) {
+                if (appendToSelection && !selectionSet_.contains(viewElement)) {
+                    selectionSet_.add(viewElement);
+                    viewElement.setIsSelected(true);
+                } else {
+                    clearSelection();
+                    selectionSet_.add(viewElement);
+                    viewElement.setIsSelected(true);
+                }
+                return;
+            }
+        }
+    }
+
     // Private Member Variables
     private WorkSpaceGraph workSpaceGraph_;
     private final ArrayList<WorkSpaceViewElement> viewElements_;
-
+    private final List<WorkSpaceViewElement> selectionSet_;
 }

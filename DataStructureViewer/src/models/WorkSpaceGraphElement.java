@@ -16,10 +16,8 @@ public abstract class WorkSpaceGraphElement {
      * Default Constructor for the abstract WorkSpaceGraphElement class. Sets
      * the position and parent WorkSpaceGraph of this WorkSpaceGraphElement
      *
-     * @param positionX::double ~ The X position in relative terms of the
-     * WorkSpaceGraphElement
-     * @param positionY::double ~ The Y position in relative terms of the
-     * WorkSpaceGraphElement
+     * @param positionX::double ~ The X position of the WorkSpaceGraphElement
+     * @param positionY::double ~ The Y position of the WorkSpaceGraphElement
      * @param parent::WorkSpaceGraph ~ The WorkSpaceGraph of which this
      * WorkSpaceGraphElement is a node
      */
@@ -32,8 +30,7 @@ public abstract class WorkSpaceGraphElement {
      * Default Constructor for the abstract WorkSpaceGraphElement class. Sets
      * the position and parent WorkSpaceGraph of this WorkSpaceGraphElement
      *
-     * @param position::Point2D ~ The position in relative terms of the
-     * WorkSpaceGraphElement
+     * @param position::Point2D ~ The position of the WorkSpaceGraphElement
      * @param parent::WorkSpaceGraph ~ The WorkSpaceGraph of which this
      * WorkSpaceGraphElement is a node
      */
@@ -44,28 +41,28 @@ public abstract class WorkSpaceGraphElement {
 
     // Public Methods
     /**
-     * @return The X position in relative terms of the WorkSpaceGraphElement
+     * @return The X position of the WorkSpaceGraphElement
      */
     public double getX() {
         return position_.getX();
     }
 
     /**
-     * @return The Y position in relative terms of the WorkSpaceGraphElement
+     * @return The Y position of the WorkSpaceGraphElement
      */
     public double getY() {
         return position_.getY();
     }
 
     /**
-     * @return The position in relative terms of the WorkSpaceGraphElement
+     * @return The position of the WorkSpaceGraphElement
      */
     public Point2D getPostion() {
         return position_;
     }
 
     /**
-     * Sets the X position of the WorkSpaceGraphElement in relative terms
+     * Sets the X position of the WorkSpaceGraphElement
      *
      * @param positionX::double ~ The X position of the WorkSpaceGraphElement
      */
@@ -75,7 +72,7 @@ public abstract class WorkSpaceGraphElement {
     }
 
     /**
-     * Sets the Y position of the WorkSpaceGraphElement in relative terms
+     * Sets the Y position of the WorkSpaceGraphElement
      *
      * @param positionY::double ~ The Y position of the WorkSpaceGraphElement
      */
@@ -85,7 +82,7 @@ public abstract class WorkSpaceGraphElement {
     }
 
     /**
-     * Sets the position of the WorkSpaceGraphElement in relative terms
+     * Sets the position of the WorkSpaceGraphElement
      *
      * @param positionX::double ~ The X position of the WorkSpaceGraphElement
      * @param positionY::double ~ The Y position of the WorkSpaceGraphElement
@@ -96,7 +93,7 @@ public abstract class WorkSpaceGraphElement {
     }
 
     /**
-     * Sets the position of the WorkSpaceGraphElement in relative terms
+     * Sets the position of the WorkSpaceGraphElement
      *
      * @param position::Point2D ~ The position of the WorkSpaceGraphElement
      */
@@ -104,6 +101,19 @@ public abstract class WorkSpaceGraphElement {
         position_ = position;
         parent_.notifySubscribersOfAlter(this);
     }
+
+    /**
+     * Whether or not the provided relative point is contained within this
+     * WorkSpaceGraphElement
+     *
+     * @param pointX::double ~ The X coordinate of the point to check for
+     * containment within this WorkSpaceGraphElement
+     * @param pointY::double ~ The Y coordinate of the point to check for
+     * containment within this WorkSpaceGraphElement
+     * @return true if the provided point lies within the bound of this
+     * WorkSpaceGraphElement
+     */
+    public abstract boolean containsPoint(double pointX, double pointY);
 
     // Protected Methods
     /**
