@@ -4,6 +4,9 @@ import factories.WorkSpaceViewElementFactory;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import models.WorkSpaceGraph;
 import models.WorkSpaceGraphElement;
 import models.WorkSpaceGraphListener;
@@ -13,7 +16,7 @@ import models.WorkSpaceGraphListener;
  *
  * @author Iain Workman
  */
-public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
+public class WorkSpaceView extends StackPane implements WorkSpaceGraphListener {
 
     // Constructor
     /**
@@ -22,7 +25,16 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
     public WorkSpaceView() {
         viewElements_ = new ArrayList<>();
         selectionSet_ = new ArrayList<>();
-        setStyle("-fx-background-color: CORNFLOWERBLUE");
+
+        selectionRectangle_ = new Rectangle(0, 0, 0, 0);
+        selectionRectangle_.setStroke(Color.CORNFLOWERBLUE);
+        selectionRectangle_.setStrokeWidth(2);
+        selectionRectangle_.setFill(Color.rgb(100, 149, 237, 0.6));
+        elementPane_ = new Pane();
+        Pane selectionOverlayPane = new Pane();
+        selectionOverlayPane.getChildren().add(selectionRectangle_);
+        
+        this.getChildren().addAll(elementPane_, selectionOverlayPane);
     }
 
     // Public Methods
@@ -106,6 +118,26 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
         selectionSet_.clear();
     }
 
+    public void updateSelectionRectangle(double rectangleX1, double rectangleY1,
+            double rectangleX2, double rectangleY2) {
+        selectionRectangle_.setX(rectangleX1);
+        selectionRectangle_.setY(rectangleY1);
+        selectionRectangle_.setWidth(rectangleX2 - rectangleX1);
+        selectionRectangle_.setHeight(rectangleY2 - rectangleY1);
+        
+        selectionRectangle_.setVisible(true);
+    }
+    
+    public void resetSelectionRectangle() {
+        selectionRectangle_.setVisible(false);
+        
+        selectionRectangle_.setX(0);
+        selectionRectangle_.setY(0);
+        selectionRectangle_.setWidth(0);
+        selectionRectangle_.setHeight(0);
+        
+    }
+    
     /**
      * Handles a WorkSpaceGraph element being added to the WorkSpaceGraph model
      *
@@ -118,7 +150,7 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
 
         if (elementToAdd != null) {
             elementToAdd.relocate(element.getX(), element.getY());
-            getChildren().add(elementToAdd);
+            elementPane_.getChildren().add(elementToAdd);
             viewElements_.add(elementToAdd);
         }
     }
@@ -134,7 +166,7 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
     public void onElementRemoved(WorkSpaceGraphElement element) {
         for (WorkSpaceViewElement viewElement : viewElements_) {
             if (viewElement.getElement() == element) {
-                getChildren().remove(viewElement);
+                elementPane_.getChildren().remove(viewElement);
                 viewElements_.remove(viewElement);
             }
             return;
@@ -186,6 +218,8 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
     }
 
     // Private Member Variables
+    private final Pane elementPane_;
+    private final Rectangle selectionRectangle_;
     private WorkSpaceGraph workSpaceGraph_;
     private final ArrayList<WorkSpaceViewElement> viewElements_;
     private final List<WorkSpaceViewElement> selectionSet_;
