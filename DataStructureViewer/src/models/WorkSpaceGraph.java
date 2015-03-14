@@ -28,7 +28,7 @@ public class WorkSpaceGraph {
      * add to the WorkSpaceGraph
      */
     public void addElement(WorkSpaceGraphElement element) {
-        element.setZIndex(elements_.size());
+        element.setZIndex(getHighestZIndex() + 1);
         elements_.add(element);
         notifySubscribersOfAdd(element);
     }
