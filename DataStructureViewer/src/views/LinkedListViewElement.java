@@ -48,7 +48,7 @@ public class LinkedListViewElement extends WorkSpaceViewElement {
         // Incase we get resized we really should listen for this an update the
         // canvas appropriately.
         widthProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
-           update(); 
+            update(); 
         });
 
         heightProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
@@ -60,8 +60,12 @@ public class LinkedListViewElement extends WorkSpaceViewElement {
 
     @Override
     public void update() {
-        backgroundRectangle_.setWidth(this.getWidth());
-        backgroundRectangle_.setHeight(this.getHeight());
+        // For some reason setting the canvas to the same as the element expands
+        // the size of the element, which then causes this to fire and we end
+        // up with an ever growing element. As such these are set to 1 less 
+        // than the width and height of the elements.
+        backgroundRectangle_.setWidth(this.getWidth()-1);
+        backgroundRectangle_.setHeight(this.getHeight()-1);
     }
     
     @Override
