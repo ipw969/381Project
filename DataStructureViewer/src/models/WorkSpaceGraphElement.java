@@ -21,21 +21,9 @@ public abstract class WorkSpaceGraphElement {
      * @param parent::WorkSpaceGraph ~ The WorkSpaceGraph of which this
      * WorkSpaceGraphElement is a node
      */
-    public WorkSpaceGraphElement(double positionX, double positionY, WorkSpaceGraph parent) {
+    public WorkSpaceGraphElement(double positionX, double positionY, int zIndex, WorkSpaceGraph parent) {
         position_ = new Point2D(positionX, positionY);
-        parent_ = parent;
-    }
-
-    /**
-     * Default Constructor for the abstract WorkSpaceGraphElement class. Sets
-     * the position and parent WorkSpaceGraph of this WorkSpaceGraphElement
-     *
-     * @param position::Point2D ~ The position of the WorkSpaceGraphElement
-     * @param parent::WorkSpaceGraph ~ The WorkSpaceGraph of which this
-     * WorkSpaceGraphElement is a node
-     */
-    public WorkSpaceGraphElement(Point2D position, WorkSpaceGraph parent) {
-        position_ = position;
+        zIndex_ = zIndex;
         parent_ = parent;
     }
 
@@ -59,6 +47,13 @@ public abstract class WorkSpaceGraphElement {
      */
     public Point2D getPostion() {
         return position_;
+    }
+
+    /**
+     * @return The z index (vertical ordering) of the WorkSpaceGraphElement
+     */
+    public int getZIndex() {
+        return zIndex_;
     }
 
     /**
@@ -103,6 +98,16 @@ public abstract class WorkSpaceGraphElement {
     }
 
     /**
+     * Sets the Z index of the WorkSpaceGraphElement
+     *
+     * @param zIndex::int ~ The Z Index of the WorkSpaceGraphElement
+     */
+    public void setZIndex(int zIndex) {
+        zIndex_ = zIndex;
+        parent_.notifySubscribersOfAlter(this);
+    }
+
+    /**
      * Whether or not the provided relative point is contained within this
      * WorkSpaceGraphElement
      *
@@ -116,18 +121,22 @@ public abstract class WorkSpaceGraphElement {
     public abstract boolean containsPoint(double pointX, double pointY);
 
     /**
-     * Whether or not this WorkSpaceGraphElement is contained within the provided
+     * Whether or not this WorkSpaceGraphElement is contained within the
+     * provided rectangle
+     *
+     * @param rectangleX1::double ~ The X coordinate of the top left of the
      * rectangle
-     * 
-     * @param rectangleX1::double ~ The X coordinate of the top left of the rectangle
-     * @param rectangleY1::double ~ The Y coordinate of the top left of the rectangle
-     * @param rectangleX2::double ~ The X coordinate of the bottom right of the rectangle
-     * @param rectangleY2::double ~ The Y coordinate of the bottom right of the rectangle
+     * @param rectangleY1::double ~ The Y coordinate of the top left of the
+     * rectangle
+     * @param rectangleX2::double ~ The X coordinate of the bottom right of the
+     * rectangle
+     * @param rectangleY2::double ~ The Y coordinate of the bottom right of the
+     * rectangle
      * @return True if this WorkSpaceGraphElement is contained within the bounds
      * of the provided rectangle. False otherwise.
      */
     public abstract boolean isContainedWithin(double rectangleX1, double rectangleY1, double rectangleX2, double rectangleY2);
-    
+
     // Protected Methods
     /**
      * @return The parent WorkSpaceGraph of which this WorkSpaceGraphElement is
@@ -140,4 +149,5 @@ public abstract class WorkSpaceGraphElement {
     // Private Member Variables
     private Point2D position_;
     private final WorkSpaceGraph parent_;
+    private int zIndex_;
 }

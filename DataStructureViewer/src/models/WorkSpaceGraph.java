@@ -28,9 +28,9 @@ public class WorkSpaceGraph {
      * add to the WorkSpaceGraph
      */
     public void addElement(WorkSpaceGraphElement element) {
+        element.setZIndex(elements_.size());
         elements_.add(element);
         notifySubscribersOfAdd(element);
-
     }
 
     /**
@@ -71,19 +71,24 @@ public class WorkSpaceGraph {
      * The WorkSpaceGraphElement which lies under the provided coordinates, or
      * null if no WorkSpaceGraphElement lies under the provided coordinates.
      *
-     * 
+     *
      * @param pointX::double ~ The x coordinate of the point to check
      * @param pointY::double ~ The y coordinate of the point to check
      * @return The element under the provided point, or null if no element lies
      * under the provided point.
      */
     public WorkSpaceGraphElement getElementAt(double pointX, double pointY) {
+        WorkSpaceGraphElement highestZOrderedElement = null;
         for (WorkSpaceGraphElement currentElement : elements_) {
-            if(currentElement.containsPoint(pointX, pointY)) {
-                return currentElement;
+            if (currentElement.containsPoint(pointX, pointY)) {
+                if (highestZOrderedElement == null) {
+                    highestZOrderedElement = currentElement;
+                } else if (highestZOrderedElement.getZIndex() < currentElement.getZIndex()) {
+                    highestZOrderedElement = currentElement;
+                }
             }
         }
-        return null;
+        return highestZOrderedElement;
     }
 
     /**
@@ -103,13 +108,38 @@ public class WorkSpaceGraph {
     public List<WorkSpaceGraphElement> getElementsWithin(double rectangleX1,
             double rectangleY1, double rectangleX2, double rectangleY2) {
         ArrayList<WorkSpaceGraphElement> foundElements = new ArrayList<>();
-        for(WorkSpaceGraphElement currentElement : elements_) {
-            if(currentElement.isContainedWithin(rectangleX1, rectangleY1, 
-                                                rectangleX2, rectangleY2)) {
+        for (WorkSpaceGraphElement currentElement : elements_) {
+            if (currentElement.isContainedWithin(rectangleX1, rectangleY1,
+                    rectangleX2, rectangleY2)) {
                 foundElements.add(currentElement);
             }
         }
         return foundElements;
+    }
+
+    /**
+     * Brings the provided element to the front in terms of ZIndex
+     *
+     * @param element::WorkSpaceGraphElement ~ The element to be brought to the
+     * front
+     */
+    public void bringToFront(WorkSpaceGraphElement element) {
+
+        int currentHighestZIndex = getHighestZIndex();
+        element.setZIndex(currentHighestZIndex + 1);
+        notifySubscribersOfZIndexAltered(element, true);
+    }
+
+    /**
+     * Sends the provided element to the back in terms of ZIndex
+     *
+     * @param element::WorkSpaceGraphElement ~ The element to be sent to the
+     * back
+     */
+    public void sendToBack(WorkSpaceGraphElement element) {
+        int currentLowestZIndex = getLowestZIndex();
+        element.setZIndex(currentLowestZIndex - 1);
+        notifySubscribersOfZIndexAltered(element, false);
     }
 
     // Private Methods
@@ -139,6 +169,23 @@ public class WorkSpaceGraph {
         }
     }
 
+    /**
+     * Notifies all subscribers that a WorkSpaceGraphElement has has its ZIndex
+     * altered
+     *
+     * @param element::WorkSpaceGraphElement ~ The WorkSpaceGraphElement which
+     * has had it's ZIndex Altered
+     * @param broughtToFront::boolean ~ Whether the element was brought to
+     * front, or sent to back
+     */
+    private void notifySubscribersOfZIndexAltered(WorkSpaceGraphElement element,
+            boolean broughtToFront) {
+
+        for (WorkSpaceGraphListener subscriber : subscribers_) {
+            subscriber.onElementZIndexAltered(element, broughtToFront);
+        }
+    }
+
     // Package Methods
     /**
      * Notified all subscribers that a WorkSpaceGraphElement of this
@@ -151,6 +198,34 @@ public class WorkSpaceGraph {
         for (WorkSpaceGraphListener subscriber : subscribers_) {
             subscriber.onElementAltered(element);
         }
+    }
+
+    /**
+     * @return The highest Z index of any item within the WorkSpaceGraph
+     */
+    private int getHighestZIndex() {
+        int currentHighestZIndex = 0;
+        for (WorkSpaceGraphElement currentElement : elements_) {
+            if (currentElement.getZIndex() > currentHighestZIndex) {
+                currentHighestZIndex = currentElement.getZIndex();
+            }
+        }
+
+        return currentHighestZIndex;
+    }
+
+    /**
+     * @return The lowest Z index of any item within the WorkSpaceGraph
+     */
+    private int getLowestZIndex() {
+        int currentLowestZIndex = 0;
+        for (WorkSpaceGraphElement currentElement : elements_) {
+            if (currentElement.getZIndex() < currentLowestZIndex) {
+                currentLowestZIndex = currentElement.getZIndex();
+            }
+        }
+
+        return currentLowestZIndex;
     }
 
     // Private Member Variables

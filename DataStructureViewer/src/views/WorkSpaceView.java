@@ -189,6 +189,28 @@ public class WorkSpaceView extends StackPane implements WorkSpaceGraphListener {
             return;
         }
     }
+    
+    /**
+     * Handles a WorkSpaceGraphElement having its Z Index altered in the underlying
+     * Graph
+     * 
+     * @param element::WorkSpaceGraphElement ~ The element whose Z index was
+     * altered
+     * @param broughtForward::boolean ~ Whether the element was sendForward or
+     * sentBackwards. The semantics of the ordering only allow for sendToBack()
+     * and bringToFront() operations
+     */
+    @Override
+    public void onElementZIndexAltered(WorkSpaceGraphElement element, boolean broughtForward) {
+        for(WorkSpaceViewElement viewElement : viewElements_) {
+            if(viewElement.getElement() == element) {
+                if(broughtForward)
+                    viewElement.toFront();
+                else
+                    viewElement.toBack();
+            }
+        }
+    }
 
     // Private Methods
     /**

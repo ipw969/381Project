@@ -19,8 +19,8 @@ public class LinkedListElement extends WorkSpaceGraphElement {
      * @param parent::WorkSpaceGraph ~ The WorkSpaceGraph to which this
      * LinkedList belongs
      */
-    public LinkedListElement(double positionX, double positionY, WorkSpaceGraph parent) {
-        super(positionX, positionY, parent);
+    public LinkedListElement(double positionX, double positionY, int zIndex, WorkSpaceGraph parent) {
+        super(positionX, positionY, zIndex, parent);
         head_ = null;
         tail_ = null;
         count_ = 0;
@@ -28,21 +28,6 @@ public class LinkedListElement extends WorkSpaceGraphElement {
         height_ = 85;               
     }
 
-    /**
-     * Creates an instance of a LinkedListElement which is positioned in the
-     * provided position of the workspace graph.
-     *
-     * @param position::Point2D ~ The position of the LinkedList
-     * @param parent::WorkSpaceGraph ~ The WorkSpaceGraph to which this
-     * LinkedList belongs
-     */
-    public LinkedListElement(Point2D position, WorkSpaceGraph parent) {
-        super(position, parent);
-        head_ = null;
-        tail_ = null;
-        count_ = 0;
-    }
-    
     // Public Methods
 
     /**

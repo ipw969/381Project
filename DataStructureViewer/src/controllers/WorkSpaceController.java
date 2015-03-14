@@ -3,6 +3,9 @@ package controllers;
 import controllers.SelectionController.SelectionModifier;
 import events.PointSelectionEvent;
 import events.RectangleSelectionEvent;
+import javafx.event.ActionEvent;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -32,7 +35,30 @@ public class WorkSpaceController {
     public WorkSpaceController(WorkSpaceGraph model, WorkSpaceView view) {
         model_ = model;
         selectionController_ = new SelectionController();
-
+        viewContextMenu_ = new ContextMenu();
+        MenuItem bringToFrontMenuItem = new MenuItem("Bring to Front");
+        
+        // Bring to front item in context menu being clicked
+        bringToFrontMenuItem.setOnAction((ActionEvent event) -> {
+            if(this.contextMenuElement_ == null)
+                return;
+            
+            model_.bringToFront(contextMenuElement_);
+        });
+        
+        MenuItem sendToBackMenuItem = new MenuItem("Send to Back");
+        
+        // Send to back item in context menu being clicked
+        sendToBackMenuItem.setOnAction((ActionEvent event) -> {
+            if(this.contextMenuElement_ == null)
+                return;
+            
+            model_.sendToBack(contextMenuElement_);
+        });
+        
+        viewContextMenu_.getItems().addAll(sendToBackMenuItem,
+                                            bringToFrontMenuItem);
+        
         // Mouse being clicked on the view
         view.setOnMousePressed((MouseEvent event) -> {
             if (event.getButton() == MouseButton.PRIMARY) {
@@ -52,7 +78,16 @@ public class WorkSpaceController {
                     selectionController_.endSelection(SelectionModifier.ClearAndSelect);
                 }
             } else if (event.getButton() == MouseButton.SECONDARY) {
-                view.clearSelection();
+                
+                WorkSpaceGraphElement elementUnderMouse = 
+                        model_.getElementAt(event.getX(), event.getY());
+                
+                if(elementUnderMouse == null) {
+                    view.clearSelection();
+                } else {
+                    contextMenuElement_ = elementUnderMouse;
+                    viewContextMenu_.show(view, event.getX(), event.getY());                            
+                }
             }
         });
 
@@ -77,12 +112,10 @@ public class WorkSpaceController {
         });
 
         selectionController_.setOnPointSelection((PointSelectionEvent event) -> {
-            // Todo: Store selection modifiers in selection controller
             view.selectAt(event.getPointX(), event.getPointY(), event.getSelectionModifier() == SelectionModifier.Append);
         });
 
         selectionController_.setOnRectangleSelection((RectangleSelectionEvent event) -> {
-            // Todo: Store selection modifiers in selection controller
             view.selectWithRectangle(event.startX(), event.startY(), event.endX(), event.endY(), event.getSelectionModifier() == SelectionModifier.Append);
             view.resetSelectionRectangle();
         });
@@ -94,7 +127,7 @@ public class WorkSpaceController {
             WorkSpaceGraphElement elementToAdd = null;
             switch (dragData) {
                 case "Linked List":
-                    elementToAdd = new LinkedListElement(event.getX(), event.getY(), model_);
+                    elementToAdd = new LinkedListElement(event.getX(), event.getY(), 0, model_);
                     break;
                 case "Linked List Node":
                     break;
@@ -117,6 +150,9 @@ public class WorkSpaceController {
     }
 
     // Private Member Variables
+    private final ContextMenu viewContextMenu_;
     private final WorkSpaceGraph model_;
     private final SelectionController selectionController_;
+    /// The item which was clicked on with the context menu
+    private WorkSpaceGraphElement contextMenuElement_;
 }
