@@ -102,7 +102,14 @@ public class WorkSpaceGraph {
      */
     public List<WorkSpaceGraphElement> getElementsWithin(double rectangleX1,
             double rectangleY1, double rectangleX2, double rectangleY2) {
-        throw new RuntimeException("Not done yet");
+        ArrayList<WorkSpaceGraphElement> foundElements = new ArrayList<>();
+        for(WorkSpaceGraphElement currentElement : elements_) {
+            if(currentElement.isContainedWithin(rectangleX1, rectangleY1, 
+                                                rectangleX2, rectangleY2)) {
+                foundElements.add(currentElement);
+            }
+        }
+        return foundElements;
     }
 
     // Private Methods
