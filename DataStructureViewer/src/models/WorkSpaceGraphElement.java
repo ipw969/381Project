@@ -115,6 +115,19 @@ public abstract class WorkSpaceGraphElement {
      */
     public abstract boolean containsPoint(double pointX, double pointY);
 
+    /**
+     * Whether or not this WorkSpaceGraphElement is contained within the provided
+     * rectangle
+     * 
+     * @param rectangleX1::double ~ The X coordinate of the top left of the rectangle
+     * @param rectangleY1::double ~ The Y coordinate of the top left of the rectangle
+     * @param rectangleX2::double ~ The X coordinate of the bottom right of the rectangle
+     * @param rectangleY2::double ~ The Y coordinate of the bottom right of the rectangle
+     * @return True if this WorkSpaceGraphElement is contained within the bounds
+     * of the provided rectangle. False otherwise.
+     */
+    public abstract boolean isContainedWithin(double rectangleX1, double rectangleY1, double rectangleX2, double rectangleY2);
+    
     // Protected Methods
     /**
      * @return The parent WorkSpaceGraph of which this WorkSpaceGraphElement is
