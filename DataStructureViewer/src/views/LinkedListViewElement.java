@@ -1,5 +1,8 @@
 package views;
 
+import Enumerators.Enumerators;
+import Enumerators.Enumerators.TransformerLocation;
+import Enumerators.Enumerators.TransformerType;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
@@ -82,6 +85,13 @@ public class LinkedListViewElement extends WorkSpaceViewElement {
     private final Label headLabel_;
     private final Label tailLabel_;
     private final Label countLabel_;
+
+    @Override
+    public void setupTransformers() 
+    {
+        TransformSpot topLeft = new TransformSpot(TransformerType.DIAGONAL, TransformerLocation.TOPLEFT, this);
+        this.getChildren().add(topLeft);
+    }
     
 
 }

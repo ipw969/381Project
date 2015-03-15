@@ -1,5 +1,6 @@
 package views;
 
+import java.util.ArrayList;
 import javafx.scene.layout.Pane;
 import models.WorkSpaceGraphElement;
 
@@ -59,7 +60,11 @@ public abstract class WorkSpaceViewElement extends Pane {
         isSelected_ = selectionState;
     }
 
+    public abstract void setupTransformers();
+    
     // Private Member Variables
     private final WorkSpaceGraphElement element_;
     private boolean isSelected_;
+    private ArrayList<TransformSpot> transformSpots_;
+    
 }
