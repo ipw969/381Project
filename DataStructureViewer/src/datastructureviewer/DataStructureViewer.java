@@ -2,6 +2,7 @@ package datastructureviewer;
 
 import controllers.WorkSpaceController;
 import javafx.application.Application;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;

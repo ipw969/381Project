@@ -92,7 +92,13 @@ public class LinkedListViewElement extends WorkSpaceViewElement {
     public void setupTransformers() 
     {
         TransformSpot topLeft = new TransformSpot(TransformerType.DIAGONAL, TransformerLocation.TOPLEFT, this);
+        TransformSpot topRight = new TransformSpot(TransformerType.DIAGONAL, TransformerLocation.TOPRIGHT, this);
+        TransformSpot bottomLeft = new TransformSpot(TransformerType.DIAGONAL, TransformerLocation.BOTTOMLEFT, this);
+        TransformSpot bottomRight = new TransformSpot(TransformerType.DIAGONAL, TransformerLocation.BOTTOMRIGHT, this);
         this.getChildren().add(topLeft);
+        this.getChildren().add(topRight);
+        this.getChildren().add(bottomLeft);
+        this.getChildren().add(bottomRight);
     }
     
 
