@@ -40,4 +40,11 @@ public interface WorkSpaceGraphListener {
      * and bringToFront() operations
      */
     public void onElementZIndexAltered(WorkSpaceGraphElement element, boolean broughtForward);
+    
+    /**
+     * This method informs the listener that the given element has been moved.
+     * Upon reaching this function, the new coordinates are already stored in the element.
+     * @param WorkSpaceGraphElement The element that has been moved.
+    */
+    public void onElementMoved(WorkSpaceGraphElement element);
 }
