@@ -71,11 +71,21 @@ public abstract class WorkSpaceViewElement extends Pane {
           {
               if (spot instanceof TransformSpot)
               {
-                  //we use opacity instead of visibility becuase setting visibility seems to have an effect on the size of the parent.
+                  TransformSpot tSpot = (TransformSpot) spot;
+                  
                 if (isVisible == false)
-                    spot.setOpacity(0);
+                {
+               
+                    tSpot.setEnabled(false);
+                   
+                }
                 else
-                    spot.setOpacity(100);
+                {
+                    
+                    tSpot.setEnabled(true);
+                }
+                    
+                    
                       
               } 
          }

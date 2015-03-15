@@ -44,12 +44,17 @@ public class TransformSpot extends Rectangle{
         parent.widthProperty().addListener(valueListener);
         parent.heightProperty().addListener(valueListener);
         
+        figureOutCursor();
+        setEnabled(false);
         this.setOnMouseEntered(new EventHandler<MouseEvent>()
         {
             public void handle(MouseEvent event)
             {
-                System.out.println("Mouse entered");
-                setCursor(Cursor.WAIT);
+               if (enabled_)
+               {
+                    setCursor(cursorType_);
+               }
+               
             }
         });
         
@@ -57,8 +62,11 @@ public class TransformSpot extends Rectangle{
         {
             public void handle(MouseEvent event)
             {
-                System.out.println("Mouse left");
-                setCursor(Cursor.DEFAULT);
+                if (enabled_)
+                {
+                    setCursor(Cursor.DEFAULT);
+                }
+                    
             }
         });
         
@@ -66,8 +74,7 @@ public class TransformSpot extends Rectangle{
         {
             public void handle(MouseEvent event)
             {
-                System.out.println("Mouse dragged");
-                parent_.relocate(0,0);
+               
             }
         });
         
@@ -81,7 +88,49 @@ public class TransformSpot extends Rectangle{
         });
     }
     
-    
+  public void setEnabled(boolean isEnabled)
+  {
+      if (isEnabled)
+      {
+          this.setOpacity(100);
+      }
+      else
+      {
+          this.setOpacity(0);
+      }
+      enabled_ = isEnabled;
+  }
+  
+  public boolean isEnabled()
+  {
+      return enabled_;
+  }
+    private void figureOutCursor()
+    {
+
+        switch (this.location_)
+        {
+            case TOPRIGHT : cursorType_ = Cursor.NE_RESIZE;
+                            break;
+            case TOPLEFT : cursorType_ = Cursor.NW_RESIZE;
+                            break;
+            case BOTTOMLEFT : cursorType_ = Cursor.SW_RESIZE;
+                            break;
+            case BOTTOMRIGHT : cursorType_ = Cursor.SE_RESIZE;
+                                break;
+            case MIDDLELEFT : cursorType_ = Cursor.W_RESIZE;
+                                break;
+            case MIDDLERIGHT: cursorType_ = Cursor.E_RESIZE;
+                                break;      
+            case MIDDLETOP :    cursorType_= Cursor.N_RESIZE;
+                                break;
+            case MIDDLEBOTTOM : cursorType_ = Cursor.S_RESIZE;
+                                break;
+                    
+        }
+            
+        
+    }
     private void updatePosition()
     {
        if (this.location_.equals(TransformerLocation.TOPLEFT))
@@ -99,5 +148,7 @@ public class TransformSpot extends Rectangle{
     private TransformerLocation location_;
     private WorkSpaceViewElement parent_;
     private TransformerType type_;
+   private Cursor cursorType_;
+   private boolean enabled_;
     
 }

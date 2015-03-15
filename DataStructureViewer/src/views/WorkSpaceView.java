@@ -35,6 +35,9 @@ public class WorkSpaceView extends StackPane implements WorkSpaceGraphListener {
         selectionOverlayPane.getChildren().add(selectionRectangle_);
         
         this.getChildren().addAll(elementPane_, selectionOverlayPane);
+        
+        elementPane_.setPickOnBounds(false);
+        selectionOverlayPane.setPickOnBounds(false);
     }
 
     // Public Methods
@@ -149,12 +152,10 @@ public class WorkSpaceView extends StackPane implements WorkSpaceGraphListener {
         WorkSpaceViewElement elementToAdd = WorkSpaceViewElementFactory.viewElement(element);
 
         if (elementToAdd != null) {
-           // elementToAdd.relocate(element.getX(), element.getY());
-           // elementToAdd.setPrefSize(10,10);
-           // elementToAdd.setMaxSize(10,10);
-           // this.getChildren().add(elementToAdd);
-            //elementPane_.getChildren().add(elementToAdd);
-            //viewElements_.add(elementToAdd);
+            elementToAdd.relocate(element.getX(), element.getY());
+      
+            elementPane_.getChildren().add(elementToAdd);
+            viewElements_.add(elementToAdd);
         }
     }
 
