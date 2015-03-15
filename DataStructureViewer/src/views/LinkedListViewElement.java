@@ -57,6 +57,8 @@ public class LinkedListViewElement extends WorkSpaceViewElement {
         heightProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
             update();
         });
+        
+        this.setupTransformers();
     }
     
     // Public Methods

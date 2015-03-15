@@ -21,7 +21,7 @@ public class TransformSpot extends Rectangle{
         this.type = type;
         this.parent_ = parent;
         
-        this.setStyle("-fx-background-color: blue;");
+        this.setStyle("-fx-background-color: red;");
         this.setWidth(10);
         this.setHeight(10);
         this.relocate(parent.getLayoutX(), parent.getLayoutY());
@@ -42,7 +42,7 @@ public class TransformSpot extends Rectangle{
     
     private void updatePosition()
     {
-       this.relocate(parent_.getLayoutX(), parent_.getLayoutY());
+       this.relocate(0 - this.getWidth()/2, 0 - this.getHeight()/2);
     }
     
     
