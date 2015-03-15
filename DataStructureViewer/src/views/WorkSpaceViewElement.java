@@ -1,6 +1,7 @@
 package views;
 
 import java.util.ArrayList;
+import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import models.WorkSpaceGraphElement;
 
@@ -58,13 +59,35 @@ public abstract class WorkSpaceViewElement extends Pane {
      */
     public void setIsSelected(boolean selectionState) {
         isSelected_ = selectionState;
+
+        setTransformSpotsVisible(isSelected_);
+
     }
 
+    public void setTransformSpotsVisible(boolean isVisible)
+    {
+        
+          for (Node spot : this.getChildren())
+          {
+              if (spot instanceof TransformSpot)
+              {
+                  //we use opacity instead of visibility becuase setting visibility seems to have an effect on the size of the parent.
+                if (isVisible == false)
+                    spot.setOpacity(0);
+                else
+                    spot.setOpacity(100);
+                      
+              } 
+         }
+         
+        
+
+    }
     public abstract void setupTransformers();
     
     // Private Member Variables
     private final WorkSpaceGraphElement element_;
     private boolean isSelected_;
-    private ArrayList<TransformSpot> transformSpots_;
+   
     
 }

@@ -99,6 +99,7 @@ public class LinkedListViewElement extends WorkSpaceViewElement {
         this.getChildren().add(topRight);
         this.getChildren().add(bottomLeft);
         this.getChildren().add(bottomRight);
+    
     }
     
 

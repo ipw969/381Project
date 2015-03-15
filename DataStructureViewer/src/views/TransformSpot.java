@@ -70,6 +70,8 @@ public class TransformSpot extends Rectangle{
                 parent_.relocate(0,0);
             }
         });
+        
+
         parent_.setOnMouseClicked(new EventHandler<MouseEvent>()
         {
             public void handle(MouseEvent event)
