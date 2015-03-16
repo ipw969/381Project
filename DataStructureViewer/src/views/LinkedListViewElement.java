@@ -69,8 +69,8 @@ public class LinkedListViewElement extends WorkSpaceViewElement {
         // the size of the element, which then causes this to fire and we end
         // up with an ever growing element. As such these are set to 1 less 
         // than the width and height of the elements.
-        backgroundRectangle_.setWidth(this.getWidth()-1);
-        backgroundRectangle_.setHeight(this.getHeight()-1);
+        backgroundRectangle_.setWidth(this.getWidth());
+        backgroundRectangle_.setHeight(this.getHeight());
        
         
     }
@@ -86,25 +86,23 @@ public class LinkedListViewElement extends WorkSpaceViewElement {
     
     
     
+        /**Takes care of resizing the backgoundRectangle in this element
+     * 
+     */
+    public void onResize()
+    {
+        this.backgroundRectangle_.setWidth(this.getWidth());
+        this.backgroundRectangle_.setHeight(this.getHeight());
+    }
+    
     // Private Member Variables
     private final Rectangle backgroundRectangle_;
     private final Label headLabel_;
     private final Label tailLabel_;
     private final Label countLabel_;
 
-    @Override
-    public void setupTransformers() 
-    {
-        TransformSpot topLeft = new TransformSpot(TransformerType.DIAGONAL, TransformerLocation.TOPLEFT, this);
-        TransformSpot topRight = new TransformSpot(TransformerType.DIAGONAL, TransformerLocation.TOPRIGHT, this);
-        TransformSpot bottomLeft = new TransformSpot(TransformerType.DIAGONAL, TransformerLocation.BOTTOMLEFT, this);
-        TransformSpot bottomRight = new TransformSpot(TransformerType.DIAGONAL, TransformerLocation.BOTTOMRIGHT, this);
-        this.getChildren().add(topLeft);
-        this.getChildren().add(topRight);
-        this.getChildren().add(bottomLeft);
-        this.getChildren().add(bottomRight);
-        
-    }
+
+
     
 
 }
