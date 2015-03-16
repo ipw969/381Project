@@ -33,6 +33,12 @@ public abstract class WorkSpaceViewElement extends Pane {
      */
     public abstract void update();
 
+    
+    public void refresh()
+    {
+        this.relocate(this.getElement().getX(), this.getElement().getY());
+        this.update();
+    }
     /**
      * The WorkSpaceGraphElement which this view is visualizing.
      *
@@ -89,10 +95,36 @@ public abstract class WorkSpaceViewElement extends Pane {
                       
               } 
          }
-         
-        
-
     }
+    
+   public void setSize(double width, double height)
+    {
+        if (canResizeHeight(height))
+        {
+            this.setPrefHeight(height);
+            this.setMaxHeight(height);
+        }
+
+        if (canResizeWidth(width))
+        {
+            this.setPrefWidth(width);
+            this.setMaxWidth(width);
+             
+        }
+    }
+
+
+   public boolean canResizeHeight(double height)
+   {
+       double heightDifference = Math.abs(this.getHeight() - height);
+       return (this.getHeight() - heightDifference > this.getMinHeight() ) || height > this.getHeight();
+   }
+   
+   public boolean canResizeWidth(double width)
+   {
+       double widthDifference = Math.abs(this.getWidth() - width);
+       return  (this.getWidth() - widthDifference > this.getMinWidth()) || width > this.getWidth();
+   }
     public abstract void setupTransformers();
     
     // Private Member Variables

@@ -71,6 +71,8 @@ public class LinkedListViewElement extends WorkSpaceViewElement {
         // than the width and height of the elements.
         backgroundRectangle_.setWidth(this.getWidth()-1);
         backgroundRectangle_.setHeight(this.getHeight()-1);
+       
+        
     }
     
     @Override
@@ -81,6 +83,8 @@ public class LinkedListViewElement extends WorkSpaceViewElement {
         else
             backgroundRectangle_.setStroke(Color.BLACK);
     }
+    
+    
     
     // Private Member Variables
     private final Rectangle backgroundRectangle_;

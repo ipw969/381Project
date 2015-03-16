@@ -64,6 +64,7 @@ public abstract class WorkSpaceGraphElement {
     public void setX(double positionX) {
         position_ = new Point2D(positionX, position_.getY());
         parent_.notifySubscribersOfAlter(this);
+        
     }
 
     /**

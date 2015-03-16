@@ -30,7 +30,7 @@ public class TransformSpot extends Rectangle{
         this.setHeight(10);
         this.setFill(Color.BLUE);
 
-        this.relocate(parent.getLayoutX(), parent.getLayoutY());
+        this.relocate(parent_.getLayoutX(), parent_.getLayoutY());
         ChangeListener valueListener = new ChangeListener()
         {
             @Override
@@ -39,10 +39,10 @@ public class TransformSpot extends Rectangle{
             }  
         };
 
-        parent.layoutXProperty().addListener(valueListener);
-        parent.layoutYProperty().addListener(valueListener);
-        parent.widthProperty().addListener(valueListener);
-        parent.heightProperty().addListener(valueListener);
+        parent_.layoutXProperty().addListener(valueListener);
+        parent_.layoutYProperty().addListener(valueListener);
+        parent_.widthProperty().addListener(valueListener);
+        parent_.heightProperty().addListener(valueListener);
         
         figureOutCursor();
         setEnabled(false);
@@ -70,24 +70,112 @@ public class TransformSpot extends Rectangle{
             }
         });
         
-        this.setOnMouseDragged(new EventHandler<MouseEvent>()
+        this.setOnMousePressed(new EventHandler<MouseEvent>()
         {
             public void handle(MouseEvent event)
             {
+                previousMousePositionX_ = event.getSceneX();
+                previousMousePositionY_ = event.getSceneY();
+            }
+        });
+        this.setOnMouseDragged(new EventHandler<MouseEvent>()
+        {
+          
+            public void handle(MouseEvent event)
+            {
+                if (dragInProgress_)
+                    return;
+                dragInProgress_ = true;
+                //Positive if mouse moved to the right , negative if it moved to the left.
+                double amountMouseMovedX =  event.getSceneX() - previousMousePositionX_;
+                
+                //Positive if the mouse moved up, negative if it moved down.
+                double amountMouseMovedY =   previousMousePositionY_ - event.getSceneY();
+
+                double px = parent_.getElement().getX() + parent_.getWidth();
+                double py = parent_.getElement().getY() + parent_.getHeight();
+                
+               if (location_.equals(TransformerLocation.TOPLEFT))
+               {
+                   double newWidth = parent_.getWidth() - amountMouseMovedX;
+                   double newHeight = parent_.getHeight() + amountMouseMovedY;
+                   readjustParent(parent_.getElement().getX() + amountMouseMovedX, parent_.getElement().getY() - amountMouseMovedY, newWidth, newHeight);
+                }
                
+               else if (location_.equals(TransformerLocation.TOPRIGHT))
+               {
+                   double newWidth = parent_.getWidth() + amountMouseMovedX;
+                   double newHeight = parent_.getHeight() + amountMouseMovedY;
+                   readjustParent(parent_.getElement().getX(), parent_.getElement().getY() - amountMouseMovedY, newWidth, newHeight);
+               }
+               else if (location_.equals(TransformerLocation.BOTTOMLEFT))
+               {
+                   double newWidth = parent_.getWidth() - amountMouseMovedX;
+                   double newHeight = parent_.getHeight() + amountMouseMovedY;
+                   
+                   readjustParent(parent_.getElement().getX() + amountMouseMovedX, parent_.getElement().getY(), newWidth, newHeight);
+               }
+               else if (location_.equals(TransformerLocation.BOTTOMRIGHT))
+               {
+                  double newWidth = parent_.getWidth() + amountMouseMovedX;
+                  double newHeight = parent_.getHeight() + amountMouseMovedX;
+                  
+                  readjustParent(parent_.getElement().getX(), parent_.getElement().getY(), newWidth, newHeight);
+               }
+               
+               previousMousePositionX_ = event.getSceneX();
+               previousMousePositionY_ = event.getSceneY();
+               dragInProgress_ = false;
+                  
+               /**
+               for (int i = 0; py - parent_.getHeight() - parent_.getElement().getY() != 0 || px - parent_.getWidth() - parent_.getElement().getX() != 0; i++)
+               {
+                   if (i % 3 == 0)
+                   {
+                       System.out.println("Unaligned " + i + "times.");
+                   }
+                   
+                   double adjustWidthAmount = px - parent_.getWidth() - parent_.getElement().getX();
+                   double adjustHeightAmount = py - parent_.getWidth() - parent_.getElement().getX();
+                    readjustParent(parent_.getElement().getX(),parent_.getElement().getY(), parent_.getWidth() + adjustWidthAmount, parent_.getHeight() + adjustHeightAmount);
+               }
+              
+              
+               if (px - parent_.getElement().getX() != parent_.getWidth())
+               {
+                   throw new RuntimeException("The width got unaligned. by " + ( px - parent_.getWidth() - parent_.getElement().getX()));
+               }
+               else if (py - parent_.getElement().getY() != parent_.getHeight())
+               {
+                   throw new RuntimeException("The height is unaligned. by " + ( py - parent_.getHeight() - parent_.getElement().getY()));
+               }**/
             }
         });
         
-
-        parent_.setOnMouseClicked(new EventHandler<MouseEvent>()
-        {
-            public void handle(MouseEvent event)
-            {
-                System.out.println("Mouse Clicked");
-            }
-        });
     }
     
+  public void readjustParent(double newX, double newY, double newWidth, double newHeight)
+  {
+       if (parent_.canResizeWidth(newWidth) && parent_.canResizeHeight(newHeight))
+       {
+             parent_.getElement().setPosition(newX, newY);
+             parent_.setSize(newWidth,newHeight);
+        }
+       
+        else  if (parent_.canResizeWidth(newWidth))
+        {
+             parent_.getElement().setPosition(newX, parent_.getElement().getY());
+             parent_.setSize(newWidth, parent_.getHeight());
+        }
+                   
+        else if (parent_.canResizeHeight(newHeight))
+        {
+            parent_.getElement().setPosition(parent_.getElement().getX(), newY );
+            parent_.setSize(parent_.getWidth(), newHeight);
+        }
+  }
+                   
+                       
   public void setEnabled(boolean isEnabled)
   {
       if (isEnabled)
@@ -144,7 +232,9 @@ public class TransformSpot extends Rectangle{
                
     }
     
-    
+    double previousMousePositionX_;
+    double previousMousePositionY_;
+    boolean dragInProgress_ = false;
     private TransformerLocation location_;
     private WorkSpaceViewElement parent_;
     private TransformerType type_;

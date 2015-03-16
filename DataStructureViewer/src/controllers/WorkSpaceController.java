@@ -64,7 +64,9 @@ public class WorkSpaceController {
         // Mouse being clicked on the view
         view.setOnMousePressed((MouseEvent event) -> {
             if (event.getButton() == MouseButton.PRIMARY) {
-                selectionController_.startSelectionAt(event.getX(), event.getY());
+                    if (!(event.getTarget() instanceof TransformSpot))
+                    selectionController_.startSelectionAt(event.getX(), event.getY());
+
             } else if (event.getButton() == MouseButton.SECONDARY) {
                 // Do Nothing
             }
@@ -96,20 +98,25 @@ public class WorkSpaceController {
         // Mouse being dragged
         view.setOnMouseDragged((MouseEvent event) -> {
             if (event.getButton() == MouseButton.PRIMARY) {
-                selectionController_.setCurrentX(event.getX());
-                selectionController_.setCurrentY(event.getY());
-                if (!selectionController_.isPointSelection()) {
+                if (!(event.getTarget() instanceof TransformSpot))
+                {
+                    
+                     selectionController_.setCurrentX(event.getX());
+                    selectionController_.setCurrentY(event.getY());
+                    if (!selectionController_.isPointSelection()) {
 
                     // Get a normalized version of the selection rectangle 
                     // stored in the selectionController
-                    double x1 = Math.min(selectionController_.getStartX(), selectionController_.getCurrentX());
-                    double y1 = Math.min(selectionController_.getStartY(), selectionController_.getCurrentY());
+                        double x1 = Math.min(selectionController_.getStartX(), selectionController_.getCurrentX());
+                        double y1 = Math.min(selectionController_.getStartY(), selectionController_.getCurrentY());
 
-                    double x2 = Math.max(selectionController_.getStartX(), selectionController_.getCurrentX());
-                    double y2 = Math.max(selectionController_.getStartY(), selectionController_.getCurrentY());
-                    view.updateSelectionRectangle(x1, y1, x2, y2);
+                        double x2 = Math.max(selectionController_.getStartX(), selectionController_.getCurrentX());
+                        double y2 = Math.max(selectionController_.getStartY(), selectionController_.getCurrentY());
+                        view.updateSelectionRectangle(x1, y1, x2, y2);
 
-                }
+                
+                    }
+               }
             }
         });
 

@@ -188,7 +188,7 @@ public class WorkSpaceView extends StackPane implements WorkSpaceGraphListener {
     public void onElementAltered(WorkSpaceGraphElement element) {
         for (WorkSpaceViewElement viewElement : viewElements_) {
             if (viewElement.getElement() == element) {
-                viewElement.update();
+                viewElement.refresh();
             }
             return;
         }
