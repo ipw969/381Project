@@ -12,7 +12,7 @@ import javafx.event.EventHandler;
  */
 public class SelectionController {
 
-    // Public Methods
+    // Public Methods.
     /**
      * Begins a selection at the provided coordinates
      *
