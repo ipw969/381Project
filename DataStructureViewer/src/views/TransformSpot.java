@@ -101,8 +101,7 @@ public class TransformSpot extends Rectangle{
           
             public void handle(MouseEvent event)
             {
-                if (dragInProgress_)
-                    return;
+          
                 dragInProgress_ = true;
                 //Positive if mouse moved to the right , negative if it moved to the left.
                 double amountMouseMovedX =  event.getSceneX() - previousMousePositionX_;
@@ -110,6 +109,7 @@ public class TransformSpot extends Rectangle{
                 //Positive if the mouse moved up, negative if it moved down.
                 double amountMouseMovedY =   previousMousePositionY_ - event.getSceneY();
 
+                
                 //px -> The right most x coordinate of the parent.
                 double px = parent_.getElement().getX() + parent_.getWidth();
                 
@@ -147,9 +147,9 @@ public class TransformSpot extends Rectangle{
                
                previousMousePositionX_ = event.getSceneX();
                previousMousePositionY_ = event.getSceneY();
-               dragInProgress_ = false;
-                  
-               /**debugging information.
+               
+                  /*
+               //debugging information.
                for (int i = 0; py - parent_.getHeight() - parent_.getElement().getY() != 0 || px - parent_.getWidth() - parent_.getElement().getX() != 0; i++)
                {
                    if (i % 1000 == 0)
@@ -160,7 +160,7 @@ public class TransformSpot extends Rectangle{
                    double adjustWidthAmount = px - parent_.getWidth() - parent_.getElement().getX();
                    double adjustHeightAmount = py - parent_.getWidth() - parent_.getElement().getX();
                     readjustParent(parent_.getElement().getX(),parent_.getElement().getY(), parent_.getWidth() + adjustWidthAmount, parent_.getHeight() + adjustHeightAmount);
-               }**/
+               }
                
                
               
@@ -172,7 +172,7 @@ public class TransformSpot extends Rectangle{
                else if (py - parent_.getElement().getY() != parent_.getHeight())
                {
                    throw new RuntimeException("The height is unaligned. by " + ( py - parent_.getHeight() - parent_.getElement().getY()));
-               }
+               }*/
             }
         });
         

@@ -91,8 +91,9 @@ public class LinkedListViewElement extends WorkSpaceViewElement {
      */
     public void onResize()
     {
-        this.backgroundRectangle_.setWidth(this.getWidth());
-        this.backgroundRectangle_.setHeight(this.getHeight());
+        
+        this.backgroundRectangle_.setWidth(this.getWidth() - 1);
+        this.backgroundRectangle_.setHeight(this.getHeight()-1);
     }
     
     // Private Member Variables

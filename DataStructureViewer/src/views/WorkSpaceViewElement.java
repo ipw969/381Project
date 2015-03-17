@@ -108,15 +108,17 @@ public abstract class WorkSpaceViewElement extends Pane {
     {
         if (canResizeHeight(height))
         {
-            this.setPrefHeight(height);
+            
             this.setMaxHeight(height);
+            this.setPrefHeight(height);
             this.onResize();
         }
 
         if (canResizeWidth(width))
         {
-            this.setPrefWidth(width);
+            
             this.setMaxWidth(width);
+            this.setPrefWidth(width);
             this.onResize();
         }
     }
