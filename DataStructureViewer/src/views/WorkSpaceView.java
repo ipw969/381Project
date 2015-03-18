@@ -16,7 +16,7 @@ import models.WorkSpaceGraphListener;
  *
  * @author Iain Workman
  */
-public class WorkSpaceView extends StackPane implements WorkSpaceGraphListener {
+public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
 
     // Constructor
     /**

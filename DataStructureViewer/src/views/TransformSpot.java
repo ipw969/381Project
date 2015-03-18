@@ -101,7 +101,38 @@ public class TransformSpot extends Rectangle{
           
             public void handle(MouseEvent event)
             {
-          
+                if (location_.equals(TransformerLocation.TOPLEFT))
+                {
+                    //negative if moved right, positive if moved left.
+                    double amountMouseMovedX = event.getSceneX() - previousMousePositionX_;
+                    
+                    //negative if moved up, positive if moved down.
+                    double amountMouseMovedY = event.getSceneY() - previousMousePositionY_;
+                    
+                    double newX = parent_.getElement().getX() + amountMouseMovedX;
+                    double newY = parent_.getElement().getY() + amountMouseMovedY;
+                    
+                    double tempX = ( -(parent_.getWidth()/2));
+                    double tempY = ( - (parent_.getHeight()/2));
+                    
+                    double parentScaleWidth = parent_.getWidth() * parent_.getScaleX();
+                    double parentScaleHeight = parent_.getHeight() * parent_.getScaleY();
+                    
+                    double newWidth = parentScaleWidth - amountMouseMovedX;
+                    double newHeight = parentScaleHeight - amountMouseMovedY;
+                    
+                    parent_.relocate(tempX, tempY);
+                    parent_.setSize(parent_.getWidth(), parent_.getHeight());
+                    parent_.setScaleX((newWidth/parentScaleWidth));
+                    parent_.setScaleY((newHeight/parentScaleHeight));
+                    parent_.setSize(parent_.getWidth() * parent_.getScaleX(), parent_.getHeight() * parent_.getScaleY());
+                    
+                    parent_.getElement().setPosition(newX,newY);
+                    previousMousePositionX_ = event.getSceneX();
+                    previousMousePositionY_ = event.getSceneY();
+                }
+                
+                /*
                 dragInProgress_ = true;
                 //Positive if mouse moved to the right , negative if it moved to the left.
                 double amountMouseMovedX =  event.getSceneX() - previousMousePositionX_;
@@ -119,9 +150,20 @@ public class TransformSpot extends Rectangle{
                 
                if (location_.equals(TransformerLocation.TOPLEFT))
                {
+                  // double mouseMovementX = amountMouseMovedX / parent_.getElement().getX()* 100;
+                  
                    double newWidth = parent_.getWidth() - amountMouseMovedX;
+                   if (newWidth > parent_.getWidth())
+                    parent_.setScaleX(parent_.getScaleX() + ((newWidth/parent_.getWidth())/100));
+                   else
+                       parent_.setScaleX(parent_.getScaleX() - ((newWidth/parent_.getWidth())/100));
+                       
                    double newHeight = parent_.getHeight() + amountMouseMovedY;
-                   readjustParent(parent_.getElement().getX() + amountMouseMovedX, parent_.getElement().getY() - amountMouseMovedY, newWidth, newHeight);
+                   if (newHeight > parent_.getHeight())
+                   parent_.setScaleY(parent_.getScaleY() + ((newHeight/parent_.getHeight())/100));
+                   else
+                        parent_.setScaleY(parent_.getScaleY() - ((newHeight/parent_.getHeight())/100));
+                  // readjustParent(parent_.getElement().getX() + amountMouseMovedX, parent_.getElement().getY() - amountMouseMovedY, newWidth, newHeight);
                 }
                
                else if (location_.equals(TransformerLocation.TOPRIGHT))

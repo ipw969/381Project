@@ -5,6 +5,7 @@ import Enumerators.Enumerators.TransformerLocation;
 import Enumerators.Enumerators.TransformerType;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Background;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import models.LinkedListElement;
@@ -29,9 +30,10 @@ public class LinkedListViewElement extends WorkSpaceViewElement {
     public LinkedListViewElement (LinkedListElement element) {
         super(element);
         setMinSize(element.getWidth(), element.getHeight());
-        
+        this.setStyle("-fx-background-color: Red");
+        /*
         // Initialize UI
-        backgroundRectangle_ = new Rectangle(0, 0, getWidth()  , getHeight() );
+        backgroundRectangle_ = new Rectangle(0, 0, getWidth() -1 , getHeight() -1);
         backgroundRectangle_.setFill(Color.WHITE);
         backgroundRectangle_.setStroke(Color.BLACK);
         
@@ -57,7 +59,7 @@ public class LinkedListViewElement extends WorkSpaceViewElement {
         heightProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
             update();
         });
-        
+        */
         this.setupTransformers();
     }
     
@@ -69,8 +71,8 @@ public class LinkedListViewElement extends WorkSpaceViewElement {
         // the size of the element, which then causes this to fire and we end
         // up with an ever growing element. As such these are set to 1 less 
         // than the width and height of the elements.
-        backgroundRectangle_.setWidth(this.getWidth());
-        backgroundRectangle_.setHeight(this.getHeight());
+       // backgroundRectangle_.setWidth(this.getWidth() - 1);
+       // backgroundRectangle_.setHeight(this.getHeight() - 1);
        
         
     }
@@ -78,10 +80,10 @@ public class LinkedListViewElement extends WorkSpaceViewElement {
     @Override
     public void setIsSelected(boolean selectionState) {
         super.setIsSelected(selectionState);
-        if(selectionState)
-            backgroundRectangle_.setStroke(Color.RED);
-        else
-            backgroundRectangle_.setStroke(Color.BLACK);
+        //if(selectionState)
+           // backgroundRectangle_.setStroke(Color.RED);
+       // else
+            //backgroundRectangle_.setStroke(Color.BLACK);
     }
     
     
@@ -92,15 +94,15 @@ public class LinkedListViewElement extends WorkSpaceViewElement {
     public void onResize()
     {
         
-        this.backgroundRectangle_.setWidth(this.getWidth() );
-        this.backgroundRectangle_.setHeight(this.getHeight());
+        //this.backgroundRectangle_.setWidth(this.getWidth() - 1);
+       // this.backgroundRectangle_.setHeight(this.getHeight() - 1);
     }
     
     // Private Member Variables
-    private final Rectangle backgroundRectangle_;
-    private final Label headLabel_;
-    private final Label tailLabel_;
-    private final Label countLabel_;
+   // private final Rectangle backgroundRectangle_;
+  //  private final Label headLabel_;
+  //  private final Label tailLabel_;
+   // private final Label countLabel_;
 
 
 
