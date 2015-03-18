@@ -63,8 +63,8 @@ public class WorkSpaceController {
         // Mouse being clicked on the view
         view.setOnMousePressed((MouseEvent event) -> {
             if (event.getButton() == MouseButton.PRIMARY) {
-                mouseX = event.getX();
-                mouseY = event.getY();
+                mouseX_ = event.getX();
+                mouseY_ = event.getY();
                 selectionController_.startSelectionAt(event.getX(), event.getY());
             } else if (event.getButton() == MouseButton.SECONDARY) {
                 // Do Nothing
@@ -98,7 +98,7 @@ public class WorkSpaceController {
         view.setOnMouseDragged((MouseEvent event) -> {
             if (event.getButton() == MouseButton.PRIMARY) {
                 
-                if (model_.getElementAt(mouseX, mouseY) != null)
+                if (model_.getElementAt(mouseX_, mouseY_) != null)
                 {
                     moveElements(event);
                 }
@@ -166,10 +166,10 @@ public class WorkSpaceController {
      */
     private void moveElements(MouseEvent event)
     {
-                double distanceMovedX = event.getX() - mouseX;
-                double distanceMovedY = event.getY() - mouseY;
-                mouseX = event.getX();
-                mouseY = event.getY();
+                double distanceMovedX = event.getX() - mouseX_;
+                double distanceMovedY = event.getY() - mouseY_;
+                mouseX_ = event.getX();
+                mouseY_ = event.getY();
                 for (WorkSpaceViewElement viewElement :  view_.getSelectionSet())
                 {
                     WorkSpaceGraphElement element = viewElement.getElement();
@@ -178,8 +178,8 @@ public class WorkSpaceController {
     }
     // Private Member Variables
     private WorkSpaceView view_;
-    private double mouseX;
-    private double mouseY;
+    private double mouseX_;
+    private double mouseY_;
     private final ContextMenu viewContextMenu_;
     private final WorkSpaceGraph model_;
     private final SelectionController selectionController_;
