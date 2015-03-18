@@ -103,6 +103,7 @@ public class TransformSpot extends Rectangle{
             {
                 if (location_.equals(TransformerLocation.TOPLEFT))
                 {
+                    /*
                     //negative if moved right, positive if moved left.
                     double amountMouseMovedX = event.getSceneX() - previousMousePositionX_;
                     
@@ -130,9 +131,10 @@ public class TransformSpot extends Rectangle{
                     parent_.getElement().setPosition(newX,newY);
                     previousMousePositionX_ = event.getSceneX();
                     previousMousePositionY_ = event.getSceneY();
+                    */
                 }
                 
-                /*
+                
                 dragInProgress_ = true;
                 //Positive if mouse moved to the right , negative if it moved to the left.
                 double amountMouseMovedX =  event.getSceneX() - previousMousePositionX_;
@@ -148,22 +150,16 @@ public class TransformSpot extends Rectangle{
                 //py -> The left most y coordinate of the parent.
                 double py = parent_.getElement().getY() + parent_.getHeight();
                 
+                
                if (location_.equals(TransformerLocation.TOPLEFT))
                {
                   // double mouseMovementX = amountMouseMovedX / parent_.getElement().getX()* 100;
                   
                    double newWidth = parent_.getWidth() - amountMouseMovedX;
-                   if (newWidth > parent_.getWidth())
-                    parent_.setScaleX(parent_.getScaleX() + ((newWidth/parent_.getWidth())/100));
-                   else
-                       parent_.setScaleX(parent_.getScaleX() - ((newWidth/parent_.getWidth())/100));
-                       
                    double newHeight = parent_.getHeight() + amountMouseMovedY;
-                   if (newHeight > parent_.getHeight())
-                   parent_.setScaleY(parent_.getScaleY() + ((newHeight/parent_.getHeight())/100));
-                   else
-                        parent_.setScaleY(parent_.getScaleY() - ((newHeight/parent_.getHeight())/100));
-                  // readjustParent(parent_.getElement().getX() + amountMouseMovedX, parent_.getElement().getY() - amountMouseMovedY, newWidth, newHeight);
+                   readjustParent(parent_.getElement().getX() + amountMouseMovedX, parent_.getElement().getY() - amountMouseMovedY, newWidth, newHeight);
+              
+                       
                 }
                
                else if (location_.equals(TransformerLocation.TOPRIGHT))

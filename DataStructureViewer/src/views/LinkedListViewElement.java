@@ -82,8 +82,8 @@ public class LinkedListViewElement extends WorkSpaceViewElement {
         super.setIsSelected(selectionState);
         //if(selectionState)
            // backgroundRectangle_.setStroke(Color.RED);
-       // else
-            //backgroundRectangle_.setStroke(Color.BLACK);
+        //else
+          //  backgroundRectangle_.setStroke(Color.BLACK);
     }
     
     
@@ -101,7 +101,7 @@ public class LinkedListViewElement extends WorkSpaceViewElement {
     // Private Member Variables
    // private final Rectangle backgroundRectangle_;
   //  private final Label headLabel_;
-  //  private final Label tailLabel_;
+   // private final Label tailLabel_;
    // private final Label countLabel_;
 
 
