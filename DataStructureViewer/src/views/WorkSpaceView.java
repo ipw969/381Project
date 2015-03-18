@@ -188,7 +188,7 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
     public void onElementAltered(WorkSpaceGraphElement element) {
         for (WorkSpaceViewElement viewElement : viewElements_) {
             if (viewElement.getElement() == element) {
-                viewElement.refresh();
+                viewElement.update();
             }
             return;
         }

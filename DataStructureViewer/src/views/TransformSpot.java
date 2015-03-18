@@ -101,150 +101,23 @@ public class TransformSpot extends Rectangle{
           
             public void handle(MouseEvent event)
             {
-                if (location_.equals(TransformerLocation.TOPLEFT))
-                {
-                    /*
-                    //negative if moved right, positive if moved left.
-                    double amountMouseMovedX = event.getSceneX() - previousMousePositionX_;
+                    //deltaX will be positive if the mouse oved to the right, and negative if it moved to the left.
+                    double deltaX = event.getSceneX() - previousMousePositionX_;
                     
-                    //negative if moved up, positive if moved down.
-                    double amountMouseMovedY = event.getSceneY() - previousMousePositionY_;
-                    
-                    double newX = parent_.getElement().getX() + amountMouseMovedX;
-                    double newY = parent_.getElement().getY() + amountMouseMovedY;
-                    
-                    double tempX = ( -(parent_.getWidth()/2));
-                    double tempY = ( - (parent_.getHeight()/2));
-                    
-                    double parentScaleWidth = parent_.getWidth() * parent_.getScaleX();
-                    double parentScaleHeight = parent_.getHeight() * parent_.getScaleY();
-                    
-                    double newWidth = parentScaleWidth - amountMouseMovedX;
-                    double newHeight = parentScaleHeight - amountMouseMovedY;
-                    
-                    parent_.relocate(tempX, tempY);
-                    parent_.setSize(parent_.getWidth(), parent_.getHeight());
-                    parent_.setScaleX((newWidth/parentScaleWidth));
-                    parent_.setScaleY((newHeight/parentScaleHeight));
-                    parent_.setSize(parent_.getWidth() * parent_.getScaleX(), parent_.getHeight() * parent_.getScaleY());
-                    
-                    parent_.getElement().setPosition(newX,newY);
-                    previousMousePositionX_ = event.getSceneX();
-                    previousMousePositionY_ = event.getSceneY();
-                    */
-                }
-                
-                
-                dragInProgress_ = true;
-                //Positive if mouse moved to the right , negative if it moved to the left.
-                double amountMouseMovedX =  event.getSceneX() - previousMousePositionX_;
-                
-                //Positive if the mouse moved up, negative if it moved down.
-                double amountMouseMovedY =   previousMousePositionY_ - event.getSceneY();
+                    //deltaY will be positive if the mouse moved down, and negative if it moved up. 
+                    double deltaY = event.getSceneY() - previousMousePositionY_;
 
-                
-                //px -> The right most x coordinate of the parent.
-                double px = parent_.getElement().getX() + parent_.getWidth();
-                
-                
-                //py -> The left most y coordinate of the parent.
-                double py = parent_.getElement().getY() + parent_.getHeight();
-                
-                
-               if (location_.equals(TransformerLocation.TOPLEFT))
-               {
-                  // double mouseMovementX = amountMouseMovedX / parent_.getElement().getX()* 100;
-                  
-                   double newWidth = parent_.getWidth() - amountMouseMovedX;
-                   double newHeight = parent_.getHeight() + amountMouseMovedY;
-                   readjustParent(parent_.getElement().getX() + amountMouseMovedX, parent_.getElement().getY() - amountMouseMovedY, newWidth, newHeight);
-              
-                       
-                }
+                    parent_.transform(deltaX,deltaY,location_);
+
+                     previousMousePositionX_ = event.getSceneX();
+                     previousMousePositionY_ = event.getSceneY();
                
-               else if (location_.equals(TransformerLocation.TOPRIGHT))
-               {
-                   double newWidth = parent_.getWidth() + amountMouseMovedX;
-                   double newHeight = parent_.getHeight() + amountMouseMovedY;
-                   readjustParent(parent_.getElement().getX(), parent_.getElement().getY() - amountMouseMovedY, newWidth, newHeight);
-               }
-               else if (location_.equals(TransformerLocation.BOTTOMLEFT))
-               {
-                   double newWidth = parent_.getWidth() - amountMouseMovedX;
-                   double newHeight = parent_.getHeight() + amountMouseMovedY;
-                   
-                   readjustParent(parent_.getElement().getX() + amountMouseMovedX, parent_.getElement().getY(), newWidth, newHeight);
-               }
-               else if (location_.equals(TransformerLocation.BOTTOMRIGHT))
-               {
-                  double newWidth = parent_.getWidth() + amountMouseMovedX;
-                  double newHeight = parent_.getHeight() + amountMouseMovedX;
-                  
-                  readjustParent(parent_.getElement().getX(), parent_.getElement().getY(), newWidth, newHeight);
-               }
-               
-               previousMousePositionX_ = event.getSceneX();
-               previousMousePositionY_ = event.getSceneY();
-               
-                  /*
-               //debugging information.
-               for (int i = 0; py - parent_.getHeight() - parent_.getElement().getY() != 0 || px - parent_.getWidth() - parent_.getElement().getX() != 0; i++)
-               {
-                   if (i % 1000 == 0)
-                   {
-                       System.out.println("Unaligned " + i + "times.");
-                   }
-                   
-                   double adjustWidthAmount = px - parent_.getWidth() - parent_.getElement().getX();
-                   double adjustHeightAmount = py - parent_.getWidth() - parent_.getElement().getX();
-                    readjustParent(parent_.getElement().getX(),parent_.getElement().getY(), parent_.getWidth() + adjustWidthAmount, parent_.getHeight() + adjustHeightAmount);
-               }
-               
-               
-              
-              
-               if (px - parent_.getElement().getX() != parent_.getWidth())
-               {
-                   throw new RuntimeException("The width got unaligned. by " + ( px - parent_.getWidth() - parent_.getElement().getX()));
-               }
-               else if (py - parent_.getElement().getY() != parent_.getHeight())
-               {
-                   throw new RuntimeException("The height is unaligned. by " + ( py - parent_.getHeight() - parent_.getElement().getY()));
-               }*/
             }
         });
         
     }
     
-    /**Readjusts the parent to have the given properties. 
-     * This function will only resize and move the parent to the minimum size of the parent.
-     * @param newX the new x coordinate of the parent.
-     * @param newY The new y coordinate of the parent.
-     * @param newWidth The new width of the parent.
-     * @param newHeight The new height of the parent.
-     * 
-     * 
-     */
-  public void readjustParent(double newX, double newY, double newWidth, double newHeight)
-  {
-       if (parent_.canResizeWidth(newWidth) && parent_.canResizeHeight(newHeight))
-       {
-             parent_.getElement().setPosition(newX, newY);
-             parent_.setSize(newWidth,newHeight);
-        }
-       
-        else  if (parent_.canResizeWidth(newWidth))
-        {
-             parent_.getElement().setPosition(newX, parent_.getElement().getY());
-             parent_.setSize(newWidth, parent_.getHeight());
-        }
-                   
-        else if (parent_.canResizeHeight(newHeight))
-        {
-            parent_.getElement().setPosition(parent_.getElement().getX(), newY );
-            parent_.setSize(parent_.getWidth(), newHeight);
-        }
-  }
+
                    
       
   /**SEt whether this node is visible or not.
@@ -318,7 +191,14 @@ public class TransformSpot extends Rectangle{
             this.relocate(0 - this.getWidth()/2, parent_.getHeight() - this.getHeight()/2);
        if (this.location_.equals(TransformerLocation.BOTTOMRIGHT))
             this.relocate(parent_.getWidth() - this.getWidth()/2, parent_.getHeight() - this.getHeight()/2);
-               
+       if (this.location_.equals(TransformerLocation.MIDDLETOP))
+            this.relocate((parent_.getWidth() / 2), 0 - (this.getHeight() / 2));
+       if (this.location_.equals(TransformerLocation.MIDDLELEFT))
+           this.relocate(0 - (this.getWidth() /2), (parent_.getHeight() / 2));
+       if (this.location_.equals(TransformerLocation.MIDDLEBOTTOM))
+           this.relocate(parent_.getWidth()/2, parent_.getHeight() - (this.getHeight()/2));
+       if (this.location_.equals(TransformerLocation.MIDDLERIGHT))
+           this.relocate(parent_.getWidth() - (this.getWidth()/2), parent_.getHeight()/2);
     }
     
     

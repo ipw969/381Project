@@ -1,6 +1,7 @@
 package views;
 
 import Enumerators.Enumerators;
+import Enumerators.Enumerators.TransformerLocation;
 import java.util.ArrayList;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
@@ -34,12 +35,6 @@ public abstract class WorkSpaceViewElement extends Pane {
      */
     public abstract void update();
 
-    
-    public void refresh()
-    {
-        this.relocate(this.getElement().getX(), this.getElement().getY());
-        this.update();
-    }
     /**
      * The WorkSpaceGraphElement which this view is visualizing.
      *
@@ -163,12 +158,36 @@ public abstract class WorkSpaceViewElement extends Pane {
         TransformSpot topRight = new TransformSpot(Enumerators.TransformerType.DIAGONAL, Enumerators.TransformerLocation.TOPRIGHT, this);
         TransformSpot bottomLeft = new TransformSpot(Enumerators.TransformerType.DIAGONAL, Enumerators.TransformerLocation.BOTTOMLEFT, this);
         TransformSpot bottomRight = new TransformSpot(Enumerators.TransformerType.DIAGONAL, Enumerators.TransformerLocation.BOTTOMRIGHT, this);
+        TransformSpot middleLeft = new TransformSpot(Enumerators.TransformerType.HORIZONTAL, Enumerators.TransformerLocation.MIDDLELEFT, this);
+        TransformSpot middleRight = new TransformSpot(Enumerators.TransformerType.HORIZONTAL, Enumerators.TransformerLocation.MIDDLERIGHT,this);
+        TransformSpot middleTop = new TransformSpot(Enumerators.TransformerType.VERTICLE, Enumerators.TransformerLocation.MIDDLETOP, this);
+        TransformSpot middleBottom = new TransformSpot(Enumerators.TransformerType.VERTICLE, Enumerators.TransformerLocation.MIDDLEBOTTOM, this);
         this.getChildren().add(topLeft);
         this.getChildren().add(topRight);
         this.getChildren().add(bottomLeft);
         this.getChildren().add(bottomRight); 
+        this.getChildren().add(middleLeft);
+        this.getChildren().add(middleRight);
+        this.getChildren().add(middleTop);
+        this.getChildren().add(middleBottom);
     }
     
+        /**This function is responsible for collecting information from a TransformSpot, and figuring out what might have to be resized, then
+     * sending the message to its element. This function should intercept the signal if this node cannot be resized!
+     * *******NOTE::: This calculation is done using a coordinate plane that increases in the right, down directions.
+     * @param deltaX : The amount that the mouse moved in the x-coordinate plane.
+     *                  negative if the mouse moved to the left, positive if it moved to the right.
+     * @param deltaY : The amount that the mouse moved in the y-coordinate plane.
+     *                  negative if the mouse moved to the left, positive if it moved to the right.
+     * @param location : The TransformSpot that generated this event.
+     */
+    
+    public void transform(double deltaX, double deltaY, TransformerLocation location) 
+    {
+           //intercept the signal if unable to resize the node to prevent movement.
+           this.getElement().transform(deltaX,deltaY,location);
+       
+    }
     // Private Member Variables
     private final WorkSpaceGraphElement element_;
     private boolean isSelected_;
