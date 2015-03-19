@@ -27,7 +27,9 @@ public class LinkedListElement extends WorkSpaceGraphElement {
         tail_ = null;
         count_ = 0;
         width_ = 65;
-        height_ = 85;               
+        height_ = 85;  
+        minHeight_ = 85;
+        minWidth_ = 65;
     }
 
     // Public Methods
@@ -109,6 +111,10 @@ public class LinkedListElement extends WorkSpaceGraphElement {
     @Override
     public void transform(double deltaX, double deltaY, Enumerators.TransformerLocation location)
     {
+        double newX = this.getX();
+        double newY = this.getY();
+        double newWidth = this.getWidth();
+        double newHeight = this.getHeight();
         if (location.equals(TransformerLocation.TOPLEFT))
         {
             //If the mouse moved to the left, we need to increase the width to keep the element in place.
@@ -117,10 +123,23 @@ public class LinkedListElement extends WorkSpaceGraphElement {
             //If the mouse moved up, we need to increase the height to keep the element in place.
             double deltaHeight = (-1) * deltaY;
             
-            position_ = new Point2D(position_.getX() + deltaX, position_.getY() + deltaY);
-            width_ = width_ + deltaWidth;
-            height_ = height_ + deltaHeight;
-            parent_.notifySubscribersOfAlter(this);
+           newX = position_.getX() + deltaX;
+           newY = position_.getY() + deltaY;
+           newWidth = width_ + deltaWidth;
+           newHeight = height_ + deltaHeight;
+           
+           if (newWidth < minWidth_)
+           {
+               double widthOffset = newWidth - minWidth_;
+               newWidth = minWidth_;
+               newX = newX + widthOffset;
+           }
+           if (newHeight < minHeight_)
+           {
+               double heightOffset = newHeight - height_;
+               newHeight = minHeight_;
+               newY = newY + heightOffset;
+           }
         }
         else if (location.equals(TransformerLocation.TOPRIGHT))
         {
@@ -130,13 +149,23 @@ public class LinkedListElement extends WorkSpaceGraphElement {
             //The height should increase if the mouse moved up.
             double deltaHeight = (-1) * deltaY;
             
-            width_ = width_ + deltaWidth;
-            height_ = height_ + deltaHeight;
+            newWidth = width_ + deltaWidth;
+            newHeight = height_ + deltaHeight;
             
             //We do not want to update the x-coordinate because it is located at the top left part of the node.
-            position_ = new Point2D(position_.getX(), position_.getY() + deltaY);
+            newX = position_.getX();
+            newY = position_.getY() + deltaY;   
             
-            
+           if (newWidth < minWidth_)
+           {
+               newWidth = minWidth_;
+           }
+           if (newHeight < minHeight_)
+           {
+               double heightOffset = newHeight - height_;
+               newHeight = minHeight_;
+               newY = newY + heightOffset;
+           }
         }
         
         else if (location.equals(TransformerLocation.BOTTOMLEFT))
@@ -147,11 +176,23 @@ public class LinkedListElement extends WorkSpaceGraphElement {
             //The height should increase if the mouse moved down.
             double deltaHeight = deltaY;
             
-            width_ = width_ + deltaWidth;
-            height_ = height_ + deltaHeight;
+            newWidth = width_ + deltaWidth;
+            newHeight = height_ + deltaHeight;
             
             //We do not need to update the y-coordinate, only the x-coordinate.
-            position_ = new Point2D(position_.getX() + deltaX, position_.getY());
+            newX = position_.getX() + deltaX;
+            newY = position_.getY();
+            
+           if (newWidth < minWidth_)
+           {
+               double widthOffset = newWidth - minWidth_;
+               newWidth = minWidth_;
+               newX = newX + widthOffset;
+           }
+           if (newHeight < minHeight_)
+           {
+               newHeight = minHeight_;
+           }
             
             
         }
@@ -164,12 +205,23 @@ public class LinkedListElement extends WorkSpaceGraphElement {
             //The height should increase if the mouse moved down.
             double deltaHeight = deltaY;
             
-            width_ = width_ + deltaWidth;
-            height_ = height_ + deltaHeight;
+            newWidth = width_ + deltaWidth;
+            newHeight = height_ + deltaHeight;
             
             //We do not need to update any of the coordinates because the node is resized towards the bottom right already.
             //No change to position.
             
+            newX = this.getX();
+            newY = this.getY();
+            
+           if (newWidth < minWidth_)
+           {
+               newWidth = minWidth_;
+           }
+           if (newHeight < minHeight_)
+           {
+               newHeight = minHeight_;
+           }
             
         }
         else if (location.equals(TransformerLocation.MIDDLELEFT))
@@ -181,9 +233,17 @@ public class LinkedListElement extends WorkSpaceGraphElement {
             
             //Only the x coordinate needs to change.
             
-            width_ = width_ + deltaWidth;
+            newWidth = width_ + deltaWidth;
+            newHeight = height_;
+            newX = position_.getX() + deltaX;
+            newY = position_.getY();  
             
-            position_ = new Point2D(position_.getX() + deltaX, position_.getY());   
+           if (newWidth < minWidth_)
+           {
+               double widthOffset = newWidth - minWidth_;
+               newWidth = minWidth_;
+               newX = newX + widthOffset;
+           }
         }
         else if (location.equals(TransformerLocation.MIDDLEBOTTOM))
         {
@@ -193,9 +253,16 @@ public class LinkedListElement extends WorkSpaceGraphElement {
             
             //The width or x coordinates never need to change.
             
-            height_ = height_ + deltaHeight;
-            
-            position_ = new Point2D(position_.getX(), position_.getY());
+            newHeight = height_ + deltaHeight;
+            newWidth = width_;
+           newX = position_.getX(); 
+           newY = position_.getY();
+           
+
+           if (newHeight < minHeight_)
+           {
+               newHeight = minHeight_;
+           }
         }
         else if (location.equals(TransformerLocation.MIDDLERIGHT))
         {
@@ -203,9 +270,17 @@ public class LinkedListElement extends WorkSpaceGraphElement {
             double deltaWidth = deltaX;
             
             //The position or height never needs to change.
+           
+            newWidth = width_ + deltaWidth;
+            newHeight = height_;
             
-            width_ = width_ + deltaWidth;
+            newX = position_.getX();
+            newY = position_.getY();
             
+            if (newWidth < minWidth_)
+           {
+               newWidth = minWidth_;
+           }
         }
         
         else if (location.equals(TransformerLocation.MIDDLETOP))
@@ -214,14 +289,41 @@ public class LinkedListElement extends WorkSpaceGraphElement {
             
             double deltaHeight = (-1) * deltaY;
             
-            height_ = height_ + deltaHeight;
+            newWidth = width_;
+            newHeight = height_ + deltaHeight;
             
-            position_ = new Point2D(position_.getX(), position_.getY() + deltaY);
+           newX = position_.getX();
+           newY = position_.getY() + deltaY;
+           
+
+           if (newHeight < minHeight_)
+           {
+               double heightOffset = newHeight - height_;
+               newHeight = minHeight_;
+               newY = newY + heightOffset;
+           }
         }
-        parent_.informListenersOfElementMoved(this);
-        parent_.informListenersOfElementResized(this);
+        
+        if (!((newX == this.getX())   &&    (newY == this.getY())    && (newWidth == width_)    && (newHeight == height_)))
+        {
+            position_ = new Point2D(newX,newY);
+            width_ = newWidth;
+            height_ = newHeight;
+        
+            parent_.informListenersOfElementMoved(this);
+            parent_.informListenersOfElementResized(this);
+        }
+
+        
+        
     }
     
+    @Override
+    public void translate(double deltaX, double deltaY) 
+    {
+        position_ = new Point2D(position_.getX() + deltaX, position_.getY() + deltaY);
+        parent_.informListenersOfElementMoved(this);
+    }
     
     // Private Member Variables
     // These will eventually become EdgePath objects.
@@ -230,13 +332,11 @@ public class LinkedListElement extends WorkSpaceGraphElement {
     private int count_;
     private double width_;
     private double height_;
+    private double minWidth_;
+    private double minHeight_;
 
-    @Override
-    public void translate(double deltaX, double deltaY) 
-    {
-        position_ = new Point2D(position_.getX() + deltaX, position_.getY() + deltaY);
-        parent_.informListenersOfElementMoved(this);
-    }
+    
+
 
 
 

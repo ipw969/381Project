@@ -53,11 +53,11 @@ public class LinkedListViewElement extends WorkSpaceViewElement {
         // Incase we get resized we really should listen for this an update the
         // canvas appropriately.
         widthProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
-            update(); 
+            onResize(); 
         });
 
         heightProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
-            update();
+            onResize();
         });
         
        this.setSnapToPixel(false);
@@ -75,13 +75,7 @@ public class LinkedListViewElement extends WorkSpaceViewElement {
         // up with an ever growing element. As such these are set to 1 less 
         // than the width and height of the elements.
     
-        backgroundRectangle_.setWidth(this.getWidth() - 1);
-        backgroundRectangle_.setHeight(this.getHeight() - 1);
-        
-        System.out.println("ID of Thing: " + this + "Element Position:" + getElement().getX() + " " + getElement().getY());
-        System.out.println("This position :" + this.getLayoutX() + " " + this.getLayoutY());
-        System.out.println("Size of element : " + ((LinkedListElement ) this.getElement()).getWidth() + " " +  ((LinkedListElement)this.getElement()).getHeight());
-        System.out.println("Size of this : " + this.getWidth() + "   " + this.getHeight());
+
        
         
     }
@@ -104,7 +98,8 @@ public class LinkedListViewElement extends WorkSpaceViewElement {
     {
         LinkedListElement listElement = (LinkedListElement) this.getElement();
         this.setSize(listElement.getWidth(), listElement.getHeight());
-        update();
+        backgroundRectangle_.setWidth(this.getWidth() - 1);
+        backgroundRectangle_.setHeight(this.getHeight() - 1);
     }
     
 
