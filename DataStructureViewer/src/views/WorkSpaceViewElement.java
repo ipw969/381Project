@@ -106,7 +106,6 @@ public abstract class WorkSpaceViewElement extends Pane {
             
             this.setMaxHeight(height);
             this.setPrefHeight(height);
-            this.onResize();
         }
 
         if (canResizeWidth(width))
@@ -114,7 +113,6 @@ public abstract class WorkSpaceViewElement extends Pane {
             
             this.setMaxWidth(width);
             this.setPrefWidth(width);
-            this.onResize();
         }
     }
 /**Every element needs to implement this because it may need to do additional work when it is resized.
@@ -188,6 +186,11 @@ public abstract class WorkSpaceViewElement extends Pane {
            this.getElement().transform(deltaX,deltaY,location);
        
     }
+    
+     public void translate(double deltaX, double deltaY)
+     {
+         this.getElement().translate(deltaX, deltaY);
+     }
     // Private Member Variables
     private final WorkSpaceGraphElement element_;
     private boolean isSelected_;

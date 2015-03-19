@@ -218,7 +218,8 @@ public class LinkedListElement extends WorkSpaceGraphElement {
             
             position_ = new Point2D(position_.getX(), position_.getY() + deltaY);
         }
-        parent_.notifySubscribersOfAlter(this);
+        parent_.informListenersOfElementMoved(this);
+        parent_.informListenersOfElementResized(this);
     }
     
     
@@ -229,5 +230,16 @@ public class LinkedListElement extends WorkSpaceGraphElement {
     private int count_;
     private double width_;
     private double height_;
+
+    @Override
+    public void translate(double deltaX, double deltaY) 
+    {
+        position_ = new Point2D(position_.getX() + deltaX, position_.getY() + deltaY);
+        parent_.informListenersOfElementMoved(this);
+    }
+
+
+
+
 
 }

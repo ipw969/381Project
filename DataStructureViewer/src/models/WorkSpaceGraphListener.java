@@ -47,4 +47,6 @@ public interface WorkSpaceGraphListener {
      * @param WorkSpaceGraphElement The element that has been moved.
     */
     public void onElementMoved(WorkSpaceGraphElement element);
+    
+    public void onElementResized(WorkSpaceGraphElement element);
 }

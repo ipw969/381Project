@@ -174,7 +174,7 @@ public class WorkSpaceGraph {
      * informs the subscribers that the given element  was moved. 
      * @param element The element that was moved.
      */
-    private void informListenersOfElementMoved(WorkSpaceGraphElement element)
+    protected void informListenersOfElementMoved(WorkSpaceGraphElement element)
     {
         for (WorkSpaceGraphListener subscriber: subscribers_)
         {
@@ -182,6 +182,16 @@ public class WorkSpaceGraph {
         }
     }
     
+    /**Informs the listeners that the given element has been resized.
+     * 
+     */
+    protected void informListenersOfElementResized(WorkSpaceGraphElement element)
+    {
+        for (WorkSpaceGraphListener subscriber : subscribers_)
+        {
+            subscriber.onElementResized(element);
+        }
+    }
     /**
      * Notifies all subscribers that a WorkSpaceGraphElement has been added to
      * this WorkSpaceGraph
@@ -233,7 +243,7 @@ public class WorkSpaceGraph {
      * @param element::WorkSpaceGraphElement ~ The WorkSpaceGraphElement which
      * has had one of its attributes altered
      */
-    void notifySubscribersOfAlter(WorkSpaceGraphElement element) {
+    protected void notifySubscribersOfAlter(WorkSpaceGraphElement element) {
         for (WorkSpaceGraphListener subscriber : subscribers_) {
             subscriber.onElementAltered(element);
         }

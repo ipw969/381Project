@@ -62,6 +62,8 @@ public class LinkedListViewElement extends WorkSpaceViewElement {
         
        this.setSnapToPixel(false);
         this.setupTransformers();
+        this.onResize();
+        this.update();
     }
     
     // Public Methods
@@ -72,12 +74,7 @@ public class LinkedListViewElement extends WorkSpaceViewElement {
         // the size of the element, which then causes this to fire and we end
         // up with an ever growing element. As such these are set to 1 less 
         // than the width and height of the elements.
-       
-        
-        this.relocate(getElement().getX(), getElement().getY());
-       
-        LinkedListElement listElement = (LinkedListElement) this.getElement();
-        this.setSize(listElement.getWidth(), listElement.getHeight());
+    
         backgroundRectangle_.setWidth(this.getWidth() - 1);
         backgroundRectangle_.setHeight(this.getHeight() - 1);
         
@@ -105,9 +102,9 @@ public class LinkedListViewElement extends WorkSpaceViewElement {
      */
     public void onResize()
     {
-        
-        this.backgroundRectangle_.setWidth(this.getWidth() - 1);
-        this.backgroundRectangle_.setHeight(this.getHeight() - 1);
+        LinkedListElement listElement = (LinkedListElement) this.getElement();
+        this.setSize(listElement.getWidth(), listElement.getHeight());
+        update();
     }
     
 

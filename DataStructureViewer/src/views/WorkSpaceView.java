@@ -233,6 +233,17 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
             }
         }
     }
+    
+    public void onElementResized(WorkSpaceGraphElement element)
+    {
+        for (WorkSpaceViewElement viewElement : viewElements_)
+        {
+            if (viewElement.getElement().equals(element))
+            {
+                viewElement.onResize();
+            }
+        }
+    }
 
     /**Get the GraphSpaceViewElements that are currently selected in this graph.
      * @return the selection set of this graph.
@@ -251,8 +262,8 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
     {
         for (WorkSpaceViewElement element : selectionSet_)
         {
-            System.out.println("Length of selectionset_  " + selectionSet_.size());
-            element.getElement().setPosition(element.getElement().getX() + deltaX, element.getElement().getY() + deltaY);
+            element.translate(deltaX,deltaY);
+            
         }
     }
     // Private Methods

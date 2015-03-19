@@ -64,7 +64,7 @@ public abstract class WorkSpaceGraphElement {
      */
     public void setX(double positionX) {
         position_ = new Point2D(positionX, position_.getY());
-        parent_.notifySubscribersOfAlter(this);
+        parent_.informListenersOfElementMoved(this);
         
     }
 
@@ -75,7 +75,7 @@ public abstract class WorkSpaceGraphElement {
      */
     public void setY(double positionY) {
         position_ = new Point2D(position_.getX(), positionY);
-        parent_.notifySubscribersOfAlter(this);
+        parent_.informListenersOfElementMoved(this);
     }
 
     /**
@@ -86,7 +86,7 @@ public abstract class WorkSpaceGraphElement {
      */
     public void setPosition(double positionX, double positionY) {
         position_ = new Point2D(positionX, positionY);
-        parent_.notifySubscribersOfAlter(this);
+        parent_.informListenersOfElementMoved(this);
     }
 
     /**
@@ -96,7 +96,7 @@ public abstract class WorkSpaceGraphElement {
      */
     public void setPosition(Point2D position) {
         position_ = position;
-        parent_.notifySubscribersOfAlter(this);
+       parent_.informListenersOfElementMoved(this);
     }
 
     /**
@@ -160,6 +160,9 @@ public abstract class WorkSpaceGraphElement {
     
     public abstract void transform(double deltaX, double deltaY, Enumerators.TransformerLocation location); 
 
+    public abstract void translate(double deltaX, double deltaY);
+    
+   
     //protected variabled
     protected Point2D position_;
     protected final WorkSpaceGraph parent_;
