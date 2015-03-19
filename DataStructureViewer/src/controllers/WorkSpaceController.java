@@ -39,7 +39,7 @@ public class WorkSpaceController {
         selectionController_ = new SelectionController();
         viewContextMenu_ = new ContextMenu();
         MenuItem bringToFrontMenuItem = new MenuItem("Bring to Front");
-        
+        view_ = view;
         // Bring to front item in context menu being clicked
         bringToFrontMenuItem.setOnAction((ActionEvent event) -> {
             if(this.contextMenuElement_ == null)
@@ -64,8 +64,14 @@ public class WorkSpaceController {
         // Mouse being clicked on the view
         view.setOnMousePressed((MouseEvent event) -> {
             if (event.getButton() == MouseButton.PRIMARY) {
+
                     if (!(event.getTarget() instanceof TransformSpot))
                     selectionController_.startSelectionAt(event.getX(), event.getY());
+
+
+                mouseX_ = event.getX();
+                mouseY_ = event.getY();
+                selectionController_.startSelectionAt(event.getX(), event.getY());
 
             } else if (event.getButton() == MouseButton.SECONDARY) {
                 // Do Nothing
@@ -101,24 +107,36 @@ public class WorkSpaceController {
                 if (!(event.getTarget() instanceof TransformSpot))
                 {
                     
-                     selectionController_.setCurrentX(event.getX());
-                    selectionController_.setCurrentY(event.getY());
-                    if (!selectionController_.isPointSelection()) {
+                      
+                     if (model_.getElementAt(mouseX_, mouseY_) != null)
+                     {
+                         moveElements(event);
+                     }
+                     else
+                     {
+                        selectionController_.setCurrentX(event.getX());
+                        selectionController_.setCurrentY(event.getY());
+                        if (!selectionController_.isPointSelection()) 
+                        {
 
-                    // Get a normalized version of the selection rectangle 
-                    // stored in the selectionController
-                        double x1 = Math.min(selectionController_.getStartX(), selectionController_.getCurrentX());
-                        double y1 = Math.min(selectionController_.getStartY(), selectionController_.getCurrentY());
+                            // Get a normalized version of the selection rectangle 
+                             // stored in the selectionController
+                            double x1 = Math.min(selectionController_.getStartX(), selectionController_.getCurrentX());
+                            double y1 = Math.min(selectionController_.getStartY(), selectionController_.getCurrentY());
 
-                        double x2 = Math.max(selectionController_.getStartX(), selectionController_.getCurrentX());
-                        double y2 = Math.max(selectionController_.getStartY(), selectionController_.getCurrentY());
-                        view.updateSelectionRectangle(x1, y1, x2, y2);
 
+                            double x2 = Math.max(selectionController_.getStartX(), selectionController_.getCurrentX());
+                            double y2 = Math.max(selectionController_.getStartY(), selectionController_.getCurrentY());
+                            view.updateSelectionRectangle(x1, y1, x2, y2);
+                        }
+                     }
+                    
                 
-                    }
-               }
+
+                }
             }
         });
+               
 
         selectionController_.setOnPointSelection((PointSelectionEvent event) -> {
             view.selectAt(event.getPointX(), event.getPointY(), event.getSelectionModifier() == SelectionModifier.Append);
@@ -158,7 +176,22 @@ public class WorkSpaceController {
         });
     }
 
+    /**Move the elements that are currently selected in the GraphView.
+     * Informs the graphview that the element need to move.
+     */
+    private void moveElements(MouseEvent event)
+    {
+        
+                double distanceMovedX = event.getX() - mouseX_;
+                double distanceMovedY = event.getY() - mouseY_;
+                mouseX_ = event.getX();
+                mouseY_ = event.getY();
+                view_.moveSelection(distanceMovedX, distanceMovedY);
+    }
     // Private Member Variables
+    private WorkSpaceView view_;
+    private double mouseX_;
+    private double mouseY_;
     private final ContextMenu viewContextMenu_;
     private final WorkSpaceGraph model_;
     private final SelectionController selectionController_;

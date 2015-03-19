@@ -29,7 +29,7 @@ public class LinkedListViewElement extends WorkSpaceViewElement {
      */
     public LinkedListViewElement (LinkedListElement element) {
         super(element);
-        setMinSize(element.getWidth(), element.getHeight());
+      //  setMinSize(element.getWidth(), element.getHeight());
         this.setStyle("-fx-background-color: Red");
         
         // Initialize UI
@@ -60,6 +60,7 @@ public class LinkedListViewElement extends WorkSpaceViewElement {
             update();
         });
         
+       this.setSnapToPixel(false);
         this.setupTransformers();
     }
     
@@ -74,10 +75,16 @@ public class LinkedListViewElement extends WorkSpaceViewElement {
        
         
         this.relocate(getElement().getX(), getElement().getY());
+       
         LinkedListElement listElement = (LinkedListElement) this.getElement();
         this.setSize(listElement.getWidth(), listElement.getHeight());
-        backgroundRectangle_.setWidth(this.getWidth() - 1);
-        backgroundRectangle_.setHeight(this.getHeight() - 1);
+       // backgroundRectangle_.setWidth(this.getWidth() - 1);
+       // backgroundRectangle_.setHeight(this.getHeight() - 1);
+        
+        System.out.println("ID of Thing: " + this + "Element Position:" + getElement().getX() + " " + getElement().getY());
+        System.out.println("This position :" + this.getLayoutX() + " " + this.getLayoutY());
+        System.out.println("Size of element : " + ((LinkedListElement ) this.getElement()).getWidth() + " " +  ((LinkedListElement)this.getElement()).getHeight());
+        System.out.println("Size of this : " + this.getWidth() + "   " + this.getHeight());
        
         
     }

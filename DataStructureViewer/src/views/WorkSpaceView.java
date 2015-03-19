@@ -3,6 +3,9 @@ package views;
 import factories.WorkSpaceViewElementFactory;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -36,9 +39,13 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
         
         this.getChildren().addAll(elementPane_, selectionOverlayPane);
         
+
         elementPane_.setPickOnBounds(false);
         selectionOverlayPane.setPickOnBounds(false);
+
     }
+
+    
 
     // Public Methods
     /**
@@ -58,7 +65,7 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
 
     /**
      * Selects an WorkSpaceViewElement at the provided position of the
-     * WorkSpaveView.
+     * WorkSpaceView.
      *
      * @param positionX::double ~ The X position of the coordinate to select an
      * item at
@@ -215,7 +222,38 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
             }
         }
     }
+    
+    public void onElementMoved(WorkSpaceGraphElement element)
+    {
+        for (WorkSpaceViewElement viewElement : viewElements_)
+        {
+            if (viewElement.getElement().equals(element))
+            {
+                viewElement.relocate(element.getX(), element.getY());
+            }
+        }
+    }
 
+    /**Get the GraphSpaceViewElements that are currently selected in this graph.
+     * @return the selection set of this graph.
+     */
+    public List<WorkSpaceViewElement> getSelectionSet()
+    {
+        return selectionSet_;
+    }
+    /**Readjust all of the elements by the given amounts.
+     * @param deltaX : The amount that the mouse moved in the x coordinate plane.
+     *                  Should be positive if the mouse moved to the right, and negative if it moved to the left.
+     * @parem deltaY : The amount that the mouse moved in the y coordinate plane.
+     *                  Should be positive if the mouse moves down, and negative if it moves to the left.
+     */
+    public void moveSelection(double deltaX, double deltaY)
+    {
+        for (WorkSpaceViewElement element : selectionSet_)
+        {
+            element.getElement().setPosition(element.getElement().getX() + deltaX, element.getElement().getY() + deltaY);
+        }
+    }
     // Private Methods
     /**
      * Selects the WorkSpaceViewElement which is being used to visualize the
@@ -242,6 +280,13 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
             }
         }
     }
+    
+    
+
+    
+
+    
+    
 
     // Private Member Variables
     private final Pane elementPane_;
