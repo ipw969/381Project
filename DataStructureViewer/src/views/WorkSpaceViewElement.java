@@ -101,46 +101,21 @@ public abstract class WorkSpaceViewElement extends Pane {
      */
    public void setSize(double width, double height)
     {
-        if (canResizeHeight(height))
-        {
-            
+
             this.setMaxHeight(height);
             this.setPrefHeight(height);
-        }
 
-        if (canResizeWidth(width))
-        {
             
             this.setMaxWidth(width);
             this.setPrefWidth(width);
-        }
+        
     }
 /**Every element needs to implement this because it may need to do additional work when it is resized.
  * This function should take care of any additional resize work the element has to take care of.
  */
    public abstract void onResize();
    
-      /**Check to see if the new height value is under the minimum size for this element
-    * 
-    * @param height The proposed new width of the pane.
-    * @return True if the element can be resized to that height, false if not.
-    */
-   public boolean canResizeHeight(double height)
-   {
-       double heightDifference = Math.abs(this.getHeight() - height);
-       return (this.getHeight() - heightDifference > this.getMinHeight() ) || height > this.getHeight();
-   }
-   
-   /**Check to see if the new width value is under the minimum size for this element
-    * 
-    * @param width The proposed new width of the pane.
-    * @return True if the element can be resized to that width, false if not.
-    */
-   public boolean canResizeWidth(double width)
-   {
-       double widthDifference = Math.abs(this.getWidth() - width);
-       return  (this.getWidth() - widthDifference > this.getMinWidth()) || width > this.getWidth();
-   }
+      
    
    /**SEts up the transformers for this element.
      * NOTE: The transformers are added to this as children.
@@ -187,6 +162,11 @@ public abstract class WorkSpaceViewElement extends Pane {
        
     }
     
+    /**This functions should be called whenever this view element needs to undergo a transformation.
+     * It informs the model that it needs to change
+     * @param deltaX - The amount the mouse moved in the x coordinate plane.
+     * @ param deltaY - the amount the mouse moved in the y coordinate plane.
+     * **/
      public void translate(double deltaX, double deltaY)
      {
          this.getElement().translate(deltaX, deltaY);

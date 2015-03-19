@@ -160,6 +160,12 @@ public abstract class WorkSpaceGraphElement {
     
     public abstract void transform(double deltaX, double deltaY, Enumerators.TransformerLocation location); 
 
+    
+        /**This functions should be called whenever this element needs to undergo a translation.
+     * It informs the model that it needs to change
+     * @param deltaX - The amount the mouse moved in the x coordinate plane.
+     * @param deltaY - the amount the mouse moved in the y coordinate plane.
+     * **/
     public abstract void translate(double deltaX, double deltaY);
     
    

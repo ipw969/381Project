@@ -91,7 +91,7 @@ public class LinkedListViewElement extends WorkSpaceViewElement {
     
     
     
-        /**Takes care of resizing the backgoundRectangle in this element
+        /**This takes care of all of the tasks that need to be considered when this element is resized.
      * 
      */
     public void onResize()

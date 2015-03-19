@@ -183,6 +183,7 @@ public class WorkSpaceGraph {
     }
     
     /**Informs the listeners that the given element has been resized.
+     * @param element : The WorkSpaceElement that has been resized.
      * 
      */
     protected void informListenersOfElementResized(WorkSpaceGraphElement element)

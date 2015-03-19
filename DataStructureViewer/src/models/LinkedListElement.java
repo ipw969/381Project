@@ -101,6 +101,7 @@ public class LinkedListElement extends WorkSpaceGraphElement {
     
     /**This function is responsible for collecting information from a view about a transformation, and figuring out what might have to be resized, then
      * notifying the Graph of the change.
+     * # this function is fairly long, a reduction may be in order.
      * *******NOTE::: This calculation is done using a coordinate plane that increases in the right, down directions.
      * @param deltaX : The amount that the mouse moved in the x-coordinate plane.
      *                  negative if the mouse moved to the left, positive if it moved to the right.
@@ -318,6 +319,12 @@ public class LinkedListElement extends WorkSpaceGraphElement {
         
     }
     
+        
+    /**This functions should be called whenever this element needs to undergo a translation.
+     * It informs the model that it needs to change
+     * @param deltaX - The amount the mouse moved in the x coordinate plane.
+     * @param deltaY - the amount the mouse moved in the y coordinate plane.
+     * **/
     @Override
     public void translate(double deltaX, double deltaY) 
     {
