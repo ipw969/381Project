@@ -78,8 +78,8 @@ public class LinkedListViewElement extends WorkSpaceViewElement {
        
         LinkedListElement listElement = (LinkedListElement) this.getElement();
         this.setSize(listElement.getWidth(), listElement.getHeight());
-       // backgroundRectangle_.setWidth(this.getWidth() - 1);
-       // backgroundRectangle_.setHeight(this.getHeight() - 1);
+        backgroundRectangle_.setWidth(this.getWidth() - 1);
+        backgroundRectangle_.setHeight(this.getHeight() - 1);
         
         System.out.println("ID of Thing: " + this + "Element Position:" + getElement().getX() + " " + getElement().getY());
         System.out.println("This position :" + this.getLayoutX() + " " + this.getLayoutY());

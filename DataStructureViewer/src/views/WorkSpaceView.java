@@ -251,6 +251,7 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
     {
         for (WorkSpaceViewElement element : selectionSet_)
         {
+            System.out.println("Length of selectionset_  " + selectionSet_.size());
             element.getElement().setPosition(element.getElement().getX() + deltaX, element.getElement().getY() + deltaY);
         }
     }
