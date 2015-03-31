@@ -6,6 +6,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -75,8 +76,10 @@ public class TransformSpot extends Rectangle {
 
         this.setOnMousePressed(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
-                previousMousePositionX_ = event.getSceneX();
-                previousMousePositionY_ = event.getSceneY();
+                if(event.getButton() == MouseButton.PRIMARY) {
+                    previousMousePositionX_ = event.getSceneX();
+                    previousMousePositionY_ = event.getSceneY();
+                }
             }
         });
 
@@ -84,18 +87,23 @@ public class TransformSpot extends Rectangle {
         this.setOnMouseDragged(new EventHandler<MouseEvent>() {
 
             public void handle(MouseEvent event) {
-                //deltaX will be positive if the mouse oved to the right, and negative if it moved to the left.
-                double deltaX = event.getSceneX() - previousMousePositionX_;
+                if(event.getButton() == MouseButton.PRIMARY) {
+                    //deltaX will be positive if the mouse oved to the right, and negative if it moved to the left.
+                    double deltaX = event.getSceneX() - previousMousePositionX_;
 
-                //deltaY will be positive if the mouse moved down, and negative if it moved up. 
-                double deltaY = event.getSceneY() - previousMousePositionY_;
+                    //deltaY will be positive if the mouse moved down, and negative if it moved up. 
+                    double deltaY = event.getSceneY() - previousMousePositionY_;
 
-                parent_.transform(deltaX, deltaY, location_);
+                    parent_.transform(deltaX, deltaY, location_);
 
-                previousMousePositionX_ = event.getSceneX();
-                previousMousePositionY_ = event.getSceneY();
-
+                    previousMousePositionX_ = event.getSceneX();
+                    previousMousePositionY_ = event.getSceneY();
+                }
             }
+        });
+        
+        this.setOnMouseReleased((MouseEvent e) -> {
+            e.consume();
         });
 
     }
