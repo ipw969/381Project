@@ -83,6 +83,7 @@ public class WorkSpaceController {
         // Mouse click released
         view.setOnMouseReleased((MouseEvent event) -> {
             if (event.getButton() == MouseButton.PRIMARY) {
+                viewContextMenu_.hide();
                 if (event.isShiftDown()) {
                     selectionController_.endSelection(SelectionModifier.Append);
                 } else {
@@ -95,6 +96,7 @@ public class WorkSpaceController {
 
                 if (elementUnderMouse == null) {
                     view.clearSelection();
+                    viewContextMenu_.hide();
                 } else {
                     contextMenuElement_ = elementUnderMouse;
                     viewContextMenu_.show(view, event.getX(), event.getY());
