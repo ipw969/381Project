@@ -2,7 +2,6 @@ package views;
 
 import Enumerators.Enumerators;
 import Enumerators.Enumerators.TransformerLocation;
-import java.util.ArrayList;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import models.WorkSpaceGraphElement;
@@ -133,8 +132,8 @@ public abstract class WorkSpaceViewElement extends Pane {
         TransformSpot bottomRight = new TransformSpot(Enumerators.TransformerType.DIAGONAL, Enumerators.TransformerLocation.BOTTOMRIGHT, this);
         TransformSpot middleLeft = new TransformSpot(Enumerators.TransformerType.HORIZONTAL, Enumerators.TransformerLocation.MIDDLELEFT, this);
         TransformSpot middleRight = new TransformSpot(Enumerators.TransformerType.HORIZONTAL, Enumerators.TransformerLocation.MIDDLERIGHT,this);
-        TransformSpot middleTop = new TransformSpot(Enumerators.TransformerType.VERTICLE, Enumerators.TransformerLocation.MIDDLETOP, this);
-        TransformSpot middleBottom = new TransformSpot(Enumerators.TransformerType.VERTICLE, Enumerators.TransformerLocation.MIDDLEBOTTOM, this);
+        TransformSpot middleTop = new TransformSpot(Enumerators.TransformerType.VERTICAL, Enumerators.TransformerLocation.MIDDLETOP, this);
+        TransformSpot middleBottom = new TransformSpot(Enumerators.TransformerType.VERTICAL, Enumerators.TransformerLocation.MIDDLEBOTTOM, this);
         this.getChildren().add(topLeft);
         this.getChildren().add(topRight);
         this.getChildren().add(bottomLeft);

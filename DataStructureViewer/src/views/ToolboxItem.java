@@ -13,7 +13,6 @@ import javafx.scene.paint.Color;
 public class ToolboxItem extends HBox {
 
     // Constructor
-
     /**
      * Creates a ToolboxItem with the provided itemText
      *
@@ -28,7 +27,8 @@ public class ToolboxItem extends HBox {
     // Public Methods
     /**
      * Sets the item's state to selected. Alters its appearance.
-     * @param isSelected::boolean ~ Whether the item is selected or not 
+     *
+     * @param isSelected::boolean ~ Whether the item is selected or not
      */
     public void setIsSelected(boolean isSelected) {
         isSelected_ = isSelected;
@@ -44,7 +44,8 @@ public class ToolboxItem extends HBox {
     // Private Methods
     /**
      * Sets up the widgets for the ToolboxItem
-     * @param itemText::String ~ The text to display for the item 
+     *
+     * @param itemText::String ~ The text to display for the item
      */
     private void setupUi(String itemText) {
         itemText_ = new Label(itemText);

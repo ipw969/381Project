@@ -65,7 +65,7 @@ public abstract class WorkSpaceGraphElement {
     public void setX(double positionX) {
         position_ = new Point2D(positionX, position_.getY());
         parent_.informListenersOfElementMoved(this);
-        
+
     }
 
     /**
@@ -96,7 +96,7 @@ public abstract class WorkSpaceGraphElement {
      */
     public void setPosition(Point2D position) {
         position_ = position;
-       parent_.informListenersOfElementMoved(this);
+        parent_.informListenersOfElementMoved(this);
     }
 
     /**
@@ -148,33 +148,38 @@ public abstract class WorkSpaceGraphElement {
         return parent_;
     }
 
-            /**This function is responsible for collecting information from a view about a transformation, and figuring out what might have to be resized, then
-     * notifying the Graph of the change.
-     * *******NOTE::: This calculation is done using a coordinate plane that increases in the right, down directions.
-     * @param deltaX : The amount that the mouse moved in the x-coordinate plane.
-     *                  negative if the mouse moved to the left, positive if it moved to the right.
-     * @param deltaY : The amount that the mouse moved in the y-coordinate plane.
-     *                  negative if the  mouse moved to the left, positive if it moved to the right.
-     * @param location : The TransformSpot that generated this event. This corresponds to the location that the transformation occurred.
+    /**
+     * This function is responsible for collecting information from a view about
+     * a transformation, and figuring out what might have to be resized, then
+     * notifying the Graph of the change. *******NOTE::: This calculation is
+     * done using a coordinate plane that increases in the right, down
+     * directions.
+     *
+     * @param deltaX : The amount that the mouse moved in the x-coordinate
+     * plane. negative if the mouse moved to the left, positive if it moved to
+     * the right.
+     * @param deltaY : The amount that the mouse moved in the y-coordinate
+     * plane. negative if the mouse moved to the left, positive if it moved to
+     * the right.
+     * @param location : The TransformSpot that generated this event. This
+     * corresponds to the location that the transformation occurred.
      */
-    
-    public abstract void transform(double deltaX, double deltaY, Enumerators.TransformerLocation location); 
+    public abstract void transform(double deltaX, double deltaY, Enumerators.TransformerLocation location);
 
-    
-        /**This functions should be called whenever this element needs to undergo a translation.
-     * It informs the model that it needs to change
+    /**
+     * This functions should be called whenever this element needs to undergo a
+     * translation. It informs the model that it needs to change
+     *
      * @param deltaX - The amount the mouse moved in the x coordinate plane.
      * @param deltaY - the amount the mouse moved in the y coordinate plane.
-     * **/
+     * *
+     */
     public abstract void translate(double deltaX, double deltaY);
-    
-   
+
     //protected variabled
     protected Point2D position_;
     protected final WorkSpaceGraph parent_;
-    
+
     // Private Member Variables
-    
-    
     private int zIndex_;
 }

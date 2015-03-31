@@ -3,11 +3,7 @@ package views;
 import factories.WorkSpaceViewElementFactory;
 import java.util.ArrayList;
 import java.util.List;
-import javafx.event.EventHandler;
-import javafx.event.EventType;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import models.WorkSpaceGraph;
@@ -36,16 +32,13 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
         elementPane_ = new Pane();
         Pane selectionOverlayPane = new Pane();
         selectionOverlayPane.getChildren().add(selectionRectangle_);
-        
+
         this.getChildren().addAll(elementPane_, selectionOverlayPane);
-        
 
         elementPane_.setPickOnBounds(false);
         selectionOverlayPane.setPickOnBounds(false);
 
     }
-
-    
 
     // Public Methods
     /**
@@ -84,12 +77,15 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
     }
 
     /**
-     *  Selects all the WorkSpaceGraphViewElements which are contained within
-     * the provided rectangle
+     * Selects all the WorkSpaceGraphViewElements which are contained within the
+     * provided rectangle
+     *
      * @param rectangleX1::double ~ The X coordinate of the rectangle top left
      * @param rectangleY1::double ~ The Y coordinate of the rectangle top left
-     * @param rectangleX2::double ~ The X coordinate of the rectangle bottom right
-     * @param rectangleY2::double ~ The Y coordinate of the rectangle bottom right
+     * @param rectangleX2::double ~ The X coordinate of the rectangle bottom
+     * right
+     * @param rectangleY2::double ~ The Y coordinate of the rectangle bottom
+     * right
      * @param appendToSelection::boolean ~ Whether to append the contents of the
      * rectangle to the current selection or to form a new one.
      */
@@ -134,20 +130,20 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
         selectionRectangle_.setY(rectangleY1);
         selectionRectangle_.setWidth(rectangleX2 - rectangleX1);
         selectionRectangle_.setHeight(rectangleY2 - rectangleY1);
-        
+
         selectionRectangle_.setVisible(true);
     }
-    
+
     public void resetSelectionRectangle() {
         selectionRectangle_.setVisible(false);
-        
+
         selectionRectangle_.setX(0);
         selectionRectangle_.setY(0);
         selectionRectangle_.setWidth(0);
         selectionRectangle_.setHeight(0);
-        
+
     }
-    
+
     /**
      * Handles a WorkSpaceGraph element being added to the WorkSpaceGraph model
      *
@@ -160,7 +156,7 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
 
         if (elementToAdd != null) {
             elementToAdd.relocate(element.getX(), element.getY());
-      
+
             elementPane_.getChildren().add(elementToAdd);
             viewElements_.add(elementToAdd);
         }
@@ -200,11 +196,11 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
             return;
         }
     }
-    
+
     /**
-     * Handles a WorkSpaceGraphElement having its Z Index altered in the underlying
-     * Graph
-     * 
+     * Handles a WorkSpaceGraphElement having its Z Index altered in the
+     * underlying Graph
+     *
      * @param element::WorkSpaceGraphElement ~ The element whose Z index was
      * altered
      * @param broughtForward::boolean ~ Whether the element was sendForward or
@@ -213,60 +209,61 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
      */
     @Override
     public void onElementZIndexAltered(WorkSpaceGraphElement element, boolean broughtForward) {
-        for(WorkSpaceViewElement viewElement : viewElements_) {
-            if(viewElement.getElement() == element) {
-                if(broughtForward)
+        for (WorkSpaceViewElement viewElement : viewElements_) {
+            if (viewElement.getElement() == element) {
+                if (broughtForward) {
                     viewElement.toFront();
-                else
+                } else {
                     viewElement.toBack();
+                }
             }
         }
     }
-    
-    public void onElementMoved(WorkSpaceGraphElement element)
-    {
-        for (WorkSpaceViewElement viewElement : viewElements_)
-        {
-            if (viewElement.getElement().equals(element))
-            {
+
+    public void onElementMoved(WorkSpaceGraphElement element) {
+        for (WorkSpaceViewElement viewElement : viewElements_) {
+            if (viewElement.getElement().equals(element)) {
                 viewElement.relocate(element.getX(), element.getY());
             }
         }
     }
-    
-    public void onElementResized(WorkSpaceGraphElement element)
-    {
-        for (WorkSpaceViewElement viewElement : viewElements_)
-        {
-            if (viewElement.getElement().equals(element))
-            {
+
+    public void onElementResized(WorkSpaceGraphElement element) {
+        for (WorkSpaceViewElement viewElement : viewElements_) {
+            if (viewElement.getElement().equals(element)) {
                 viewElement.onResize();
             }
         }
     }
 
-    /**Get the GraphSpaceViewElements that are currently selected in this graph.
+    /**
+     * Get the GraphSpaceViewElements that are currently selected in this graph.
+     *
      * @return the selection set of this graph.
      */
-    public List<WorkSpaceViewElement> getSelectionSet()
-    {
+    public List<WorkSpaceViewElement> getSelectionSet() {
         return selectionSet_;
     }
-    /**Readjust all of the elements by the given amounts.
-     * @param deltaX : The amount that the mouse moved in the x coordinate plane.
-     *                  Should be positive if the mouse moved to the right, and negative if it moved to the left.
-     * @parem deltaY : The amount that the mouse moved in the y coordinate plane.
-     *                  Should be positive if the mouse moves down, and negative if it moves to the left.
+
+    /**
+     * Readjust all of the elements by the given amounts.
+     *
+     * @param deltaX : The amount that the mouse moved in the x coordinate
+     * plane. Should be positive if the mouse moved to the right, and negative
+     * if it moved to the left.
+     * @parem deltaY : The amount that the mouse moved in the y coordinate
+     * plane. Should be positive if the mouse moves down, and negative if it
+     * moves to the left.
      */
-    public void moveSelection(double deltaX, double deltaY)
-    {
-        for (WorkSpaceViewElement element : selectionSet_)
-        {
-            element.translate(deltaX,deltaY);
-            
+    public void moveSelection(double deltaX, double deltaY) {
+        for (WorkSpaceViewElement element : selectionSet_) {
+            element.translate(deltaX, deltaY);
+
         }
     }
+
     // Private Methods
+
     /**
      * Selects the WorkSpaceViewElement which is being used to visualize the
      * provided WorkSpaceGraphElement
@@ -292,13 +289,6 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
             }
         }
     }
-    
-    
-
-    
-
-    
-    
 
     // Private Member Variables
     private final Pane elementPane_;

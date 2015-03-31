@@ -142,57 +142,51 @@ public class WorkSpaceGraph {
         notifySubscribersOfZIndexAltered(element, false);
     }
 
-    
     /**
-     * Moves the element to the specified position and informs the listeners of this graph. 
-     *                            
+     * Moves the element to the specified position and informs the listeners of
+     * this graph.
+     *
      * @param element: The element to move.
      * @param newXCoord: The new X coordinate of the element.
-     * @param newYCoord: The new Y coordinate of the element. 
+     * @param newYCoord: The new Y coordinate of the element.
      */
-    public void moveElement(WorkSpaceGraphElement element, double newXCoord, double newYCoord)
-    {
-        if (element != null)
-        {
+    public void moveElement(WorkSpaceGraphElement element, double newXCoord, double newYCoord) {
+        if (element != null) {
              // double originalX = element.getX();
-             //double originalY = element.getY();
+            //double originalY = element.getY();
             element.setX(newXCoord);
             element.setY(newYCoord);
-        
+
             //informListenersOfElementMoved(double oldx, double oldy, double newX, double newY);
             informListenersOfElementMoved(element);
         }
-        
-        
-  
-        
-        
+
     }
     // Private Methods
-    
+
     /**
-     * informs the subscribers that the given element  was moved. 
+     * informs the subscribers that the given element was moved.
+     *
      * @param element The element that was moved.
      */
-    protected void informListenersOfElementMoved(WorkSpaceGraphElement element)
-    {
-        for (WorkSpaceGraphListener subscriber: subscribers_)
-        {
+    protected void informListenersOfElementMoved(WorkSpaceGraphElement element) {
+        for (WorkSpaceGraphListener subscriber : subscribers_) {
             subscriber.onElementMoved(element);
         }
     }
-    
-    /**Informs the listeners that the given element has been resized.
+
+    /**
+     * Informs the listeners that the given element has been resized.
+     *
      * @param element : The WorkSpaceElement that has been resized.
-     * 
+     *
      */
-    protected void informListenersOfElementResized(WorkSpaceGraphElement element)
-    {
-        for (WorkSpaceGraphListener subscriber : subscribers_)
-        {
+    protected void informListenersOfElementResized(WorkSpaceGraphElement element) {
+        for (WorkSpaceGraphListener subscriber : subscribers_) {
             subscriber.onElementResized(element);
         }
     }
+
     /**
      * Notifies all subscribers that a WorkSpaceGraphElement has been added to
      * this WorkSpaceGraph

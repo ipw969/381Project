@@ -145,7 +145,7 @@ public class SelectionController {
      */
     public enum SelectionModifier {
 
-        ClearAndSelect,     // Remove all selected items, and select those passed instead
+        ClearAndSelect, // Remove all selected items, and select those passed instead
         Append              // Append the passed items to the current selection
     }
 

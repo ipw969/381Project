@@ -69,7 +69,7 @@ public class RectangleSelectionEvent extends ActionEvent {
     public SelectionModifier getSelectionModifier() {
         return selectionModifier_;
     }
-    
+
     // Private member varaibles
     private final double startX_;
     private final double startY_;

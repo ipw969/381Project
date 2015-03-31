@@ -2,13 +2,11 @@ package datastructureviewer;
 
 import controllers.WorkSpaceController;
 import javafx.application.Application;
-import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import models.LinkedListElement;
 import models.WorkSpaceGraph;
-import models.WorkSpaceGraphElement;
 import views.LinkedListViewElement;
 import views.Toolbox;
 import views.WorkSpaceView;
@@ -34,10 +32,9 @@ public class DataStructureViewer extends Application {
 
         root.setLeft(toolBox);
         root.setCenter(workSpace);
-        LinkedListViewElement test = new LinkedListViewElement(new LinkedListElement(5,5,1, modelGraph));
-        test.relocate(1000,1000);
+        LinkedListViewElement test = new LinkedListViewElement(new LinkedListElement(5, 5, 1, modelGraph));
+        test.relocate(1000, 1000);
        // workSpace.getChildren().add(test);
-        
 
         Scene scene = new Scene(root, 300, 250);
 
