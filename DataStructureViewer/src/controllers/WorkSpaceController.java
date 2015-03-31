@@ -95,6 +95,7 @@ public class WorkSpaceController {
 
                 if (elementUnderMouse == null) {
                     view.clearSelection();
+                    viewContextMenu_.hide();
                 } else {
                     contextMenuElement_ = elementUnderMouse;
                     viewContextMenu_.show(view, event.getX(), event.getY());
