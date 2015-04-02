@@ -18,6 +18,7 @@ public class WorkSpaceGraph {
     public WorkSpaceGraph() {
         elements_ = new ArrayList<>();
         subscribers_ = new ArrayList<>();
+        connectors_ = new ArrayList<>();//treat as element??
     }
 
     // Public Methods
@@ -281,4 +282,5 @@ public class WorkSpaceGraph {
     // Private Member Variables
     private final ArrayList<WorkSpaceGraphElement> elements_;
     private final ArrayList<WorkSpaceGraphListener> subscribers_;
+    private final ArrayList<Path> connectors_;
 }

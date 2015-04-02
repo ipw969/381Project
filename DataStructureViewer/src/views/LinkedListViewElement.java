@@ -1,12 +1,9 @@
 package views;
 
-import Enumerators.Enumerators;
-import Enumerators.Enumerators.TransformerLocation;
-import Enumerators.Enumerators.TransformerType;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Background;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import models.LinkedListElement;
 
@@ -45,10 +42,16 @@ public class LinkedListViewElement extends WorkSpaceViewElement {
         
         countLabel_ = new Label("Count");
         countLabel_.relocate(5, 45);
+        
+        headCircle_= new Circle(50, 15, 7, Color.PALEGREEN);
+        tailCircle_ = new Circle(50, 35, 7, Color.PALEGREEN);
+        
         getChildren().addAll(backgroundRectangle_,
                 headLabel_,
                 tailLabel_,
-                countLabel_);
+                countLabel_,
+                headCircle_,
+                tailCircle_);
         
         // Incase we get resized we really should listen for this an update the
         // canvas appropriately.
@@ -108,6 +111,9 @@ public class LinkedListViewElement extends WorkSpaceViewElement {
     private final Label headLabel_;
     private final Label tailLabel_;
     private final Label countLabel_;
+    private final Circle headCircle_;
+    private final Circle tailCircle_;
+    
 
 
 

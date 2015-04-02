@@ -25,6 +25,8 @@ public class LinkedListElement extends WorkSpaceGraphElement {
         super(positionX, positionY, zIndex, parent);
         head_ = null;
         tail_ = null;
+        headHotSpot_ = new HotSpot();
+        tailHotSpot_ = new HotSpot();
         count_ = 0;
         width_ = 65;
         height_ = 85;  
@@ -336,6 +338,8 @@ public class LinkedListElement extends WorkSpaceGraphElement {
     // These will eventually become EdgePath objects.
     private WorkSpaceGraphElement head_;
     private WorkSpaceGraphElement tail_;
+    private HotSpot headHotSpot_;
+    private HotSpot tailHotSpot_;
     private int count_;
     private double width_;
     private double height_;
