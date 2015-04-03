@@ -5,6 +5,7 @@ import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import models.LinkedListElement;
+import models.WorkSpaceGraphElement;
 
 /**
  * A class for the visual representation of a LinkedListElement
@@ -22,8 +23,6 @@ public class LinkedListViewElement extends WorkSpaceViewElement {
      */
     public LinkedListViewElement(LinkedListElement element) {
         super(element);
-        //  setMinSize(element.getWidth(), element.getHeight());
-        this.setStyle("-fx-background-color: Red");
 
         // Initialize UI
         backgroundRectangle_ = new Rectangle(0, 0, getWidth() - 1, getHeight() - 1);
@@ -46,49 +45,26 @@ public class LinkedListViewElement extends WorkSpaceViewElement {
         // Incase we get resized we really should listen for this an update the
         // canvas appropriately.
         widthProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
-            onResize();
+            update();
         });
 
         heightProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
-            onResize();
+            update();
         });
 
         this.setSnapToPixel(false);
         this.setupTransformers();
-        this.onResize();
         this.update();
     }
 
     // Public Methods
     @Override
     public void update() {
-        // For some reason setting the canvas to the same as the element expands
-        // the size of the element, which then causes this to fire and we end
-        // up with an ever growing element. As such these are set to 1 less 
-        // than the width and height of the elements.
-
-    }
-
-    @Override
-    public void setIsSelected(boolean selectionState) {
-        super.setIsSelected(selectionState);
-        if (selectionState) {
-            backgroundRectangle_.setStroke(Color.RED);
-        } else {
-            backgroundRectangle_.setStroke(Color.BLACK);
-        }
-    }
-
-    /**
-     * This takes care of all of the tasks that need to be considered when this
-     * element is resized.
-     *
-     */
-    public void onResize() {
-        LinkedListElement listElement = (LinkedListElement) this.getElement();
-        this.setSize(listElement.getWidth(), listElement.getHeight());
-        backgroundRectangle_.setWidth(this.getWidth() - 1);
-        backgroundRectangle_.setHeight(this.getHeight() - 1);
+        WorkSpaceGraphElement element = getElement();
+        
+        setSize(element.getWidth(), element.getHeight());
+        backgroundRectangle_.setWidth(getWidth() - 1);
+        backgroundRectangle_.setHeight(getHeight() - 1);
     }
 
     //  Private Member Variables

@@ -98,7 +98,7 @@ public abstract class WorkSpaceGraphElement {
      */
     public void setX(double positionX) {
         position_ = new Point2D(positionX, position_.getY());
-        parent_.informListenersOfElementMoved(this);
+        parent_.notifySubscribersOfAlter(this);
 
     }
 
@@ -109,7 +109,7 @@ public abstract class WorkSpaceGraphElement {
      */
     public void setY(double positionY) {
         position_ = new Point2D(position_.getX(), positionY);
-        parent_.informListenersOfElementMoved(this);
+        parent_.notifySubscribersOfAlter(this);
     }
 
     /**
@@ -120,7 +120,7 @@ public abstract class WorkSpaceGraphElement {
      */
     public void setPosition(double positionX, double positionY) {
         position_ = new Point2D(positionX, positionY);
-        parent_.informListenersOfElementMoved(this);
+        parent_.notifySubscribersOfAlter(this);
     }
 
     /**
@@ -130,7 +130,7 @@ public abstract class WorkSpaceGraphElement {
      */
     public void setPosition(Point2D position) {
         position_ = position;
-        parent_.informListenersOfElementMoved(this);
+        parent_.notifySubscribersOfAlter(this);
     }
 
     /**
@@ -143,6 +143,11 @@ public abstract class WorkSpaceGraphElement {
         parent_.notifySubscribersOfAlter(this);
     }
 
+    /**
+     * Sets the width and height of the WorkSpaceGraphElement
+     * @param width::double ~ The new width of the WorkSpaceGraphElement
+     * @param height::double ~ The new Height of the WorkSpaceGraphElement
+     */
     public void setSize(double width, double height) {
         width_ = width;
         height_ = height;
@@ -387,12 +392,13 @@ public abstract class WorkSpaceGraphElement {
         }
 
         if (!((newX == this.getX()) && (newY == this.getY()) && (newWidth == currentWidth) && (newHeight == currentHeight))) {
-            setPosition(new Point2D(newX, newY));
-            setWidth(newWidth);
-            setHeight(newHeight);
+            position_ = new Point2D(newX, newY);
+            
+            width_ = newWidth;
+            height_ = newHeight;
+            
+            parent_.notifySubscribersOfAlter(this);
 
-            getParent().informListenersOfElementMoved(this);
-            getParent().informListenersOfElementResized(this);
         }
     }
 
@@ -405,7 +411,7 @@ public abstract class WorkSpaceGraphElement {
      */
     public void translate(double deltaX, double deltaY) {
         setPosition(new Point2D(getPosition().getX() + deltaX, getPosition().getY() + deltaY));
-        getParent().informListenersOfElementMoved(this);
+        parent_.notifySubscribersOfAlter(this);
     }
 
     // Protected Methods

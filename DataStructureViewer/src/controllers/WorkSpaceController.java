@@ -11,6 +11,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import models.LinkedListElement;
+import models.LinkedListNodeElement;
 import models.WorkSpaceGraph;
 import models.WorkSpaceGraphElement;
 import views.TransformSpot;
@@ -150,6 +151,7 @@ public class WorkSpaceController {
                     elementToAdd = new LinkedListElement(event.getX(), event.getY(), 0, model_);
                     break;
                 case "Linked List Node":
+                    elementToAdd = new LinkedListNodeElement(event.getX(), event.getY(), 0, model_);
                     break;
                 case "Array":
                     break;
@@ -181,6 +183,7 @@ public class WorkSpaceController {
         mouseY_ = event.getY();
         view_.moveSelection(distanceMovedX, distanceMovedY);
     }
+    
     // Private Member Variables
     private WorkSpaceView view_;
     private double mouseX_;

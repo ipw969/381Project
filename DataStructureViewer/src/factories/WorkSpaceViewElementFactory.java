@@ -1,7 +1,9 @@
 package factories;
 
 import models.LinkedListElement;
+import models.LinkedListNodeElement;
 import models.WorkSpaceGraphElement;
+import views.LinkedListNodeViewElement;
 import views.LinkedListViewElement;
 import views.WorkSpaceViewElement;
 
@@ -24,6 +26,8 @@ public class WorkSpaceViewElementFactory {
     public static WorkSpaceViewElement viewElement(WorkSpaceGraphElement element) {
         if (element instanceof LinkedListElement) {
             return new LinkedListViewElement((LinkedListElement) element);
+        } else if (element instanceof LinkedListNodeElement) {
+            return new LinkedListNodeViewElement(element);
         }
         return null;
     }

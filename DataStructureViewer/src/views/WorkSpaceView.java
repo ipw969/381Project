@@ -171,12 +171,13 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
      */
     @Override
     public void onElementRemoved(WorkSpaceGraphElement element) {
+                
         for (WorkSpaceViewElement viewElement : viewElements_) {
             if (viewElement.getElement() == element) {
                 elementPane_.getChildren().remove(viewElement);
                 viewElements_.remove(viewElement);
+                return;
             }
-            return;
         }
     }
 
@@ -191,9 +192,10 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
     public void onElementAltered(WorkSpaceGraphElement element) {
         for (WorkSpaceViewElement viewElement : viewElements_) {
             if (viewElement.getElement() == element) {
+                viewElement.relocate(element.getX(), element.getY());
                 viewElement.update();
-            }
-            return;
+                return;
+            }            
         }
     }
 
@@ -220,22 +222,6 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
         }
     }
 
-    public void onElementMoved(WorkSpaceGraphElement element) {
-        for (WorkSpaceViewElement viewElement : viewElements_) {
-            if (viewElement.getElement().equals(element)) {
-                viewElement.relocate(element.getX(), element.getY());
-            }
-        }
-    }
-
-    public void onElementResized(WorkSpaceGraphElement element) {
-        for (WorkSpaceViewElement viewElement : viewElements_) {
-            if (viewElement.getElement().equals(element)) {
-                viewElement.onResize();
-            }
-        }
-    }
-
     /**
      * Get the GraphSpaceViewElements that are currently selected in this graph.
      *
@@ -258,7 +244,6 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
     public void moveSelection(double deltaX, double deltaY) {
         for (WorkSpaceViewElement element : selectionSet_) {
             element.translate(deltaX, deltaY);
-
         }
     }
 
