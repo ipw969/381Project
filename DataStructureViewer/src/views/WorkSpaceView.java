@@ -164,6 +164,16 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
         }
     }
 
+    /**Deletes every element that is currently selected.
+     * 
+     */
+    public void deleteSelectionModel()
+    {
+        for(WorkSpaceViewElement viewElement : selectionSet_)
+        {
+            viewElement.onDelete(null);
+        }
+    }
     /**
      * Handles a WorkSpaceGraph element being removed from the WorkSpaceGraph
      * model

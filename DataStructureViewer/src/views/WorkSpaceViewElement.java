@@ -44,18 +44,27 @@ public abstract class WorkSpaceViewElement extends Pane {
         this.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>(){
             public void handle(MouseEvent event)
             {
-                if (System.currentTimeMillis() - previousTime_ < 5000 && Math.abs(element_.getX() - previousX_) > 300 && Math.abs(element_.getY() - previousY_) > 300)
-                {
 
-                    onDelete(null);
+                double timeDifference = System.currentTimeMillis() - previousTime_;
+                double dx = Math.abs(element_.getX() - previousX_);
+                double dy = Math.abs(element_.getY() - previousY_);
+                if (timeDifference < timeDeletionTolerance_ && ((dx > deletionDistanceTolerance_ || dy > deletionDistanceTolerance_) || (dx > (deletionDistanceTolerance_ * 0.75) && dy > (deletionDistanceTolerance_ * 0.75))))
+                {
+                          ((WorkSpaceView)  getParent().getParent()).deleteSelectionModel();
+
                 }
+                else if(WorkSpaceViewElement.this.getElement().getX() < 0 && WorkSpaceViewElement.this.getElement().getY() < 0)
+                {
+                     ((WorkSpaceView)  getParent().getParent()).deleteSelectionModel();
+                }
+ 
             }
         });
     }
 
     /**This method should be called whenever this viewElement is to be deleted. It plays a shrink animation before it is deleted.
      * This will result in this element being removed from the GraphView and the GraphModel.
-     * @ The task to perform after the deletion.
+     * @param event The task to perform after the deletion.
      */
     public void onDelete(EventHandler<ActionEvent> event)
     {
@@ -235,4 +244,7 @@ public abstract class WorkSpaceViewElement extends Pane {
     //the previous coordinates that this was located at. Used to track movement for deletion.
     private double previousX_;
     private double previousY_;
+    
+    private double deletionDistanceTolerance_ = 750;
+    private double timeDeletionTolerance_ = 500;
 }
