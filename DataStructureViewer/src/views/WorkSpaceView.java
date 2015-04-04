@@ -28,7 +28,7 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
         selectionSet_ = new ArrayList<>();
 
         selectionRectangle_ = new Rectangle(0, 0, 0, 0);
-        selectionRectangle_.setStroke(Color.CORNFLOWERBLUE);
+        selectionRectangle_.setStroke(Color.WHITE);
         selectionRectangle_.setStrokeWidth(2);
         selectionRectangle_.setFill(Color.rgb(100, 149, 237, 0.6));
         elementPane_ = new Pane();
@@ -161,6 +161,7 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
 
             elementPane_.getChildren().add(elementToAdd);
             viewElements_.add(elementToAdd);
+            elementToAdd.update();
         }
     }
 

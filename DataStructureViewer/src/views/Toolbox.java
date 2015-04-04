@@ -58,8 +58,7 @@ public class Toolbox extends VBox {
     private void addItems() {
         addItem("Linked List");
         addItem("Linked List Node");
-        addItem("Array");
-
+        addItem("Binary Tree");
     }
 
     /**
