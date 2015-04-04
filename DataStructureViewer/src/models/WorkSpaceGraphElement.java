@@ -34,6 +34,16 @@ public abstract class WorkSpaceGraphElement {
         parent_ = parent;
     }
 
+    /**This method is simply used to pass the delete message to its parent.
+     * This will result both in this element being removed from the graph model and
+     * its viewElement counterpart being removed from the graphView
+     */
+    public void delete()
+    {
+        parent_.removeElement(this);
+    }
+    
+    
     // Public Methods
     /**
      * @return The X position of the WorkSpaceGraphElement

@@ -3,6 +3,8 @@ package views;
 import factories.WorkSpaceViewElementFactory;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -162,6 +164,16 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
         }
     }
 
+    /**Deletes every element that is currently selected.
+     * 
+     */
+    public void deleteSelectionModel()
+    {
+        for(WorkSpaceViewElement viewElement : selectionSet_)
+        {
+            viewElement.onDelete(null);
+        }
+    }
     /**
      * Handles a WorkSpaceGraph element being removed from the WorkSpaceGraph
      * model
@@ -174,9 +186,17 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
                 
         for (WorkSpaceViewElement viewElement : viewElements_) {
             if (viewElement.getElement() == element) {
-                elementPane_.getChildren().remove(viewElement);
-                viewElements_.remove(viewElement);
-                return;
+
+                viewElement.onDelete(new EventHandler<ActionEvent>(){
+
+                    @Override
+                    public void handle(ActionEvent event) {
+                        elementPane_.getChildren().remove(viewElement);
+                        viewElements_.remove(viewElement);
+                    }
+                    
+                });
+
             }
         }
     }
