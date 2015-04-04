@@ -106,13 +106,6 @@ public abstract class WorkSpaceViewElement extends Pane {
     }
 
     /**
-     * Every element needs to implement this because it may need to do
-     * additional work when it is resized. This function should take care of any
-     * additional resize work the element has to take care of.
-     */
-    public abstract void onResize();
-
-    /**
      * SEts up the transformers for this element. NOTE: The transformers are
      * added to this as children. Currently supports TOPLEFT: DIAGONAL TOPRIGHT:
      * DIAGONAL BOTTOMLEFT: DIAGONAL BOTTOMRIGHT: DIAGONAL

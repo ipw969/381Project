@@ -96,7 +96,7 @@ public class TransformSpot extends Rectangle {
 
                     parent_.transform(deltaX, deltaY, location_);
 
-                    previousMousePositionX_ = event.getSceneX();
+                    previousMousePositionX_ = event.getSceneX(); 
                     previousMousePositionY_ = event.getSceneY();
                 }
             }

@@ -41,21 +41,4 @@ public interface WorkSpaceGraphListener {
      */
     public void onElementZIndexAltered(WorkSpaceGraphElement element, boolean broughtForward);
 
-    /**
-     * This method informs the listener that the given element has been moved.
-     * Upon reaching this function, the new coordinates are already stored in
-     * the element.
-     *
-     * @param WorkSpaceGraphElement The element that has been moved.
-     */
-    public void onElementMoved(WorkSpaceGraphElement element);
-
-    /**
-     * This method informs the listener that the given element has been resized.
-     *
-     * @precon Upon reaching this function, the new size must already be in the
-     * element.
-     * @param element The element that has been resized.
-     */
-    public void onElementResized(WorkSpaceGraphElement element);
 }

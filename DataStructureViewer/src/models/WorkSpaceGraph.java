@@ -152,40 +152,14 @@ public class WorkSpaceGraph {
      */
     public void moveElement(WorkSpaceGraphElement element, double newXCoord, double newYCoord) {
         if (element != null) {
-             // double originalX = element.getX();
-            //double originalY = element.getY();
             element.setX(newXCoord);
             element.setY(newYCoord);
 
-            //informListenersOfElementMoved(double oldx, double oldy, double newX, double newY);
-            informListenersOfElementMoved(element);
+            notifySubscribersOfAlter(element);
         }
 
     }
     // Private Methods
-
-    /**
-     * informs the subscribers that the given element was moved.
-     *
-     * @param element The element that was moved.
-     */
-    protected void informListenersOfElementMoved(WorkSpaceGraphElement element) {
-        for (WorkSpaceGraphListener subscriber : subscribers_) {
-            subscriber.onElementMoved(element);
-        }
-    }
-
-    /**
-     * Informs the listeners that the given element has been resized.
-     *
-     * @param element : The WorkSpaceElement that has been resized.
-     *
-     */
-    protected void informListenersOfElementResized(WorkSpaceGraphElement element) {
-        for (WorkSpaceGraphListener subscriber : subscribers_) {
-            subscriber.onElementResized(element);
-        }
-    }
 
     /**
      * Notifies all subscribers that a WorkSpaceGraphElement has been added to
@@ -244,6 +218,8 @@ public class WorkSpaceGraph {
         }
     }
 
+    // Private Methods
+    
     /**
      * @return The highest Z index of any item within the WorkSpaceGraph
      */
