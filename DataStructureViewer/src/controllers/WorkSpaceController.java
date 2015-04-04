@@ -11,6 +11,7 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
+import models.BinaryTreeElement;
 import models.LinkedListElement;
 import models.LinkedListNodeElement;
 import models.WorkSpaceGraph;
@@ -169,6 +170,9 @@ public class WorkSpaceController {
                     break;
                 case "Linked List Node":
                     elementToAdd = new LinkedListNodeElement(event.getX(), event.getY(), 0, model_);
+                    break;
+                case "Binary Tree":
+                    elementToAdd = new BinaryTreeElement(event.getX(), event.getY(), 0, model_);
                     break;
                 case "Array":
                     break;

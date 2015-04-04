@@ -18,7 +18,7 @@ public class LinkedListElement extends WorkSpaceGraphElement {
      * LinkedList belongs
      */
     public LinkedListElement(double positionX, double positionY, int zIndex, WorkSpaceGraph parent) {
-        super(positionX, positionY, zIndex, 65, 85, 65, 85, parent);
+        super(positionX, positionY, zIndex, 90, 75, 90, 75, parent);
         head_ = null;
         tail_ = null;
         count_ = 0;

@@ -1,8 +1,10 @@
 package factories;
 
+import models.BinaryTreeElement;
 import models.LinkedListElement;
 import models.LinkedListNodeElement;
 import models.WorkSpaceGraphElement;
+import views.BinaryTreeElementView;
 import views.LinkedListNodeViewElement;
 import views.LinkedListViewElement;
 import views.WorkSpaceViewElement;
@@ -28,6 +30,8 @@ public class WorkSpaceViewElementFactory {
             return new LinkedListViewElement((LinkedListElement) element);
         } else if (element instanceof LinkedListNodeElement) {
             return new LinkedListNodeViewElement(element);
+        } else if (element instanceof BinaryTreeElement) {
+            return new BinaryTreeElementView(element);
         }
         return null;
     }

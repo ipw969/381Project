@@ -4,6 +4,8 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import models.LinkedListElement;
 import models.WorkSpaceGraphElement;
 
@@ -26,17 +28,23 @@ public class LinkedListViewElement extends WorkSpaceViewElement {
 
         // Initialize UI
         backgroundRectangle_ = new Rectangle(0, 0, getWidth() - 1, getHeight() - 1);
-        backgroundRectangle_.setFill(Color.WHITE);
-        backgroundRectangle_.setStroke(Color.BLACK);
+        backgroundRectangle_.setFill(Color.web("#673ab7"));
 
         headLabel_ = new Label("Head");
         headLabel_.relocate(5, 5);
-
+        headLabel_.setFont(Font.font("Arial", FontWeight.NORMAL, 16));
+        headLabel_.setTextFill(Color.WHITE);
+        
         tailLabel_ = new Label("Tail");
         tailLabel_.relocate(5, 25);
-
+        tailLabel_.setFont(Font.font("Arial", FontWeight.NORMAL, 16));
+        tailLabel_.setTextFill(Color.WHITE);
+        
         countLabel_ = new Label("Count");
         countLabel_.relocate(5, 45);
+        countLabel_.setFont(Font.font("Arial", FontWeight.NORMAL, 16));
+        countLabel_.setTextFill(Color.WHITE);
+        
         getChildren().addAll(backgroundRectangle_,
                 headLabel_,
                 tailLabel_,
