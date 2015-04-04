@@ -2,8 +2,15 @@ package views;
 
 import Enumerators.Enumerators;
 import Enumerators.Enumerators.TransformerLocation;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.animation.ScaleTransition;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.util.Duration;
 import models.WorkSpaceGraphElement;
 
 /**
@@ -25,8 +32,54 @@ public abstract class WorkSpaceViewElement extends Pane {
      */
     public WorkSpaceViewElement(WorkSpaceGraphElement element) {
         element_ = element;
+        this.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>(){
+            public void handle(MouseEvent event)
+            {
+                previousTime_ = System.currentTimeMillis();
+                previousX_ = element.getX();
+                previousY_ = element.getY();
+            }
+        });
+        
+        this.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>(){
+            public void handle(MouseEvent event)
+            {
+                if (System.currentTimeMillis() - previousTime_ < 5000 && Math.abs(element_.getX() - previousX_) > 300 && Math.abs(element_.getY() - previousY_) > 300)
+                {
+
+                    onDelete(null);
+                }
+            }
+        });
     }
 
+    /**This method should be called whenever this viewElement is to be deleted. It plays a shrink animation before it is deleted.
+     * This will result in this element being removed from the GraphView and the GraphModel.
+     * @ The task to perform after the deletion.
+     */
+    public void onDelete(EventHandler<ActionEvent> event)
+    {
+        
+        ScaleTransition deleteAnimation = new ScaleTransition(Duration.millis(1000), this);
+        deleteAnimation.setToX(0);
+        deleteAnimation.setToY(0);
+        deleteAnimation.play();
+        if (event == null)
+        {
+            event = new EventHandler<ActionEvent>(){
+                @Override
+                public void handle(ActionEvent event) {
+                     element_.delete();
+                }
+            };
+        }       
+                    
+        deleteAnimation.setOnFinished(event);
+
+
+        
+    }
+    
     // Public Methods
     /**
      * Abstract method which updates the WorkSpaceViewElement when its data had
@@ -173,4 +226,13 @@ public abstract class WorkSpaceViewElement extends Pane {
     private final WorkSpaceGraphElement element_;
     private boolean isSelected_;
 
+    //This variable are used to keep track of the time in order to moniter whether deletion
+    //should occur or not.
+    private double previousTime_;
+
+    
+    
+    //the previous coordinates that this was located at. Used to track movement for deletion.
+    private double previousX_;
+    private double previousY_;
 }

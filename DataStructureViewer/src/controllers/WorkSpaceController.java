@@ -4,6 +4,7 @@ import controllers.SelectionController.SelectionModifier;
 import events.PointSelectionEvent;
 import events.RectangleSelectionEvent;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.DragEvent;
@@ -59,8 +60,24 @@ public class WorkSpaceController {
             model_.sendToBack(contextMenuElement_);
         });
 
+        MenuItem deleteElementMenuItem = new MenuItem("Delete Element");
+        
+        //delete the element that was clicked on.
+        deleteElementMenuItem.setOnAction(new EventHandler<ActionEvent>(){
+
+            @Override
+            public void handle(ActionEvent event) {
+                if (contextMenuElement_ == null)
+                {
+                    return;
+                }
+                
+                contextMenuElement_.delete();
+            }
+
+        });
         viewContextMenu_.getItems().addAll(sendToBackMenuItem,
-                bringToFrontMenuItem);
+                bringToFrontMenuItem, deleteElementMenuItem);
 
         // Mouse being clicked on the view
         view.setOnMousePressed((MouseEvent event) -> {
