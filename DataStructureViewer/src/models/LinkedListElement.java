@@ -1,6 +1,7 @@
 package models;
 
 import Enumerators.Enumerators;
+import Enumerators.Enumerators.HotSpotType;
 import Enumerators.Enumerators.TransformerLocation;
 import javafx.geometry.Point2D;
 
@@ -25,13 +26,17 @@ public class LinkedListElement extends WorkSpaceGraphElement {
         super(positionX, positionY, zIndex, parent);
         head_ = null;
         tail_ = null;
-        headHotSpot_ = new HotSpot();
-        tailHotSpot_ = new HotSpot();
+        headHotSpot_ = new HotSpot(positionX+50, positionY+15, HotSpotType.OUTGOING);
+        tailHotSpot_ = new HotSpot(positionX+50, positionY+35, HotSpotType.BOTH);
         count_ = 0;
         width_ = 65;
         height_ = 85;  
         minHeight_ = 85;
         minWidth_ = 65;
+        
+        parent.addHotSpot(headHotSpot_);
+        parent.addHotSpot(tailHotSpot_);
+
     }
 
     // Public Methods

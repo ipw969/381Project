@@ -1,5 +1,6 @@
 package controllers;
 
+import Enumerators.Enumerators;
 import controllers.SelectionController.SelectionModifier;
 import events.PointSelectionEvent;
 import events.RectangleSelectionEvent;
@@ -10,7 +11,13 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
+import models.HotSpot;
+import models.Leg;
 import models.LinkedListElement;
+import models.Path;
 import models.WorkSpaceGraph;
 import models.WorkSpaceGraphElement;
 import views.TransformSpot;
@@ -40,6 +47,16 @@ public class WorkSpaceController {
         viewContextMenu_ = new ContextMenu();
         MenuItem bringToFrontMenuItem = new MenuItem("Bring to Front");
         view_ = view;
+        
+        //Path vaiable initialization
+        ltemp = new Line();
+        ltemp.setStartX(0);
+        ltemp.setStartY(0);
+        ltemp.setEndX(0);
+        ltemp.setEndY(0);
+        view_.getChildren().add(ltemp);
+        ptemp = new Path();
+        
         // Bring to front item in context menu being clicked
         bringToFrontMenuItem.setOnAction((ActionEvent event) -> {
             if(this.contextMenuElement_ == null)
@@ -76,6 +93,57 @@ public class WorkSpaceController {
             } else if (event.getButton() == MouseButton.SECONDARY) {
                 // Do Nothing
             }
+            
+            if(event.isAltDown() && model_.isHotSpot(event.getX(), event.getY()) != null)
+                {  
+                    HotSpot h = model_.isHotSpot(event.getX(), event.getY());
+
+                   if(h.getHotSpotType() == Enumerators.HotSpotType.OUTGOING)
+                   {
+
+                        ltemp.setStartX(h.getHotSpotx());
+                        ltemp.setStartY(h.getHotSpoty());
+                        ltemp.setEndX(h.getHotSpotx());
+                        ltemp.setEndY(h.getHotSpotx());
+                   }
+                   else
+                   {
+                       ltemp.setEndX(h.getHotSpotx());
+                       ltemp.setEndY(h.getHotSpoty());
+
+                       ptemp.addLeg(ltemp.getStartX(), ltemp.getStartY(), ltemp.getEndX(), ltemp.getEndY());
+
+                       model_.addConnector(ptemp);
+                       draw();
+
+                       ptemp.getLegs().clear();
+
+                       ltemp.setStartX(0);
+                       ltemp.setStartY(0);
+                       ltemp.setEndX(0);
+                       ltemp.setEndY(0);
+
+
+                   }
+
+               }
+               else if(event.isAltDown() && model_.isHotSpot(event.getX(), event.getY()) == null && ltemp.getStartX() != 0)
+               {
+
+                   ltemp.setEndX(event.getX());
+                   ltemp.setEndY(event.getY());
+
+                   Circle joint = new Circle(ltemp.getEndX(), ltemp.getEndY(), 10, Color.RED);
+                   view_.getChildren().add(joint);
+                   ptemp.addLeg(ltemp.getStartX(), ltemp.getStartY(), ltemp.getEndX(), ltemp.getEndY());
+
+
+                   ltemp.setStartX(ltemp.getEndX());
+                   ltemp.setStartY(ltemp.getEndY());
+
+                   draw();  
+                } 
+
 
         });
 
@@ -136,6 +204,17 @@ public class WorkSpaceController {
                 }
             }
         });
+        
+        view.setOnMouseMoved((MouseEvent event) -> {
+           if(ltemp.getStartX()!= 0 && ltemp.getStartY() != 0)
+            {
+                ltemp.setEndX(event.getX());
+                ltemp.setEndY(event.getY());
+                
+            }
+        
+
+        });
                
 
         selectionController_.setOnPointSelection((PointSelectionEvent event) -> {
@@ -188,6 +267,32 @@ public class WorkSpaceController {
                 mouseY_ = event.getY();
                 view_.moveSelection(distanceMovedX, distanceMovedY);
     }
+    
+    //Function to aid in the drawing of paths
+    public void draw()
+    {
+           if(ltemp.getStartX() != 0)
+           {
+                for(Leg l : ptemp.getLegs())
+                {
+                    Line nLine = new Line(l.getStartX(), l.getStartY(), l.getEndX(), l.getEndY());
+                    view_.getChildren().add(nLine);
+                }
+           }
+           
+           for(Path path : model_.getConnectors())
+            {
+               for(Leg l : path.getLegs())
+                {
+                    Line nLine = new Line(l.getStartX(), l.getStartY(), l.getEndX(), l.getEndY());
+                    Circle joint = new Circle(l.getEndX(), l.getEndY(), 10, Color.RED);
+                    view_.getChildren().addAll(nLine, joint);
+                    
+                }
+            }
+            
+    }
+    
     // Private Member Variables
     private WorkSpaceView view_;
     private double mouseX_;
@@ -197,4 +302,7 @@ public class WorkSpaceController {
     private final SelectionController selectionController_;
     /// The item which was clicked on with the context menu
     private WorkSpaceGraphElement contextMenuElement_;
+    //Variables used in path handling
+    private Line ltemp;
+    private Path ptemp;
 }

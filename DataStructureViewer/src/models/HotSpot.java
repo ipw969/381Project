@@ -36,7 +36,7 @@ public class HotSpot {
     public boolean contains(double x, double y)
      {
          double dist = Math.sqrt(Math.pow(x-cx_, 2) + Math.pow(y-cy_, 2));
-         return (dist < 10);
+         return (dist < 7);
      }
     
     public double getHotSpotx()
