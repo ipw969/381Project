@@ -18,6 +18,8 @@ public class WorkSpaceGraph {
     public WorkSpaceGraph() {
         elements_ = new ArrayList<>();
         subscribers_ = new ArrayList<>();
+        connectors_ = new ArrayList<>();
+        hotSpots_ = new ArrayList<>();
     }
 
     // Public Methods
@@ -44,7 +46,42 @@ public class WorkSpaceGraph {
         notifySubscribersOfRemove(element);
         elements_.remove(element);
     }
-
+    
+    /**Add the provided Path to the WorkSpaceGraph as a connector between two elements
+     
+     @param p :: Path - the path to add as a connector to the graph**/
+    public void addConnector(Path p)
+    {
+        connectors_.add(p);
+    }
+    
+    /**Passes the lists of connectors**/
+    public ArrayList<Path> getConnectors()
+    {
+        return connectors_;
+    }
+    
+    /**Add the provided HotSpot to the Array
+     * @param h     
+     **/
+    public void addHotSpot(HotSpot h)
+    {
+        hotSpots_.add(h);
+    }
+    
+    public HotSpot isHotSpot(double x, double y)
+     {
+       for(HotSpot h : hotSpots_)
+         {
+             if(h.contains(x, y))
+             {
+                 return h;
+             } 
+         }
+         return null;
+         
+     }
+    
     /**
      * Adds a WorkSpaceGraphListener to this WorkSpaceGraph which is to be
      * informed of changes.
@@ -251,4 +288,6 @@ public class WorkSpaceGraph {
     // Private Member Variables
     private final ArrayList<WorkSpaceGraphElement> elements_;
     private final ArrayList<WorkSpaceGraphListener> subscribers_;
+    private final ArrayList<Path> connectors_;
+    private final ArrayList<HotSpot> hotSpots_;
 }

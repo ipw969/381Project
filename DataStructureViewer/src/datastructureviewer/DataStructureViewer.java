@@ -1,5 +1,6 @@
 package datastructureviewer;
 
+import controllers.PathController;
 import controllers.WorkSpaceController;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -29,6 +30,7 @@ public class DataStructureViewer extends Application {
         workSpace.setModel(modelGraph);
 
         WorkSpaceController controller = new WorkSpaceController(modelGraph, workSpace);
+        PathController pathController = new PathController(modelGraph, workSpace);
 
         root.setLeft(toolBox);
         root.setCenter(workSpace);

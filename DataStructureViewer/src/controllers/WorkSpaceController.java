@@ -1,5 +1,6 @@
 package controllers;
 
+import Enumerators.Enumerators;
 import controllers.SelectionController.SelectionModifier;
 import events.PointSelectionEvent;
 import events.RectangleSelectionEvent;
@@ -14,6 +15,13 @@ import javafx.scene.input.TransferMode;
 import models.BinaryTreeElement;
 import models.LinkedListElement;
 import models.LinkedListNodeElement;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
+import models.HotSpot;
+import models.Leg;
+import models.LinkedListElement;
+import models.Path;
 import models.WorkSpaceGraph;
 import models.WorkSpaceGraphElement;
 import views.TransformSpot;
@@ -42,6 +50,7 @@ public class WorkSpaceController {
         viewContextMenu_ = new ContextMenu();
         MenuItem bringToFrontMenuItem = new MenuItem("Bring to Front");
         view_ = view;
+        
         // Bring to front item in context menu being clicked
         bringToFrontMenuItem.setOnAction((ActionEvent event) -> {
             if (this.contextMenuElement_ == null) {
@@ -96,7 +105,8 @@ public class WorkSpaceController {
             } else if (event.getButton() == MouseButton.SECONDARY) {
                 // Do Nothing
             }
-
+            
+            
         });
 
         // Mouse click released
@@ -149,6 +159,7 @@ public class WorkSpaceController {
                 }
             }
         });
+
 
         selectionController_.setOnPointSelection((PointSelectionEvent event) -> {
             view.selectAt(event.getPointX(), event.getPointY(), event.getSelectionModifier() == SelectionModifier.Append);
@@ -205,6 +216,10 @@ public class WorkSpaceController {
         view_.moveSelection(distanceMovedX, distanceMovedY);
     }
     
+
+
+    
+
     // Private Member Variables
     private WorkSpaceView view_;
     private double mouseX_;
@@ -214,4 +229,7 @@ public class WorkSpaceController {
     private final SelectionController selectionController_;
     /// The item which was clicked on with the context menu
     private WorkSpaceGraphElement contextMenuElement_;
+    //Variables used in path handling
+    private Line ltemp;
+    private Path ptemp;
 }
