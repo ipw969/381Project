@@ -32,7 +32,7 @@ public class DataStructureViewer extends Application {
         workSpace.setModel(modelGraph);
 
         WorkSpaceController controller = new WorkSpaceController(modelGraph, workSpace);
-       // PathController pathController = new PathController(modelGraph, workSpace);
+        PathController pathController = new PathController(modelGraph, workSpace);
 
         root.setLeft(toolBox);
         root.setCenter(workSpace);

@@ -6,6 +6,7 @@
 package controllers;
 
 import Enumerators.Enumerators.HotSpotType;
+import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -32,16 +33,17 @@ public class PathController {
            ltemp.setStartY(0);
            ltemp.setEndX(0);
            ltemp.setEndY(0);
-           pathView_.getChildren().add(ltemp);
            ptemp = new Path();
            
-           
            //Mouse being clicked on view
-           view.setOnMousePressed((MouseEvent event) -> {
-               if(event.isAltDown() && pathModel_.isHotSpot(event.getX(), event.getY()) != null)
+           view.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>()
+           {
+               public void handle(MouseEvent event)
+               {
+               if(event.isAltDown() && event.isPrimaryButtonDown() && pathModel_.isHotSpot(event.getX(), event.getY()) != null)
                 {  
                     HotSpot h = pathModel_.isHotSpot(event.getX(), event.getY());
-
+                    System.out.println("You clicked on a hotspot");
                    if(h.getHotSpotType() == HotSpotType.OUTGOING)
                    {
 
@@ -87,6 +89,7 @@ public class PathController {
 
                    draw();  
                 } 
+               }
 
         });
            
