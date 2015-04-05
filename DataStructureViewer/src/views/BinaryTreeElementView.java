@@ -6,6 +6,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import models.WorkSpaceGraphElement;
 
 /**
@@ -28,6 +29,8 @@ public class BinaryTreeElementView extends WorkSpaceViewElement {
 
         getChildren().addAll(backgroundRectangle_, valueLabel_);
 
+        setLabelEditable(valueLabel_, "");
+        valueLabel_.setWrapText(true);
         // Incase we get resized we really should listen for this an update the
         // canvas appropriately.
         widthProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
@@ -50,8 +53,35 @@ public class BinaryTreeElementView extends WorkSpaceViewElement {
         backgroundRectangle_.setWidth(getWidth() - 1);
         backgroundRectangle_.setHeight(getHeight() - 1);
 
-        valueLabel_.relocate((getWidth() - valueLabel_.getWidth()) / 2,
-                (getHeight() - valueLabel_.getHeight()) / 2);
+        valueLabel_.relocate(0,0);
+        //valueLabel_.relocate((getWidth() - valueLabel_.getWidth()) / 2,
+                //(getHeight() - valueLabel_.getHeight()) / 2);
+        
+
+                valueLabel_.setMaxWidth(this.getWidth());
+        valueLabel_.setMaxHeight(this.getHeight());
+        
+                Text measureText = new Text(valueLabel_.getText());
+        double layoutX = (this.getWidth() - measureText.getLayoutBounds().getWidth())/2;
+        
+        double amountOfRoomHeight = this.getHeight() - valueLabel_.getHeight();
+        
+        double layoutY = amountOfRoomHeight / 2;
+       if (layoutX < 0)
+       {
+           layoutX = 0;
+       }
+       else if (layoutY < 0)
+       {
+           layoutY = 0;
+       }
+       
+       if (layoutY + valueLabel_.getHeight() > this.getHeight())
+       {
+           layoutY = this.getHeight() - valueLabel_.getMaxHeight();
+       }
+        valueLabel_.relocate(layoutX,layoutY);
+
     }
 
     // Private Member Variables

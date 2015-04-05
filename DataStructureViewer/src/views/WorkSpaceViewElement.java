@@ -5,9 +5,15 @@ import Enumerators.Enumerators.TransformerLocation;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.ScaleTransition;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
@@ -224,6 +230,66 @@ public abstract class WorkSpaceViewElement extends Pane {
     public void translate(double deltaX, double deltaY) {
         this.getElement().translate(deltaX, deltaY);
     }
+    
+    /**Sets up the appropriate listeners for the given label to be editable by the user.
+     * @param label ~ The label to set to be editable.
+     * @param defaultText ~ The default text of the node. Prevents the text in the label from being a proper substring of the given string.
+     * (AKA a count label will not have its count text removed).
+     */
+    protected void setLabelEditable(Label label, String defaultText)
+    {
+        label.textProperty().addListener(new ChangeListener(){
+
+            @Override
+            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+               update();
+            }
+            
+        });
+        label.setOnMouseEntered(new EventHandler<MouseEvent>()
+                {
+                public void handle(MouseEvent event)
+                {
+                    setCursor(Cursor.TEXT);
+                    
+                }
+                });
+        
+        label.setOnMouseExited(new EventHandler<MouseEvent>()
+                {
+                    public void handle(MouseEvent event)
+                {
+                    setCursor(Cursor.DEFAULT);
+                }
+                });
+        label.setOnMousePressed(new EventHandler<MouseEvent>()
+                {
+                public void handle(MouseEvent event)
+                {
+                    editLabel_ = label;
+                    editLabel_.setFocusTraversable(true);
+                    editLabel_.requestFocus();
+                }
+                });
+        
+               setOnKeyPressed(new EventHandler<KeyEvent>()
+                {
+               public void handle(KeyEvent event)
+                {
+                    if (editLabel_ != null)
+                    {
+                        if (event.getCode().equals(KeyCode.BACK_SPACE) && editLabel_.getText().length() > defaultText.length())
+                        {
+                            editLabel_.setText(editLabel_.getText().substring(0, editLabel_.getText().length() - 1));
+                        }
+                        
+                        editLabel_.setText(editLabel_.getText() + event.getText());
+                    }
+                    
+                    
+                }
+                });
+    }
     // Private Member Variables
     private final WorkSpaceGraphElement element_;
     private boolean isSelected_;
@@ -240,4 +306,6 @@ public abstract class WorkSpaceViewElement extends Pane {
     
     private double deletionDistanceTolerance_ = 750;
     private double timeDeletionTolerance_ = 500;
+    
+    private Label editLabel_;
 }

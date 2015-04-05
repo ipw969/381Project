@@ -7,6 +7,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import models.LinkedListNodeElement;
 import models.WorkSpaceGraphElement;
 
@@ -39,6 +40,8 @@ public class LinkedListNodeViewElement extends WorkSpaceViewElement {
                 dividingLine_,
                 valueLabel_);
 
+        valueLabel_.setWrapText(true);
+        setLabelEditable(valueLabel_, "");
         // Incase we get resized we really should listen for this an update the
         // canvas appropriately.
         widthProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
@@ -72,8 +75,38 @@ public class LinkedListNodeViewElement extends WorkSpaceViewElement {
         dividingLine_.setEndY(getHeight());
 
         // Position Label
-        valueLabel_.relocate((getWidth() - valueLabel_.getWidth()) / 4,
-                (getHeight() - valueLabel_.getHeight()) / 2);
+        //valueLabel_.relocate((getWidth() - valueLabel_.getWidth()) / 4,
+               // (getHeight() - valueLabel_.getHeight()) / 2);
+        
+        
+        
+        valueLabel_.setMaxWidth(this.getWidth()/2);
+        valueLabel_.setMaxHeight(this.getHeight());
+        
+        Text measureText = new Text(valueLabel_.getText());
+        double layoutX = (this.getWidth()/2 - measureText.getLayoutBounds().getWidth())/2;
+        double layoutY = (this.getHeight() - measureText.getLayoutBounds().getHeight())/2;
+        
+        double amountOfRoomHeight = this.getHeight() - measureText.getLayoutBounds().getHeight();
+        
+        layoutY = amountOfRoomHeight / 2;
+       if (layoutX < 0)
+       {
+           layoutX = 0;
+       }
+       else if (layoutY < 0)
+       {
+           layoutY = 0;
+       }
+       
+       if (layoutY + valueLabel_.getHeight() > this.getHeight())
+       {
+           layoutY = this.getHeight() - valueLabel_.getMaxHeight();
+       }
+
+        valueLabel_.relocate(layoutX,layoutY);
+        
+                
     }
 
     // Private Member Variables

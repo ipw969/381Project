@@ -1,7 +1,11 @@
 package views;
 
 import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
+import javafx.scene.Cursor;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
@@ -60,6 +64,8 @@ public class LinkedListViewElement extends WorkSpaceViewElement {
                 tailCircle_);
         
 
+        setLabelEditable(countLabel_, "count");
+        countLabel_.setWrapText(true);
         // Incase we get resized we really should listen for this an update the
         // canvas appropriately.
         widthProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
@@ -83,6 +89,14 @@ public class LinkedListViewElement extends WorkSpaceViewElement {
         setSize(element.getWidth(), element.getHeight());
         backgroundRectangle_.setWidth(getWidth() - 1);
         backgroundRectangle_.setHeight(getHeight() - 1);
+        
+
+        countLabel_.setPrefWidth(this.getWidth());
+        countLabel_.setMaxHeight(this.getHeight() - countLabel_.getLayoutY());
+        
+
+        
+        
     }
 
     //  Private Member Variables
@@ -93,5 +107,6 @@ public class LinkedListViewElement extends WorkSpaceViewElement {
     private final Circle headCircle_;
     private final Circle tailCircle_;
     
+    private Label editLabel_;
 
 }
