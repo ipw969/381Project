@@ -87,7 +87,7 @@ public class LinkedListNodeViewElement extends WorkSpaceViewElement {
         double layoutX = (this.getWidth()/2 - measureText.getLayoutBounds().getWidth())/2;
         double layoutY = (this.getHeight() - measureText.getLayoutBounds().getHeight())/2;
         
-        double amountOfRoomHeight = this.getHeight() - measureText.getLayoutBounds().getHeight();
+        double amountOfRoomHeight = this.getHeight() - valueLabel_.getHeight();
         
         layoutY = amountOfRoomHeight / 2;
        if (layoutX < 0)
