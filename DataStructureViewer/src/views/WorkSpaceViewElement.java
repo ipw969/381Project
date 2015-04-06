@@ -39,6 +39,7 @@ public abstract class WorkSpaceViewElement extends Pane {
      */
     public WorkSpaceViewElement(WorkSpaceGraphElement element) {
         element_ = element;
+        onHotspotClicked_ = new EventHandler<HotspotEvent>();
         this.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>(){
             public void handle(MouseEvent event)
             {
@@ -246,7 +247,7 @@ public abstract class WorkSpaceViewElement extends Pane {
         {
             public void handle(MouseEvent event)
             {
-                
+                onHotspotClicked_.handle(hotspot, WorkSpaceViewElement.this);
             }
         });
     }
@@ -329,5 +330,6 @@ public abstract class WorkSpaceViewElement extends Pane {
     
     private Label editLabel_;
     
+    private EventHandler<HotspotEvent> onHotspotClicked_;
     private LinkedList<HotSpotView> hotspots;
 }

@@ -6,6 +6,7 @@
 package views;
 
 import javafx.scene.shape.Circle;
+import models.HotSpot;
 
 /**
  *
@@ -13,19 +14,18 @@ import javafx.scene.shape.Circle;
  */
 public class HotSpotView extends Circle{
     private Enumerators.Enumerators.HotSpotType type_;
+    protected HotSpot hotSpotModel_;
+
     
-    public HotSpotView(Enumerators.Enumerators.HotSpotType type)
-    {
-       type_ = type;
-       setTypeStyle();
-    }
-    
-    public HotSpotView(Enumerators.Enumerators.HotSpotType type, double x, double y)
+    public HotSpotView(Enumerators.Enumerators.HotSpotType type, HotSpot hotSpotModel)
     {
         type_ = type;
+        hotSpotModel_ = hotSpotModel;
         setTypeStyle();
-        this.setCenterX(x);
-        this.setCenterY(y);
+        hotSpotModel.setParent(this);
+        this.setCenterX(hotSpotModel_.getHotSpotx());
+        this.setCenterY(hotSpotModel_.getHotSpoty());
+        
     }
     
     
@@ -40,5 +40,11 @@ public class HotSpotView extends Circle{
         {
             this.setStyle("-fx-background-color: BLUE");
         }
+    }
+    
+    public void onHotSpotMoved()
+    {
+        this.setCenterX(hotSpotModel_.getHotSpotx());
+        this.setCenterY(hotSpotModel_.getHotSpoty());
     }
 }
