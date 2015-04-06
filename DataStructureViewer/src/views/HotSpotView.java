@@ -7,6 +7,7 @@ package views;
 
 import javafx.scene.shape.Circle;
 import models.HotSpot;
+import models.WorkSpaceGraphElement;
 
 /**
  *
@@ -17,12 +18,12 @@ public class HotSpotView extends Circle{
     protected HotSpot hotSpotModel_;
 
     
-    public HotSpotView(Enumerators.Enumerators.HotSpotType type, HotSpot hotSpotModel)
+    public HotSpotView(Enumerators.Enumerators.HotSpotType type, HotSpot hotSpotModel, WorkSpaceGraphElement parent)
     {
         type_ = type;
         hotSpotModel_ = hotSpotModel;
         setTypeStyle();
-        hotSpotModel.setParent(this);
+        hotSpotModel.setParent(parent);
         this.setCenterX(hotSpotModel_.getHotSpotx());
         this.setCenterY(hotSpotModel_.getHotSpoty());
         
@@ -51,5 +52,10 @@ public class HotSpotView extends Circle{
     public Enumerators.Enumerators.HotSpotType getHotSpotType()
     {
         return type_;
+    }
+    
+    public HotSpot getHotSpot()
+    {
+        return hotSpotModel_;
     }
 }

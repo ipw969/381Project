@@ -1,5 +1,6 @@
 package views;
 
+import events.PathEvent;
 import factories.WorkSpaceViewElementFactory;
 import java.util.ArrayList;
 import java.util.List;
@@ -283,11 +284,43 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
         
     }
     
-    public void startPath(HotSpot h)
+    public void startPath(HotSpotView hotspot)
     {
-        tempLine = new Line();
+        HotSpot h = hotspot.getHotSpot();
+        tempLine = new Line(h.getParent().getX()+h.getHotSpotx(), h.getParent().getY()+h.getHotSpoty(), 0, 0);
         tempStart = h;
     }
+    
+    public void updateCurrentPath(double x, double y)
+    {
+        if(tempLine.getStartX()!= 0 && tempLine.getStartY() != 0)
+            {
+                tempLine.setEndX(x);
+                tempLine.setEndY(y);
+                
+            }
+    }
+    
+    public void onPathDrawComplete(EventHandler<PathEvent> handler)
+    {
+        onPathDrawComplete_ = handler; 
+    }
+    
+    public void endPath(HotSpotView hotspot)
+    {
+        HotSpot h = hotspot.getHotSpot();
+        tempLine.setStartX(0);
+        tempLine.setStartY(0);
+        tempLine.setEndX(0);
+        tempLine.setEndY(0);
+        
+        if(onPathDrawComplete_ != null)
+        {
+            onPathDrawComplete_.handle(new PathEvent(new Path(tempStart, h)));
+        }
+    }
+    
+
 
     // Private Methods
 
@@ -329,4 +362,5 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
     private ArrayList<PathView> paths_;
     private Line tempLine;
     private HotSpot tempStart;
+    private EventHandler<PathEvent> onPathDrawComplete_;
 }

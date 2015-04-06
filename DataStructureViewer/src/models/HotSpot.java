@@ -55,12 +55,18 @@ public class HotSpot {
         return type_;
     }
     
-    public void setParent(HotSpotView parent)
+    public void setParent(WorkSpaceGraphElement parent)
     {
         parent_ = parent;
     }
+    
+    public WorkSpaceGraphElement getParent()
+    {
+        return parent_;
+    }
+    
     private double cx_, cy_;
     private HotSpotType type_;
-    private HotSpotView parent_;
+    private WorkSpaceGraphElement parent_;
     
 }

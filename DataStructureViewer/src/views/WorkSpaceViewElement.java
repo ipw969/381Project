@@ -3,8 +3,6 @@ package views;
 import Enumerators.Enumerators;
 import Enumerators.Enumerators.TransformerLocation;
 import java.util.LinkedList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.animation.ScaleTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -18,6 +16,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
+import models.HotSpot;
 import models.WorkSpaceGraphElement;
 
 /**
@@ -240,7 +239,8 @@ public abstract class WorkSpaceViewElement extends Pane {
      */
     protected void addHotspot(double x, double y, Enumerators.HotSpotType type)
     {
-        HotSpotView hotspot = new HotSpotView(type,x,y);
+        HotSpot h = new HotSpot(x, y, type);
+        HotSpotView hotspot = new HotSpotView(type, h, this.getElement());
         this.getChildren().add(hotspot);
         
         hotspot.setOnMouseClicked(new EventHandler<MouseEvent>()
