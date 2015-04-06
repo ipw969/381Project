@@ -5,10 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
+import models.HotSpot;
+import models.Path;
 import models.WorkSpaceGraph;
 import models.WorkSpaceGraphElement;
 import models.WorkSpaceGraphListener;
@@ -27,16 +29,18 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
     public WorkSpaceView() {
         viewElements_ = new ArrayList<>();
         selectionSet_ = new ArrayList<>();
-
+        paths_ = new ArrayList<>();
+        
         selectionRectangle_ = new Rectangle(0, 0, 0, 0);
         selectionRectangle_.setStroke(Color.WHITE);
         selectionRectangle_.setStrokeWidth(2);
         selectionRectangle_.setFill(Color.rgb(100, 149, 237, 0.6));
         elementPane_ = new Pane();
+        pathPane_ = new Pane();
         Pane selectionOverlayPane = new Pane();
         selectionOverlayPane.getChildren().add(selectionRectangle_);
 
-        this.getChildren().addAll(elementPane_, selectionOverlayPane);
+        this.getChildren().addAll(elementPane_, selectionOverlayPane, pathPane_);
 
         elementPane_.setPickOnBounds(false);
         selectionOverlayPane.setPickOnBounds(false);
@@ -269,6 +273,21 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
             element.translate(deltaX, deltaY);
         }
     }
+    
+    public void onPathAdded(Path path)
+    {
+        
+        PathView newPath = new PathView(path);
+        paths_.add(newPath);
+        pathPane_.getChildren().add(newPath);
+        
+    }
+    
+    public void startPath(HotSpot h)
+    {
+        tempLine = new Line();
+        tempStart = h;
+    }
 
     // Private Methods
 
@@ -297,11 +316,17 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
             }
         }
     }
+    
+    
 
     // Private Member Variables
     private final Pane elementPane_;
+    private final Pane pathPane_;
     private final Rectangle selectionRectangle_;
     private WorkSpaceGraph workSpaceGraph_;
     private final ArrayList<WorkSpaceViewElement> viewElements_;
     private final List<WorkSpaceViewElement> selectionSet_;
+    private ArrayList<PathView> paths_;
+    private Line tempLine;
+    private HotSpot tempStart;
 }
