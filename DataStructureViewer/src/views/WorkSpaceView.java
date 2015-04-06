@@ -225,6 +225,21 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
                 return;
             }            
         }
+        
+        for (PathView p : paths_)
+        {
+            Path temp = p.getPath();
+            if(temp.getStart().getParent().equals(element))
+            {
+                p.setStartX(element.getX()+temp.getStart().getHotSpotx());
+                p.setStartY(element.getY()+temp.getStart().getHotSpoty());
+            }
+            else if(temp.getEnd().getParent() == element)
+            {
+                p.setEndX(element.getX()+temp.getEnd().getHotSpotx());
+                p.setEndY(element.getY()+temp.getEnd().getHotSpoty());
+            }
+        }
     }
 
     /**
@@ -320,7 +335,6 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
         }
     }
     
-
 
     // Private Methods
 
