@@ -1,6 +1,6 @@
 package datastructureviewer;
 
-import controllers.PathController;
+//import controllers.PathController;
 import controllers.WorkSpaceController;
 import javafx.application.Application;
 import javafx.scene.Scene;

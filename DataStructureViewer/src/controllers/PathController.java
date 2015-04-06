@@ -20,7 +20,7 @@ import views.WorkSpaceView;
 /**
  *
  * @author anjagilje
- */
+ *//*
 public class PathController {
     
     public PathController(WorkSpaceGraph model, WorkSpaceView view)
@@ -133,3 +133,4 @@ public class PathController {
     
     
 }
+*/

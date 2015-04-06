@@ -47,4 +47,9 @@ public class HotSpotView extends Circle{
         this.setCenterX(hotSpotModel_.getHotSpotx());
         this.setCenterY(hotSpotModel_.getHotSpoty());
     }
+    
+    public Enumerators.Enumerators.HotSpotType getHotSpotType()
+    {
+        return type_;
+    }
 }
