@@ -5,29 +5,23 @@
  */
 package models;
 
-import java.util.ArrayList;
-
 /**
  *
  * @author anjagilje
  */
 public class Path {
-     private ArrayList<Leg> legs;
+     private WorkSpaceGraphElement start_;
+     private WorkSpaceGraphElement end_;
     
-    public Path()
+    public Path(WorkSpaceGraphElement start)
     {
-        legs = new ArrayList();
+        start_ = start;
     }
     
-    public void addLeg(Double x1, Double y1, Double x2, Double y2)
-    {
-        Leg temp = new Leg(x1, y1, x2, y2);
-        legs.add(temp);
+    public void setEnd(WorkSpaceGraphElement end) {
+        end_ = end;
     }
     
-    public ArrayList<Leg> getLegs()
-    {
-        return legs;
-    }
-    
+    public WorkSpaceGraphElement getStart() {return start_;}
+    public WorkSpaceGraphElement getEnd() {return end_;}
 }
