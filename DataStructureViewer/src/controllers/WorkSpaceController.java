@@ -24,6 +24,8 @@ import models.LinkedListElement;
 import models.Path;
 import models.WorkSpaceGraph;
 import models.WorkSpaceGraphElement;
+import views.HotSpotView;
+import views.PathView;
 import views.TransformSpot;
 import views.WorkSpaceView;
 
@@ -90,6 +92,11 @@ public class WorkSpaceController {
         viewContextMenu_.getItems().addAll(sendToBackMenuItem,
                 bringToFrontMenuItem, deleteElementMenuItem);
 
+        //Handle the mouse being movved over the view.
+        
+        view.setOnMouseMoved((MouseEvent event) -> {
+           view_.updateCurrentPath(event.getX(), event.getY()); 
+        });
         // Mouse being clicked on the view
         view.setOnMousePressed((MouseEvent event) -> {
             if (event.getButton() == MouseButton.PRIMARY) {
@@ -102,7 +109,23 @@ public class WorkSpaceController {
                 mouseY_ = event.getY();
                 selectionController_.startSelectionAt(event.getX(), event.getY());
 
-            } else if (event.getButton() == MouseButton.SECONDARY) {
+            } 
+            else if (event.getButton() == MouseButton.PRIMARY && event.isAltDown())
+            {
+                if (event.getTarget() instanceof HotSpotView)
+                {
+                   HotSpotView hotspot = (HotSpotView) event.getTarget();
+                   if (hotspot.getHotSpotType().equals(Enumerators.HotSpotType.OUTGOING))
+                   {
+                       view_.startPath(hotspot);
+                   }
+                   else 
+                   {
+                       view_.endPath(hotspot);
+                   }
+                }
+            }
+            else if (event.getButton() == MouseButton.SECONDARY) {
                 // Do Nothing
             }
             
@@ -203,6 +226,12 @@ public class WorkSpaceController {
         });
     }
 
+    
+    
+    public void onPathAdded(PathView path)
+    {
+        model_.addConnector(path.getPath());
+    }
     /**
      * Move the elements that are currently selected in the GraphView. Informs
      * the graphview that the element need to move.

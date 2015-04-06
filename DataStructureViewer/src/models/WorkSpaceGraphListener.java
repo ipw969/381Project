@@ -8,6 +8,8 @@ package models;
  */
 public interface WorkSpaceGraphListener {
 
+    public void onPathAdded(Path path);
+    
     /**
      * Method which defines behavior for a WorkSpaceGraphElement being added
      *

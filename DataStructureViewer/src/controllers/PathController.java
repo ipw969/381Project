@@ -20,7 +20,7 @@ import views.WorkSpaceView;
 /**
  *
  * @author anjagilje
- */
+ *//*
 public class PathController {
     
     public PathController(WorkSpaceGraph model, WorkSpaceView view)
@@ -28,13 +28,7 @@ public class PathController {
            pathModel_ = model;
            pathView_ = view;
 
-           ltemp = new Line();
-           ltemp.setStartX(0);
-           ltemp.setStartY(0);
-           ltemp.setEndX(0);
-           ltemp.setEndY(0);
-           ptemp = new Path();
-           
+         
            //Mouse being clicked on view
            view.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>()
            {
@@ -43,13 +37,14 @@ public class PathController {
                if(event.isAltDown() && event.isPrimaryButtonDown() && pathModel_.isHotSpot(event.getX(), event.getY()) != null)
                 {  
                     HotSpot h = pathModel_.isHotSpot(event.getX(), event.getY());
+                    System.out.println("You clicked on a hotspot");
                    if(h.getHotSpotType() == HotSpotType.OUTGOING)
                    {
 
                         ltemp.setStartX(h.getHotSpotx());
                         ltemp.setStartY(h.getHotSpoty());
-                        ltemp.setEndX(event.getX());
-                        ltemp.setEndY(event.getY());
+                        ltemp.setEndX(h.getHotSpotx());
+                        ltemp.setEndY(h.getHotSpotx());
                    }
                    else
                    {
@@ -138,3 +133,4 @@ public class PathController {
     
     
 }
+*/

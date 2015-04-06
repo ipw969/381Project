@@ -2,6 +2,7 @@ package views;
 
 import Enumerators.Enumerators;
 import Enumerators.Enumerators.TransformerLocation;
+import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.ScaleTransition;
@@ -38,6 +39,7 @@ public abstract class WorkSpaceViewElement extends Pane {
      */
     public WorkSpaceViewElement(WorkSpaceGraphElement element) {
         element_ = element;
+        onHotspotClicked_ = new EventHandler<HotspotEvent>();
         this.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>(){
             public void handle(MouseEvent event)
             {
@@ -231,6 +233,25 @@ public abstract class WorkSpaceViewElement extends Pane {
         this.getElement().translate(deltaX, deltaY);
     }
     
+    /**Creates a new Hotspot and adds it to center at the given coordinates.
+     * 
+     * @param x the x coordinate of the center of this hotspot
+     * @param y the y coordinate for the center of this hotspot
+     */
+    protected void addHotspot(double x, double y, Enumerators.HotSpotType type)
+    {
+        HotSpotView hotspot = new HotSpotView(type,x,y);
+        this.getChildren().add(hotspot);
+        
+        hotspot.setOnMouseClicked(new EventHandler<MouseEvent>()
+        {
+            public void handle(MouseEvent event)
+            {
+                onHotspotClicked_.handle(hotspot, WorkSpaceViewElement.this);
+            }
+        });
+    }
+    
     /**Sets up the appropriate listeners for the given label to be editable by the user.
      * @param label ~ The label to set to be editable.
      * @param defaultText ~ The default text of the node. Prevents the text in the label from being a proper substring of the given string.
@@ -308,4 +329,7 @@ public abstract class WorkSpaceViewElement extends Pane {
     private double timeDeletionTolerance_ = 500;
     
     private Label editLabel_;
+    
+    private EventHandler<HotspotEvent> onHotspotClicked_;
+    private LinkedList<HotSpotView> hotspots;
 }

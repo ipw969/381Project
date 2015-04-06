@@ -6,6 +6,7 @@
 package models;
 
 import Enumerators.Enumerators.HotSpotType;
+import views.HotSpotView;
 
 /**
  *
@@ -54,7 +55,12 @@ public class HotSpot {
         return type_;
     }
     
+    public void setParent(HotSpotView parent)
+    {
+        parent_ = parent;
+    }
     private double cx_, cy_;
     private HotSpotType type_;
+    private HotSpotView parent_;
     
 }

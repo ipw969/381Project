@@ -5,29 +5,20 @@
  */
 package models;
 
-import java.util.ArrayList;
-
 /**
  *
  * @author anjagilje
  */
 public class Path {
-     private ArrayList<Leg> legs;
+     private final HotSpot start_;
+     private final HotSpot end_;
     
-    public Path()
+    public Path(HotSpot start, HotSpot end)
     {
-        legs = new ArrayList();
+        start_ = start;
+        end_ = end;
     }
     
-    public void addLeg(Double x1, Double y1, Double x2, Double y2)
-    {
-        Leg temp = new Leg(x1, y1, x2, y2);
-        legs.add(temp);
-    }
-    
-    public ArrayList<Leg> getLegs()
-    {
-        return legs;
-    }
-    
+    public HotSpot getStart() {return start_;}
+    public HotSpot getEnd() {return end_;}
 }
