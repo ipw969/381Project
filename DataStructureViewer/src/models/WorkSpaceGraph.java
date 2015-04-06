@@ -18,11 +18,18 @@ public class WorkSpaceGraph {
     public WorkSpaceGraph() {
         elements_ = new ArrayList<>();
         subscribers_ = new ArrayList<>();
-        connectors_ = new ArrayList<>();
+        paths_ = new ArrayList<>();
         hotSpots_ = new ArrayList<>();
     }
 
     // Public Methods
+    public void addPath(HotSpot start, HotSpot end) {
+        Path newPath = new Path(start, end);
+        
+        this.paths_.add(newPath);
+        notifySubscribersOfPathAdd(newPath);
+    }
+    
     /**
      * Adds the provided WorkSpaceGraphElement to this WorkSpaceGraph as a node
      *
@@ -52,13 +59,13 @@ public class WorkSpaceGraph {
      @param p :: Path - the path to add as a connector to the graph**/
     public void addConnector(Path p)
     {
-        connectors_.add(p);
+        paths_.add(p);
     }
     
     /**Passes the lists of connectors**/
     public ArrayList<Path> getConnectors()
     {
-        return connectors_;
+        return paths_;
     }
     
     /**Add the provided HotSpot to the Array
@@ -198,6 +205,12 @@ public class WorkSpaceGraph {
     }
     // Private Methods
 
+    public void notifySubscribersOfPathAdd(Path path) {
+        for (WorkSpaceGraphListener subscriber: subscribers_) {
+            subscriber.onPathAdded(path);
+        }
+    }
+    
     /**
      * Notifies all subscribers that a WorkSpaceGraphElement has been added to
      * this WorkSpaceGraph
@@ -288,6 +301,6 @@ public class WorkSpaceGraph {
     // Private Member Variables
     private final ArrayList<WorkSpaceGraphElement> elements_;
     private final ArrayList<WorkSpaceGraphListener> subscribers_;
-    private final ArrayList<Path> connectors_;
+    private final ArrayList<Path> paths_;
     private final ArrayList<HotSpot> hotSpots_;
 }
