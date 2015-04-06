@@ -10,18 +10,15 @@ package models;
  * @author anjagilje
  */
 public class Path {
-     private WorkSpaceGraphElement start_;
-     private WorkSpaceGraphElement end_;
+     private final HotSpot start_;
+     private final HotSpot end_;
     
-    public Path(WorkSpaceGraphElement start)
+    public Path(HotSpot start, HotSpot end)
     {
         start_ = start;
-    }
-    
-    public void setEnd(WorkSpaceGraphElement end) {
         end_ = end;
     }
     
-    public WorkSpaceGraphElement getStart() {return start_;}
-    public WorkSpaceGraphElement getEnd() {return end_;}
+    public HotSpot getStart() {return start_;}
+    public HotSpot getEnd() {return end_;}
 }
