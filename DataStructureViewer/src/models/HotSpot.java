@@ -14,12 +14,12 @@ import Enumerators.Enumerators.HotSpotType;
 public class HotSpot {
     
     //Constructors
-    public HotSpot(double nx, double ny, HotSpotType nt)
+    public HotSpot(double nx, double ny, HotSpotType nt, WorkSpaceGraphElement parent)
     {
         cx_ = nx;
         cy_ = ny;
         type_ = nt;
-        
+        parent_ = parent;
            
     }
     
@@ -30,24 +30,27 @@ public class HotSpot {
          return (dist < 7);
      }
     
-    public double getHotSpotx()
+    public double getX()
     {
         return cx_;
     }
     
-    public double getHotSpoty()
+    public double getY()
     {
         return cy_;
+    }
+    
+    public double getTotalX() {
+        return cx_ + parent_.getX();
+    }
+    
+    public double getTotalY() {
+        return cy_ + parent_.getY();
     }
     
     public HotSpotType getHotSpotType()
     {
         return type_;
-    }
-    
-    public void setParent(WorkSpaceGraphElement parent)
-    {
-        parent_ = parent;
     }
     
     public WorkSpaceGraphElement getParent()
@@ -56,7 +59,7 @@ public class HotSpot {
     }
     
     private double cx_, cy_;
-    private HotSpotType type_;
-    private WorkSpaceGraphElement parent_;
+    private final HotSpotType type_;
+    private final WorkSpaceGraphElement parent_;
     
 }

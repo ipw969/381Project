@@ -1,5 +1,8 @@
 package models;
 
+import Enumerators.Enumerators;
+import Enumerators.Enumerators.HotSpotType;
+
 /**
  *  A class representing a Node of a LinkedList
  * @author Iain Workman
@@ -20,6 +23,8 @@ public class LinkedListNodeElement extends WorkSpaceGraphElement  {
     public LinkedListNodeElement(double positionX, double positionY, int zIndex, WorkSpaceGraph parent) {
         super(positionX, positionY, zIndex, 65, 40, 65, 40, parent);
         value_ = 0;
+        
+        this.getHotSpots().add(new HotSpot(10, 10, HotSpotType.INCOMING, this));
     }
     
     // Public Methods

@@ -23,8 +23,8 @@ public class LinkedListElement extends WorkSpaceGraphElement {
     public LinkedListElement(double positionX, double positionY, int zIndex, WorkSpaceGraph parent) {
         super(positionX, positionY, zIndex, 90, 75, 90, 75, parent);
 
-        headHotSpot_ = new HotSpot(60, 15, HotSpotType.OUTGOING);
-        tailHotSpot_ = new HotSpot(60, 35, HotSpotType.OUTGOING);
+        headHotSpot_ = new HotSpot(60, 15, HotSpotType.OUTGOING, this);
+        tailHotSpot_ = new HotSpot(60, 35, HotSpotType.OUTGOING, this);
 
         getHotSpots().add(headHotSpot_);
         getHotSpots().add(tailHotSpot_);

@@ -48,7 +48,7 @@ public abstract class WorkSpaceViewElement extends StackPane {
         this.getChildren().addAll(componentsPane_, hotSpotPane_);
         
         for (HotSpot hotspot : element.getHotSpots()) {
-            HotSpotView hotSpotView = new HotSpotView(hotspot, element);
+            HotSpotView hotSpotView = new HotSpotView(hotspot);
             
             hotSpotView.setOnMouseClicked((MouseEvent e) -> {
                 if(e.getButton() == MouseButton.PRIMARY && onHotSpotClicked_ != null) {

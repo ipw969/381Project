@@ -16,7 +16,8 @@ public class PathView extends Line{
     
     public PathView(Path path)
     {
-        super();
+        super(path.getStart().getTotalX(), path.getStart().getTotalY(),
+              path.getEnd().getTotalX(), path.getEnd().getTotalY());
         path_ = path;
     }
     
@@ -25,6 +26,6 @@ public class PathView extends Line{
         return path_;
     }
     
-    private Path path_;
+    private final Path path_;
     
 }

@@ -23,11 +23,10 @@ public class WorkSpaceGraph {
     }
 
     // Public Methods
-    public void addPath(HotSpot start, HotSpot end) {
-        Path newPath = new Path(start, end);
-        
-        this.paths_.add(newPath);
-        notifySubscribersOfPathAdd(newPath);
+    public void addPath(Path path) {
+      
+        this.paths_.add(path);
+        notifySubscribersOfPathAdd(path);
     }
     
     /**
@@ -206,6 +205,7 @@ public class WorkSpaceGraph {
     // Private Methods
 
     public void notifySubscribersOfPathAdd(Path path) {
+        System.out.println("Notifying Subs in model");
         for (WorkSpaceGraphListener subscriber: subscribers_) {
             subscriber.onPathAdded(path);
         }

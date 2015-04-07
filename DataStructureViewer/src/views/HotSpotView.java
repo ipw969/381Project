@@ -9,8 +9,6 @@ import Enumerators.Enumerators.HotSpotType;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import models.HotSpot;
-import models.WorkSpaceGraphElement;
-
 /**
  *
  * @author Ryan
@@ -19,13 +17,12 @@ public class HotSpotView extends Circle{
     protected HotSpot hotSpotModel_;
 
     
-    public HotSpotView(HotSpot hotSpotModel, WorkSpaceGraphElement parent)
+    public HotSpotView(HotSpot hotSpotModel)
     {
         hotSpotModel_ = hotSpotModel;
         setTypeStyle();
-        hotSpotModel.setParent(parent);
-        this.setCenterX(hotSpotModel_.getHotSpotx());
-        this.setCenterY(hotSpotModel_.getHotSpoty());
+        this.setCenterX(hotSpotModel_.getX());
+        this.setCenterY(hotSpotModel_.getY());
         this.setRadius(6);
         this.setStrokeWidth(0);
     }
@@ -46,8 +43,8 @@ public class HotSpotView extends Circle{
     
     public void onHotSpotMoved()
     {
-        this.setCenterX(hotSpotModel_.getHotSpotx());
-        this.setCenterY(hotSpotModel_.getHotSpoty());
+        this.setCenterX(hotSpotModel_.getX());
+        this.setCenterY(hotSpotModel_.getY());
     }
     
     public HotSpot getHotSpot()
