@@ -24,7 +24,7 @@ public class LinkedListNodeViewElement extends WorkSpaceViewElement {
 
         // Initialize UI
         backgroundRectangle_ = new Rectangle(0, 0, getWidth() - 1, getHeight() - 1);
-        backgroundRectangle_.setFill(Color.web("#311b92"));        
+        backgroundRectangle_.setFill(Color.web("#311b92"));
 
         dividingLine_ = new Line();
         dividingLine_.setStroke(Color.WHITE);
@@ -34,7 +34,7 @@ public class LinkedListNodeViewElement extends WorkSpaceViewElement {
         valueLabel_ = new Label("0");
         valueLabel_.setTextFill(Color.WHITE);
         valueLabel_.setFont(Font.font("Arial", FontWeight.NORMAL, 16));
-        
+
         // Add components
         getComponentsPane().getChildren().addAll(backgroundRectangle_,
                 dividingLine_,
@@ -76,37 +76,30 @@ public class LinkedListNodeViewElement extends WorkSpaceViewElement {
 
         // Position Label
         //valueLabel_.relocate((getWidth() - valueLabel_.getWidth()) / 4,
-               // (getHeight() - valueLabel_.getHeight()) / 2);
-        
-        
-        
-        valueLabel_.setMaxWidth(this.getWidth()/2);
+        // (getHeight() - valueLabel_.getHeight()) / 2);
+        valueLabel_.setMaxWidth(this.getWidth() / 2);
         valueLabel_.setMaxHeight(this.getHeight());
-        
-        Text measureText = new Text(valueLabel_.getText());
-        double layoutX = (this.getWidth()/2 - measureText.getLayoutBounds().getWidth())/2;
-        double layoutY = (this.getHeight() - measureText.getLayoutBounds().getHeight())/2;
-        
-        double amountOfRoomHeight = this.getHeight() - valueLabel_.getHeight();
-        
-        layoutY = amountOfRoomHeight / 2;
-       if (layoutX < 0)
-       {
-           layoutX = 0;
-       }
-       else if (layoutY < 0)
-       {
-           layoutY = 0;
-       }
-       
-       if (layoutY + valueLabel_.getHeight() > this.getHeight())
-       {
-           layoutY = this.getHeight() - valueLabel_.getMaxHeight();
-       }
 
-        valueLabel_.relocate(layoutX,layoutY);
-        
-                
+        Text measureText = new Text(valueLabel_.getText());
+        double layoutX = (this.getWidth() / 2 - measureText.getLayoutBounds().getWidth()) / 2;
+        double layoutY = (this.getHeight() - measureText.getLayoutBounds().getHeight()) / 2;
+
+        double amountOfRoomHeight = this.getHeight() - valueLabel_.getHeight();
+
+        layoutY = amountOfRoomHeight / 2;
+        if (layoutX < 0) {
+            layoutX = 0;
+        } else if (layoutY < 0) {
+            layoutY = 0;
+        }
+
+        if (layoutY + valueLabel_.getHeight() > this.getHeight()) {
+            layoutY = this.getHeight() - valueLabel_.getMaxHeight();
+        }
+
+        valueLabel_.relocate(layoutX, layoutY);
+        updateHotSpots();
+
     }
 
     // Private Member Variables

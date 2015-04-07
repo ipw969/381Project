@@ -40,6 +40,14 @@ public class HotSpot {
         return cy_;
     }
     
+    public void setX(double nx) {
+        cx_ = nx;
+    }
+    
+    public void setY(double ny) {
+        cy_ = ny;
+    }
+    
     public double getTotalX() {
         return cx_ + parent_.getX();
     }

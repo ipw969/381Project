@@ -3,7 +3,9 @@ package views;
 import Enumerators.Enumerators;
 import Enumerators.Enumerators.TransformerLocation;
 import events.HotSpotEvent;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import javafx.animation.ScaleTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -41,87 +43,81 @@ public abstract class WorkSpaceViewElement extends StackPane {
      */
     public WorkSpaceViewElement(WorkSpaceGraphElement element) {
         element_ = element;
-        
+        hotSpotViews_ = new ArrayList<>();
         componentsPane_ = new Pane();
         hotSpotPane_ = new Pane();
-        
+
         this.getChildren().addAll(componentsPane_, hotSpotPane_);
-        
+
         for (HotSpot hotspot : element.getHotSpots()) {
             HotSpotView hotSpotView = new HotSpotView(hotspot);
-            
+
             hotSpotView.setOnMouseClicked((MouseEvent e) -> {
-                if(e.getButton() == MouseButton.PRIMARY && onHotSpotClicked_ != null) {
+                if (e.getButton() == MouseButton.PRIMARY && onHotSpotClicked_ != null) {
                     onHotSpotClicked_.handle(new HotSpotEvent(hotspot, this));
                 }
             });
-            
+
+            hotSpotViews_.add(hotSpotView);
             hotSpotPane_.getChildren().add(hotSpotView);
         }
-        
-        this.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>(){
-            public void handle(MouseEvent event)
-            {
+
+        this.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent event) {
                 previousTime_ = System.currentTimeMillis();
                 previousX_ = element.getX();
                 previousY_ = element.getY();
             }
         });
-        
-        this.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>(){
-            public void handle(MouseEvent event)
-            {
+
+        this.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent event) {
 
                 double timeDifference = System.currentTimeMillis() - previousTime_;
                 double dx = Math.abs(element_.getX() - previousX_);
                 double dy = Math.abs(element_.getY() - previousY_);
-                if (timeDifference < timeDeletionTolerance_ && ((dx > deletionDistanceTolerance_ || dy > deletionDistanceTolerance_) || (dx > (deletionDistanceTolerance_ * 0.75) && dy > (deletionDistanceTolerance_ * 0.75))))
-                {
-                          ((WorkSpaceView)  getParent().getParent()).deleteSelectionModel();
+                if (timeDifference < timeDeletionTolerance_ && ((dx > deletionDistanceTolerance_ || dy > deletionDistanceTolerance_) || (dx > (deletionDistanceTolerance_ * 0.75) && dy > (deletionDistanceTolerance_ * 0.75)))) {
+                    ((WorkSpaceView) getParent().getParent()).deleteSelectionModel();
 
+                } else if (WorkSpaceViewElement.this.getElement().getX() < 0 && WorkSpaceViewElement.this.getElement().getY() < 0) {
+                    ((WorkSpaceView) getParent().getParent()).deleteSelectionModel();
                 }
-                else if(WorkSpaceViewElement.this.getElement().getX() < 0 && WorkSpaceViewElement.this.getElement().getY() < 0)
-                {
-                     ((WorkSpaceView)  getParent().getParent()).deleteSelectionModel();
-                }
- 
+
             }
         });
     }
 
-    /**This method should be called whenever this viewElement is to be deleted. It plays a shrink animation before it is deleted.
-     * This will result in this element being removed from the GraphView and the GraphModel.
+    /**
+     * This method should be called whenever this viewElement is to be deleted.
+     * It plays a shrink animation before it is deleted. This will result in
+     * this element being removed from the GraphView and the GraphModel.
+     *
      * @param event The task to perform after the deletion.
      */
-    public void onDelete(EventHandler<ActionEvent> event)
-    {
-        
+    public void onDelete(EventHandler<ActionEvent> event) {
+
         ScaleTransition deleteAnimation = new ScaleTransition(Duration.millis(1000), this);
         deleteAnimation.setToX(0);
         deleteAnimation.setToY(0);
         deleteAnimation.play();
-        if (event == null)
-        {
-            event = new EventHandler<ActionEvent>(){
+        if (event == null) {
+            event = new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                     element_.delete();
+                    element_.delete();
                 }
             };
-        }       
-                    
+        }
+
         deleteAnimation.setOnFinished(event);
 
-
-        
     }
-    
+
     // Public Methods
-    
     public Pane getComponentsPane() {
         return componentsPane_;
     }
-    
+
     /**
      * Abstract method which updates the WorkSpaceViewElement when its data had
      * been changed.
@@ -198,9 +194,10 @@ public abstract class WorkSpaceViewElement extends StackPane {
         this.setPrefWidth(width);
 
     }
-    
+
     /**
      * Sets the handler for the onHotSpotClicked event
+     *
      * @param onHotSpotClicked::EventHandler<HotSpotEvent> ~ The handler which
      * will be run when the HotSpot is clicked
      */
@@ -259,72 +256,80 @@ public abstract class WorkSpaceViewElement extends StackPane {
      * undergo a transformation. It informs the model that it needs to change
      *
      * @param deltaX - The amount the mouse moved in the x coordinate plane.
-     * @ param deltaY - the amount the mouse moved in the y coordinate plane.
-     * *
+     * @ param deltaY - the amount the mouse moved in the y coordinate plane. *
      */
     public void translate(double deltaX, double deltaY) {
         this.getElement().translate(deltaX, deltaY);
     }
-    
-    /**Sets up the appropriate listeners for the given label to be editable by the user.
+
+    public List<HotSpotView> getHotSpotViews() {
+        return hotSpotViews_;
+    }
+
+    /**
+     * Sets up the appropriate listeners for the given label to be editable by
+     * the user.
+     *
      * @param label ~ The label to set to be editable.
-     * @param defaultText ~ The default text of the node. Prevents the text in the label from being a proper substring of the given string.
-     * (AKA a count label will not have its count text removed).
+     * @param defaultText ~ The default text of the node. Prevents the text in
+     * the label from being a proper substring of the given string. (AKA a count
+     * label will not have its count text removed).
      */
-    protected void setLabelEditable(Label label, String defaultText)
-    {
-        label.textProperty().addListener(new ChangeListener(){
+    protected void setLabelEditable(Label label, String defaultText) {
+        label.textProperty().addListener(new ChangeListener() {
 
             @Override
             public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-               update();
+                update();
             }
-            
+
         });
-        label.setOnMouseEntered(new EventHandler<MouseEvent>()
-                {
-                public void handle(MouseEvent event)
-                {
-                    setCursor(Cursor.TEXT);
-                    
-                }
-                });
-        
-        label.setOnMouseExited(new EventHandler<MouseEvent>()
-                {
-                    public void handle(MouseEvent event)
-                {
-                    setCursor(Cursor.DEFAULT);
-                }
-                });
-        label.setOnMousePressed(new EventHandler<MouseEvent>()
-                {
-                public void handle(MouseEvent event)
-                {
-                    editLabel_ = label;
-                    editLabel_.setFocusTraversable(true);
-                    editLabel_.requestFocus();
-                }
-                });
-        
-               setOnKeyPressed(new EventHandler<KeyEvent>()
-                {
-               public void handle(KeyEvent event)
-                {
-                    if (editLabel_ != null)
-                    {
-                        if (event.getCode().equals(KeyCode.BACK_SPACE) && editLabel_.getText().length() > defaultText.length())
-                        {
-                            editLabel_.setText(editLabel_.getText().substring(0, editLabel_.getText().length() - 1));
-                        }
-                        
-                        editLabel_.setText(editLabel_.getText() + event.getText());
+        label.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent event) {
+                setCursor(Cursor.TEXT);
+
+            }
+        });
+
+        label.setOnMouseExited(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent event) {
+                setCursor(Cursor.DEFAULT);
+            }
+        });
+        label.setOnMousePressed(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent event) {
+                editLabel_ = label;
+                editLabel_.setFocusTraversable(true);
+                editLabel_.requestFocus();
+            }
+        });
+
+        setOnKeyPressed(new EventHandler<KeyEvent>() {
+            public void handle(KeyEvent event) {
+                if (editLabel_ != null) {
+                    if (event.getCode().equals(KeyCode.BACK_SPACE) && editLabel_.getText().length() > defaultText.length()) {
+                        editLabel_.setText(editLabel_.getText().substring(0, editLabel_.getText().length() - 1));
                     }
-                    
-                    
+
+                    editLabel_.setText(editLabel_.getText() + event.getText());
                 }
-                });
+
+            }
+        });
     }
+
+    protected final void updateHotSpots() {
+        for (HotSpotView hotspotView : getHotSpotViews()) {
+            for (HotSpot hotspot : getElement().getHotSpots()) {
+                if (hotspotView.getHotSpot() == hotspot) {
+                    hotspotView.setCenterX(hotspot.getX());
+                    hotspotView.setCenterY(hotspot.getY());
+                }
+
+            }
+        }
+    }
+
     // Private Member Variables
     private final WorkSpaceGraphElement element_;
     private boolean isSelected_;
@@ -333,20 +338,18 @@ public abstract class WorkSpaceViewElement extends StackPane {
     //should occur or not.
     private double previousTime_;
 
-    
-    
     //the previous coordinates that this was located at. Used to track movement for deletion.
     private double previousX_;
     private double previousY_;
-    
+
     private double deletionDistanceTolerance_ = 750;
     private double timeDeletionTolerance_ = 500;
-    
+
     private Label editLabel_;
-    
+
     private final Pane componentsPane_;
     private final Pane hotSpotPane_;
-    
+
     private EventHandler<HotSpotEvent> onHotSpotClicked_;
-    private LinkedList<HotSpotView> hotSpots_;
+    private final ArrayList<HotSpotView> hotSpotViews_;
 }

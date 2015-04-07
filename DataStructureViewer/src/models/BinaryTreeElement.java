@@ -24,13 +24,14 @@ public class BinaryTreeElement extends WorkSpaceGraphElement {
     public BinaryTreeElement(double positionX, double positionY, int zIndex, WorkSpaceGraph parent) {
         super(positionX, positionY, zIndex, 60, 60, 60, 60, parent);
         
-        incomingHotSpot_ = new HotSpot(30, 10, HotSpotType.INCOMING, this);
+        incomingHotSpot_ = new HotSpot(30, 5, HotSpotType.INCOMING, this);
         outgoingLeft_ = new HotSpot(15, 50, HotSpotType.OUTGOING, this);
         outgoingRight_ = new HotSpot(45, 50, HotSpotType.OUTGOING, this);
         
         getHotSpots().add(incomingHotSpot_);
         getHotSpots().add(outgoingLeft_);
         getHotSpots().add(outgoingRight_);
+        resizeImplementation();
     }
 
     // Public Methods
@@ -51,9 +52,22 @@ public class BinaryTreeElement extends WorkSpaceGraphElement {
         getParent().notifySubscribersOfAlter(this);
     }
 
+    // Protected Methods
+        @Override
+    protected final void resizeImplementation() {
+        incomingHotSpot_.setX(getWidth() / 2);
+        outgoingLeft_.setX(getWidth() / 3);
+        outgoingLeft_.setY(getHeight() - 5);
+        
+        outgoingRight_.setX((getWidth() / 3) * 2);
+        outgoingRight_.setY(getHeight() - 5);        
+    }
+    
     // Private Member Variables
     private int value_;
     private final HotSpot incomingHotSpot_;
     private final HotSpot outgoingLeft_;
     private final HotSpot outgoingRight_;
+
+
 }

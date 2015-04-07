@@ -36,4 +36,9 @@ public class LinkedListElement extends WorkSpaceGraphElement {
     // Private Member Variables
     private HotSpot headHotSpot_;
     private HotSpot tailHotSpot_;
+
+    @Override
+    protected void resizeImplementation() {
+        // Nothing doing
+    }
 }

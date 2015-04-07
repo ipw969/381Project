@@ -164,6 +164,7 @@ public abstract class WorkSpaceGraphElement {
     public void setSize(double width, double height) {
         width_ = width;
         height_ = height;
+        resizeImplementation();
         parent_.notifySubscribersOfAlter(this);
     }
 
@@ -415,11 +416,8 @@ public abstract class WorkSpaceGraphElement {
         if (!((newX == this.getX()) && (newY == this.getY()) && (newWidth == currentWidth) && (newHeight == currentHeight))) {
             position_ = new Point2D(newX, newY);
             
-            width_ = newWidth;
-            height_ = newHeight;
+            setSize(newWidth, newHeight);
             
-            parent_.notifySubscribersOfAlter(this);
-
         }
     }
 
@@ -443,6 +441,12 @@ public abstract class WorkSpaceGraphElement {
     protected WorkSpaceGraph getParent() {
         return parent_;
     }
+    
+    /**
+     * Method which child classes have to implement to determine what to do on
+     * a resize (such as move around their hot spots)
+     */
+    protected abstract void resizeImplementation();
 
     // Private Member Variables
     private Point2D position_;

@@ -40,6 +40,8 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
         elementPane_ = new Pane();
         pathPane_ = new Pane();
         tempLine_ = new Line();
+        tempLine_.setStroke(Color.ORANGE);
+        tempLine_.setStrokeWidth(2);
         pathPane_.getChildren().add(tempLine_);
         Pane selectionOverlayPane = new Pane();
         selectionOverlayPane.getChildren().add(selectionRectangle_);
@@ -328,8 +330,8 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
 
     public void updateCurrentPath(double x, double y) {
         if (tempLine_.getStartX() != 0 && tempLine_.getStartY() != 0) {
-            tempLine_.setEndX(x - 10);
-            tempLine_.setEndY(y + 10);
+            tempLine_.setEndX(x - 2);
+            tempLine_.setEndY(y + 2);
         }
     }
 

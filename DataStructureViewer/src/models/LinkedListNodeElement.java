@@ -29,6 +29,7 @@ public class LinkedListNodeElement extends WorkSpaceGraphElement  {
         
         getHotSpots().add(incomingHotSpot_);
         getHotSpots().add(outgoingHotSpot_);
+        resizeImplementation();
     }
     
     // Public Methods
@@ -52,5 +53,14 @@ public class LinkedListNodeElement extends WorkSpaceGraphElement  {
     private final HotSpot incomingHotSpot_;
     private final HotSpot outgoingHotSpot_;
     private int value_;
+
+    @Override
+    protected final void resizeImplementation() {
+        incomingHotSpot_.setX(10);
+        incomingHotSpot_.setY(getHeight() / 2);
+        
+        outgoingHotSpot_.setX(getWidth() - (getWidth() / 4));
+        outgoingHotSpot_.setY(getHeight() / 2);
+    }
 
 }
