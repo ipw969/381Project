@@ -46,8 +46,7 @@ public class Enumerators {
       *     be started or ended when clicking on a HotSpot**/
        public enum HotSpotType {
          INCOMING,
-         OUTGOING,
-         BOTH
+         OUTGOING
      }
 
 }

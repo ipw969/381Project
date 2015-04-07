@@ -34,35 +34,26 @@ public class LinkedListViewElement extends WorkSpaceViewElement {
         // Initialize UI
         backgroundRectangle_ = new Rectangle(0, 0, getWidth() - 1, getHeight() - 1);
         backgroundRectangle_.setFill(Color.web("#673ab7"));
-
         headLabel_ = new Label("Head");
         headLabel_.relocate(5, 5);
         headLabel_.setFont(Font.font("Arial", FontWeight.NORMAL, 16));
         headLabel_.setTextFill(Color.WHITE);
-        
+
         tailLabel_ = new Label("Tail");
         tailLabel_.relocate(5, 25);
         tailLabel_.setFont(Font.font("Arial", FontWeight.NORMAL, 16));
         tailLabel_.setTextFill(Color.WHITE);
-        
+
         countLabel_ = new Label("Count");
         countLabel_.relocate(5, 45);
 
         countLabel_.setFont(Font.font("Arial", FontWeight.NORMAL, 16));
         countLabel_.setTextFill(Color.WHITE);
 
-        
-        headCircle_= new Circle(50, 15, 7, Color.PALEGREEN);
-        tailCircle_ = new Circle(50, 35, 7, Color.PALEGREEN);
-
-        
-        getChildren().addAll(backgroundRectangle_,
+        getComponentsPane().getChildren().addAll(backgroundRectangle_,
                 headLabel_,
                 tailLabel_,
-                countLabel_,
-                headCircle_,
-                tailCircle_);
-        
+                countLabel_);
 
         setLabelEditable(countLabel_, "count");
         countLabel_.setWrapText(true);
@@ -85,18 +76,14 @@ public class LinkedListViewElement extends WorkSpaceViewElement {
     @Override
     public void update() {
         WorkSpaceGraphElement element = getElement();
-        
+
         setSize(element.getWidth(), element.getHeight());
         backgroundRectangle_.setWidth(getWidth() - 1);
         backgroundRectangle_.setHeight(getHeight() - 1);
-        
 
         countLabel_.setPrefWidth(this.getWidth());
         countLabel_.setMaxHeight(this.getHeight() - countLabel_.getLayoutY());
-        
 
-        
-        
     }
 
     //  Private Member Variables
@@ -104,9 +91,6 @@ public class LinkedListViewElement extends WorkSpaceViewElement {
     private final Label headLabel_;
     private final Label tailLabel_;
     private final Label countLabel_;
-    private final Circle headCircle_;
-    private final Circle tailCircle_;
-    
     private Label editLabel_;
 
 }

@@ -36,7 +36,7 @@ public class LinkedListNodeViewElement extends WorkSpaceViewElement {
         valueLabel_.setFont(Font.font("Arial", FontWeight.NORMAL, 16));
         
         // Add components
-        this.getChildren().addAll(backgroundRectangle_,
+        getComponentsPane().getChildren().addAll(backgroundRectangle_,
                 dividingLine_,
                 valueLabel_);
 

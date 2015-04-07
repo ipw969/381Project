@@ -1,6 +1,7 @@
 package controllers;
 
 import Enumerators.Enumerators;
+import Enumerators.Enumerators.HotSpotType;
 import controllers.SelectionController.SelectionModifier;
 import events.PointSelectionEvent;
 import events.RectangleSelectionEvent;
@@ -13,13 +14,8 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import models.BinaryTreeElement;
-import models.LinkedListElement;
 import models.LinkedListNodeElement;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
-import models.HotSpot;
-import models.Leg;
 import models.LinkedListElement;
 import models.Path;
 import models.WorkSpaceGraph;
@@ -95,8 +91,9 @@ public class WorkSpaceController {
         //Handle the mouse being movved over the view.
         
         view.setOnMouseMoved((MouseEvent event) -> {
-           view_.updateCurrentPath(event.getX(), event.getY()); 
+           //view_.updateCurrentPath(event.getX(), event.getY()); 
         });
+        
         // Mouse being clicked on the view
         view.setOnMousePressed((MouseEvent event) -> {
             if (event.getButton() == MouseButton.PRIMARY) {
@@ -115,7 +112,7 @@ public class WorkSpaceController {
                 if (event.getTarget() instanceof HotSpotView)
                 {
                    HotSpotView hotspot = (HotSpotView) event.getTarget();
-                   if (hotspot.getHotSpotType().equals(Enumerators.HotSpotType.OUTGOING))
+                   if (hotspot.getHotSpot().getHotSpotType() == HotSpotType.OUTGOING)
                    {
                        view_.startPath(hotspot);
                    }

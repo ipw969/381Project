@@ -1,6 +1,8 @@
 package models;
 
 import Enumerators.Enumerators;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.geometry.Point2D;
 
 /**
@@ -25,6 +27,7 @@ public abstract class WorkSpaceGraphElement {
     public WorkSpaceGraphElement(double positionX, double positionY, int zIndex,
             double width, double height, double minWidth,
             double minHeight, WorkSpaceGraph parent) {
+        hotSpots_ = new ArrayList<>();
         position_ = new Point2D(positionX, positionY);
         zIndex_ = zIndex;
         width_ = width;
@@ -225,6 +228,14 @@ public abstract class WorkSpaceGraphElement {
                 && this.getY() + this.getHeight() <= rectangleY2);
     }
 
+    /**
+     * The list of HotSpots within the WorkSpaceGraphElement
+     * @return 
+     */
+    public List<HotSpot> getHotSpots() {
+        return hotSpots_;
+    }
+    
     /**
      * This function is responsible for collecting information from a view about
      * a transformation, and figuring out what might have to be resized, then
@@ -441,4 +452,5 @@ public abstract class WorkSpaceGraphElement {
     private double height_;
     private final double minWidth_;
     private final double minHeight_;
+    private final ArrayList<HotSpot> hotSpots_;
 }

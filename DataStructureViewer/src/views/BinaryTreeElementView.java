@@ -21,13 +21,14 @@ public class BinaryTreeElementView extends WorkSpaceViewElement {
 
         backgroundRectangle_ = new Rectangle(0, 0, getWidth() - 1, getHeight() - 1);
         backgroundRectangle_.setFill(Color.web("#009688"));
+
         
         valueLabel_ = new Label("0");
         valueLabel_.setFont(Font.font("Arial", FontWeight.NORMAL, 16));
         valueLabel_.setTextFill(Color.WHITE);
         
 
-        getChildren().addAll(backgroundRectangle_, valueLabel_);
+        getComponentsPane().getChildren().addAll(backgroundRectangle_, valueLabel_);
 
         setLabelEditable(valueLabel_, "");
         valueLabel_.setWrapText(true);

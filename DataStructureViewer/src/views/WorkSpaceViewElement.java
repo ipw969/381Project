@@ -2,6 +2,7 @@ package views;
 
 import Enumerators.Enumerators;
 import Enumerators.Enumerators.TransformerLocation;
+import events.HotSpotEvent;
 import java.util.LinkedList;
 import javafx.animation.ScaleTransition;
 import javafx.beans.value.ChangeListener;
@@ -13,8 +14,10 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import models.HotSpot;
 import models.WorkSpaceGraphElement;
@@ -25,7 +28,7 @@ import models.WorkSpaceGraphElement;
  *
  * @author Iain Workman
  */
-public abstract class WorkSpaceViewElement extends Pane {
+public abstract class WorkSpaceViewElement extends StackPane {
 
     // Constructor
     /**
@@ -38,7 +41,24 @@ public abstract class WorkSpaceViewElement extends Pane {
      */
     public WorkSpaceViewElement(WorkSpaceGraphElement element) {
         element_ = element;
-        onHotspotClicked_ = new EventHandler<HotspotEvent>();
+        
+        componentsPane_ = new Pane();
+        hotSpotPane_ = new Pane();
+        
+        this.getChildren().addAll(componentsPane_, hotSpotPane_);
+        
+        for (HotSpot hotspot : element.getHotSpots()) {
+            HotSpotView hotSpotView = new HotSpotView(hotspot, element);
+            
+            hotSpotView.setOnMouseClicked((MouseEvent e) -> {
+                if(e.getButton() == MouseButton.PRIMARY && onHotSpotClicked_ != null) {
+                    onHotSpotClicked_.handle(new HotSpotEvent(hotspot, this));
+                }
+            });
+            
+            hotSpotPane_.getChildren().add(hotSpotView);
+        }
+        
         this.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>(){
             public void handle(MouseEvent event)
             {
@@ -97,6 +117,11 @@ public abstract class WorkSpaceViewElement extends Pane {
     }
     
     // Public Methods
+    
+    public Pane getComponentsPane() {
+        return componentsPane_;
+    }
+    
     /**
      * Abstract method which updates the WorkSpaceViewElement when its data had
      * been changed.
@@ -141,7 +166,7 @@ public abstract class WorkSpaceViewElement extends Pane {
      * false if not.
      */
     public void setTransformSpotsVisible(boolean isVisible) {
-        for (Node spot : this.getChildren()) {
+        for (Node spot : this.hotSpotPane_.getChildren()) {
             if (spot instanceof TransformSpot) {
                 TransformSpot tSpot = (TransformSpot) spot;
 
@@ -173,6 +198,15 @@ public abstract class WorkSpaceViewElement extends Pane {
         this.setPrefWidth(width);
 
     }
+    
+    /**
+     * Sets the handler for the onHotSpotClicked event
+     * @param onHotSpotClicked::EventHandler<HotSpotEvent> ~ The handler which
+     * will be run when the HotSpot is clicked
+     */
+    public void setOnHotSpotClicked(EventHandler<HotSpotEvent> onHotSpotClicked) {
+        onHotSpotClicked_ = onHotSpotClicked;
+    }
 
     /**
      * SEts up the transformers for this element. NOTE: The transformers are
@@ -188,14 +222,14 @@ public abstract class WorkSpaceViewElement extends Pane {
         TransformSpot middleRight = new TransformSpot(Enumerators.TransformerType.HORIZONTAL, Enumerators.TransformerLocation.MIDDLERIGHT, this);
         TransformSpot middleTop = new TransformSpot(Enumerators.TransformerType.VERTICAL, Enumerators.TransformerLocation.MIDDLETOP, this);
         TransformSpot middleBottom = new TransformSpot(Enumerators.TransformerType.VERTICAL, Enumerators.TransformerLocation.MIDDLEBOTTOM, this);
-        this.getChildren().add(topLeft);
-        this.getChildren().add(topRight);
-        this.getChildren().add(bottomLeft);
-        this.getChildren().add(bottomRight);
-        this.getChildren().add(middleLeft);
-        this.getChildren().add(middleRight);
-        this.getChildren().add(middleTop);
-        this.getChildren().add(middleBottom);
+        hotSpotPane_.getChildren().add(topLeft);
+        hotSpotPane_.getChildren().add(topRight);
+        hotSpotPane_.getChildren().add(bottomLeft);
+        hotSpotPane_.getChildren().add(bottomRight);
+        hotSpotPane_.getChildren().add(middleLeft);
+        hotSpotPane_.getChildren().add(middleRight);
+        hotSpotPane_.getChildren().add(middleTop);
+        hotSpotPane_.getChildren().add(middleBottom);
     }
 
     /**
@@ -230,26 +264,6 @@ public abstract class WorkSpaceViewElement extends Pane {
      */
     public void translate(double deltaX, double deltaY) {
         this.getElement().translate(deltaX, deltaY);
-    }
-    
-    /**Creates a new Hotspot and adds it to center at the given coordinates.
-     * 
-     * @param x the x coordinate of the center of this hotspot
-     * @param y the y coordinate for the center of this hotspot
-     */
-    protected void addHotspot(double x, double y, Enumerators.HotSpotType type)
-    {
-        HotSpot h = new HotSpot(x, y, type);
-        HotSpotView hotspot = new HotSpotView(type, h, this.getElement());
-        this.getChildren().add(hotspot);
-        
-        hotspot.setOnMouseClicked(new EventHandler<MouseEvent>()
-        {
-            public void handle(MouseEvent event)
-            {
-                onHotspotClicked_.handle(hotspot, WorkSpaceViewElement.this);
-            }
-        });
     }
     
     /**Sets up the appropriate listeners for the given label to be editable by the user.
@@ -330,6 +344,9 @@ public abstract class WorkSpaceViewElement extends Pane {
     
     private Label editLabel_;
     
-    private EventHandler<HotspotEvent> onHotspotClicked_;
-    private LinkedList<HotSpotView> hotspots;
+    private final Pane componentsPane_;
+    private final Pane hotSpotPane_;
+    
+    private EventHandler<HotSpotEvent> onHotSpotClicked_;
+    private LinkedList<HotSpotView> hotSpots_;
 }

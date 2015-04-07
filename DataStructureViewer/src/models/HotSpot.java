@@ -6,7 +6,6 @@
 package models;
 
 import Enumerators.Enumerators.HotSpotType;
-import views.HotSpotView;
 
 /**
  *
@@ -20,15 +19,6 @@ public class HotSpot {
         cx_ = nx;
         cy_ = ny;
         type_ = nt;
-        
-           
-    }
-    
-    public HotSpot()
-    {
-        cx_ = 0;
-        cy_ = 0;
-        type_ = HotSpotType.BOTH;
         
            
     }
