@@ -60,6 +60,8 @@ public abstract class WorkSpaceViewElement extends StackPane {
 
             hotSpotViews_.add(hotSpotView);
             hotSpotPane_.getChildren().add(hotSpotView);
+            componentsPane_.setPickOnBounds(false);
+            hotSpotPane_.setPickOnBounds(false);
         }
 
         this.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {

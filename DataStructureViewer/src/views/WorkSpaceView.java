@@ -227,8 +227,15 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
         }
 
         for (PathView pathToDelete : pathsToDelete) {
-            paths_.remove(pathToDelete);
-            pathPane_.getChildren().remove(pathToDelete);
+            
+            EventHandler<ActionEvent> deleteEvent = new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event)
+            {
+                paths_.remove(pathToDelete);
+                pathPane_.getChildren().remove(pathToDelete);
+            }
+        };
+            pathToDelete.onDelete(deleteEvent);
         }
     }
 

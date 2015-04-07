@@ -5,8 +5,12 @@
  */
 package views;
 
+import javafx.animation.ScaleTransition;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.util.Duration;
 import models.Path;
 
 /**
@@ -29,6 +33,14 @@ public class PathView extends Line{
         return path_;
     }
     
+    public void onDelete(EventHandler<ActionEvent> event)
+    {
+        ScaleTransition deleteAnimation = new ScaleTransition(Duration.millis(1000), this);
+        deleteAnimation.setToX(0);
+        deleteAnimation.setToY(0);
+        deleteAnimation.play();
+        deleteAnimation.setOnFinished(event);
+    }
     private final Path path_;
     
 }
