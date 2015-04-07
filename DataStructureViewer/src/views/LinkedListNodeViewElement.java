@@ -24,8 +24,10 @@ public class LinkedListNodeViewElement extends WorkSpaceViewElement {
 
         // Initialize UI
         backgroundRectangle_ = new Rectangle(0, 0, getWidth() - 1, getHeight() - 1);
-        backgroundRectangle_.setFill(Color.web("#311b92", 0.6));
-
+        backgroundRectangle_.setFill(Color.web("#311b92"));
+        backgroundRectangle_.setStroke(Color.WHITE);
+        backgroundRectangle_.setStrokeWidth(2);
+        
         dividingLine_ = new Line();
         dividingLine_.setStroke(Color.WHITE);
         dividingLine_.setStrokeWidth(2);

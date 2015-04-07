@@ -46,10 +46,11 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
         Pane selectionOverlayPane = new Pane();
         selectionOverlayPane.getChildren().add(selectionRectangle_);
 
-        this.getChildren().addAll(pathPane_, elementPane_, selectionOverlayPane);
+        this.getChildren().addAll(elementPane_, pathPane_, selectionOverlayPane);
 
         elementPane_.setPickOnBounds(false);
         selectionOverlayPane.setPickOnBounds(false);
+        pathPane_.setPickOnBounds(false);
 
     }
 
@@ -329,9 +330,28 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
     }
 
     public void updateCurrentPath(double x, double y) {
+        double tempLineStartX = tempLine_.getStartX();
+        double tempLineStartY = tempLine_.getStartY();
+        
+        double newEndX;
+        double newEndY;
+        
+        if(tempLineStartX < x) {
+            newEndX = x - 3;
+        } else {
+            newEndX = x + 3;
+        }
+        
+        if(tempLineStartY < y) {
+            newEndY = y - 3;
+        } else {
+            newEndY = y + 3;
+        }
+        
+        
         if (tempLine_.getStartX() != 0 && tempLine_.getStartY() != 0) {
-            tempLine_.setEndX(x - 2);
-            tempLine_.setEndY(y + 2);
+            tempLine_.setEndX(newEndX);
+            tempLine_.setEndY(newEndY);
         }
     }
 

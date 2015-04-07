@@ -33,7 +33,10 @@ public class LinkedListViewElement extends WorkSpaceViewElement {
 
         // Initialize UI
         backgroundRectangle_ = new Rectangle(0, 0, getWidth() - 1, getHeight() - 1);
-        backgroundRectangle_.setFill(Color.web("#673ab7", 0.6));
+        backgroundRectangle_.setFill(Color.web("#673ab7"));
+        backgroundRectangle_.setStroke(Color.WHITE);
+        backgroundRectangle_.setStrokeWidth(2);
+
         headLabel_ = new Label("Head");
         headLabel_.relocate(5, 5);
         headLabel_.setFont(Font.font("Arial", FontWeight.NORMAL, 16));
