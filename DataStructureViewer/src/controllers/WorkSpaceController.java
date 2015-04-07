@@ -52,18 +52,15 @@ public class WorkSpaceController {
         view_ = view;
         
         view_.setOnHotSpotClicked((HotSpotEvent event) -> {
-            System.out.println("HotSpotClicked in Controller");
             if(event.getHotSpot().getHotSpotType() == HotSpotType.OUTGOING) {
-                System.out.println("Outgoing");
                 view_.startPath(event.getHotSpot());
             } else {
-                System.out.println("Incoming");
                 view_.endPath(event.getHotSpot());
             }
         });
         
         view_.setOnPathDrawComplete((PathEvent event) -> {
-            System.out.println("draw complete in controller");
+
             model_.addPath(event.getPath());
         });
         

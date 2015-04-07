@@ -21,10 +21,14 @@ public class LinkedListNodeElement extends WorkSpaceGraphElement  {
      * this LinkedListNode belongs.
      */
     public LinkedListNodeElement(double positionX, double positionY, int zIndex, WorkSpaceGraph parent) {
-        super(positionX, positionY, zIndex, 65, 40, 65, 40, parent);
+        super(positionX, positionY, zIndex, 85, 40, 85, 40, parent);
         value_ = 0;
         
-        this.getHotSpots().add(new HotSpot(10, 10, HotSpotType.INCOMING, this));
+        incomingHotSpot_ = new HotSpot(10, 20, HotSpotType.INCOMING, this);
+        outgoingHotSpot_ = new HotSpot(65, 20, HotSpotType.OUTGOING,this);
+        
+        getHotSpots().add(incomingHotSpot_);
+        getHotSpots().add(outgoingHotSpot_);
     }
     
     // Public Methods
@@ -45,6 +49,8 @@ public class LinkedListNodeElement extends WorkSpaceGraphElement  {
     }
     
     // Private Member Variables
+    private final HotSpot incomingHotSpot_;
+    private final HotSpot outgoingHotSpot_;
     private int value_;
 
 }

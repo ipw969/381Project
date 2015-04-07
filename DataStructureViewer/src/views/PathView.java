@@ -5,6 +5,7 @@
  */
 package views;
 
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import models.Path;
 
@@ -19,6 +20,8 @@ public class PathView extends Line{
         super(path.getStart().getTotalX(), path.getStart().getTotalY(),
               path.getEnd().getTotalX(), path.getEnd().getTotalY());
         path_ = path;
+        setStroke(Color.ORANGE);
+        setStrokeWidth(2);
     }
     
     public Path getPath()

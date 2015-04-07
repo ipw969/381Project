@@ -88,5 +88,6 @@ public class BinaryTreeElementView extends WorkSpaceViewElement {
     // Private Member Variables
     private final Rectangle backgroundRectangle_;
     private final Label valueLabel_;
+    
 
 }

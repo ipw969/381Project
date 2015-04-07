@@ -40,9 +40,6 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
         elementPane_ = new Pane();
         pathPane_ = new Pane();
         tempLine_ = new Line();
-        tempLine_.setOnMouseClicked((MouseEvent) -> {
-
-        });
         pathPane_.getChildren().add(tempLine_);
         Pane selectionOverlayPane = new Pane();
         selectionOverlayPane.getChildren().add(selectionRectangle_);
@@ -241,7 +238,6 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
     @Override
     public void onElementAltered(WorkSpaceGraphElement element) {
 
-        System.out.println("Element Altered");
         for (WorkSpaceViewElement viewElement : viewElements_) {
             if (viewElement.getElement() == element) {
                 viewElement.relocate(element.getX(), element.getY());
@@ -251,8 +247,7 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
 
         for (PathView p : paths_) {
             Path temp = p.getPath();
-            System.out.println(temp.getStart().getParent().toString());
-            System.out.println(temp.getEnd().getParent().toString());
+
             if (temp.getStart().getParent() == element) {
                 p.setStartX(element.getX() + temp.getStart().getX());
                 p.setStartY(element.getY() + temp.getStart().getY());
@@ -316,7 +311,6 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
 
         PathView newPath = new PathView(path);
         paths_.add(newPath);
-        System.out.println("Paths Count = " + paths_.size());
         pathPane_.getChildren().add(newPath);
 
     }
@@ -334,8 +328,8 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
 
     public void updateCurrentPath(double x, double y) {
         if (tempLine_.getStartX() != 0 && tempLine_.getStartY() != 0) {
-            tempLine_.setEndX(x - 1);
-            tempLine_.setEndY(y + 1);
+            tempLine_.setEndX(x - 10);
+            tempLine_.setEndY(y + 10);
         }
     }
 
@@ -344,7 +338,6 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
     }
 
     public void endPath(HotSpot hotspot) {
-        System.out.println("End Path");
         tempLine_.setStartX(0);
         tempLine_.setStartY(0);
         tempLine_.setEndX(0);

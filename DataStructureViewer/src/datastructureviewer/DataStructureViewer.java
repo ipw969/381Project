@@ -33,9 +33,6 @@ public class DataStructureViewer extends Application {
 
         root.setLeft(toolBox);
         root.setCenter(workSpace);
-        LinkedListViewElement test = new LinkedListViewElement(new LinkedListElement(5, 5, 1, modelGraph));
-        test.relocate(1000, 1000);
-       // workSpace.getChildren().add(test);
 
         Scene scene = new Scene(root, 300, 250);
 

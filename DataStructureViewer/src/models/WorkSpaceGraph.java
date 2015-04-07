@@ -205,7 +205,6 @@ public class WorkSpaceGraph {
     // Private Methods
 
     public void notifySubscribersOfPathAdd(Path path) {
-        System.out.println("Notifying Subs in model");
         for (WorkSpaceGraphListener subscriber: subscribers_) {
             subscriber.onPathAdded(path);
         }
