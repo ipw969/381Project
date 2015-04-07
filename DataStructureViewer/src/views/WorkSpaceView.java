@@ -46,7 +46,7 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
         Pane selectionOverlayPane = new Pane();
         selectionOverlayPane.getChildren().add(selectionRectangle_);
 
-        this.getChildren().addAll(elementPane_, selectionOverlayPane, pathPane_);
+        this.getChildren().addAll(pathPane_, elementPane_, selectionOverlayPane);
 
         elementPane_.setPickOnBounds(false);
         selectionOverlayPane.setPickOnBounds(false);

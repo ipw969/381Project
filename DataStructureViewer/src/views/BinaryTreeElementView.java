@@ -21,7 +21,7 @@ public class BinaryTreeElementView extends WorkSpaceViewElement {
         super(element);
 
         backgroundRectangle_ = new Rectangle(0, 0, getWidth() - 1, getHeight() - 1);
-        backgroundRectangle_.setFill(Color.web("#009688"));
+        backgroundRectangle_.setFill(Color.web("#009688", 0.6));
 
         valueLabel_ = new Label("0");
         valueLabel_.setFont(Font.font("Arial", FontWeight.NORMAL, 16));

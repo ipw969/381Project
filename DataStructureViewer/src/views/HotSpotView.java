@@ -33,11 +33,12 @@ public class HotSpotView extends Circle{
          
         if (hotSpotModel_.getHotSpotType() == HotSpotType.INCOMING )
         {
-            this.setFill(Color.RED);
+            this.setFill(Color.rgb(255, 0, 0, 0.6));
+            
         }
         else if (hotSpotModel_.getHotSpotType() == HotSpotType.OUTGOING)
         {
-            this.setFill(Color.BLUE);            
+            this.setFill(Color.rgb(0, 0, 255, 0.6));            
         }
     }
     
