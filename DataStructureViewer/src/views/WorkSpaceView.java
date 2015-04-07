@@ -42,6 +42,7 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
         tempLine_ = new Line();
         tempLine_.setStroke(Color.ORANGE);
         tempLine_.setStrokeWidth(2);
+        tempLine_.setVisible(false);
         pathPane_.getChildren().add(tempLine_);
         Pane selectionOverlayPane = new Pane();
         selectionOverlayPane.getChildren().add(selectionRectangle_);
@@ -215,17 +216,17 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
                 });
             }
         }
-        
+
         ArrayList<PathView> pathsToDelete = new ArrayList<>();
-        for(PathView path : paths_) {
-            if(path.getPath().getStart().getParent() == element) {
+        for (PathView path : paths_) {
+            if (path.getPath().getStart().getParent() == element) {
                 pathsToDelete.add(path);
-            } else if(path.getPath().getEnd().getParent() == element) {
+            } else if (path.getPath().getEnd().getParent() == element) {
                 pathsToDelete.add(path);
             }
         }
-        
-        for(PathView pathToDelete : pathsToDelete) {
+
+        for (PathView pathToDelete : pathsToDelete) {
             paths_.remove(pathToDelete);
             pathPane_.getChildren().remove(pathToDelete);
         }
@@ -254,7 +255,9 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
             if (temp.getStart().getParent() == element) {
                 p.setStartX(element.getX() + temp.getStart().getX());
                 p.setStartY(element.getY() + temp.getStart().getY());
-            } else if (temp.getEnd().getParent() == element) {
+            } 
+            
+            if (temp.getEnd().getParent() == element) {
                 p.setEndX(element.getX() + temp.getEnd().getX());
                 p.setEndY(element.getY() + temp.getEnd().getY());
             }
@@ -327,28 +330,28 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
         tempLine_.setEndX(positionX);
         tempLine_.setEndY(positionY);
         tempStart_ = hotspot;
+        tempLine_.setVisible(true);
     }
 
     public void updateCurrentPath(double x, double y) {
         double tempLineStartX = tempLine_.getStartX();
         double tempLineStartY = tempLine_.getStartY();
-        
+
         double newEndX;
         double newEndY;
-        
-        if(tempLineStartX < x) {
+
+        if (tempLineStartX < x) {
             newEndX = x - 3;
         } else {
             newEndX = x + 3;
         }
-        
-        if(tempLineStartY < y) {
+
+        if (tempLineStartY < y) {
             newEndY = y - 3;
         } else {
             newEndY = y + 3;
         }
-        
-        
+
         if (tempLine_.getStartX() != 0 && tempLine_.getStartY() != 0) {
             tempLine_.setEndX(newEndX);
             tempLine_.setEndY(newEndY);
@@ -364,10 +367,27 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
         tempLine_.setStartY(0);
         tempLine_.setEndX(0);
         tempLine_.setEndY(0);
+        tempLine_.setVisible(false);
 
-        if (onPathDrawComplete_ != null) {
-            onPathDrawComplete_.handle(new PathEvent(new Path(tempStart_, hotspot)));
+        if (tempStart_ != null) {
+            if (onPathDrawComplete_ != null) {
+                onPathDrawComplete_.handle(new PathEvent(new Path(tempStart_, hotspot)));
+            }
+            tempStart_ = null;
         }
+    }
+
+    public boolean isPathBeingDrawn() {
+        return tempLine_.isVisible();
+    }
+
+    public void cancelPath() {
+        tempLine_.setStartX(0);
+        tempLine_.setStartY(0);
+        tempLine_.setEndX(0);
+        tempLine_.setEndY(0);
+        tempLine_.setVisible(false);
+        tempStart_ = null;
     }
 
     public void setOnHotSpotClicked(EventHandler<HotSpotEvent> onHotSpotClicked) {

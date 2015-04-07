@@ -144,7 +144,10 @@ public class WorkSpaceController {
                         = model_.getElementAt(event.getX(), event.getY());
 
                 if (elementUnderMouse == null) {
-                    view.clearSelection();
+                    if(view.isPathBeingDrawn())
+                        view.cancelPath();
+                    else          
+                        view.clearSelection();
                     viewContextMenu_.hide();
                 } else {
                     contextMenuElement_ = elementUnderMouse;
