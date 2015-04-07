@@ -3,6 +3,7 @@ package controllers;
 import Enumerators.Enumerators;
 import Enumerators.Enumerators.HotSpotType;
 import controllers.SelectionController.SelectionModifier;
+import events.HotSpotEvent;
 import events.PointSelectionEvent;
 import events.RectangleSelectionEvent;
 import javafx.event.ActionEvent;
@@ -49,6 +50,14 @@ public class WorkSpaceController {
         MenuItem bringToFrontMenuItem = new MenuItem("Bring to Front");
         view_ = view;
         
+        view_.setOnHotSpotClicked((HotSpotEvent event) -> {
+            if(event.getHotSpot().getHotSpotType() == HotSpotType.OUTGOING) {
+                view_.startPath(event.getHotSpot());
+            } else {
+                view_.endPath(event.getHotSpot());
+            }
+        });
+        
         // Bring to front item in context menu being clicked
         bringToFrontMenuItem.setOnAction((ActionEvent event) -> {
             if (this.contextMenuElement_ == null) {
@@ -91,7 +100,7 @@ public class WorkSpaceController {
         //Handle the mouse being movved over the view.
         
         view.setOnMouseMoved((MouseEvent event) -> {
-           //view_.updateCurrentPath(event.getX(), event.getY()); 
+           view_.updateCurrentPath(event.getX(), event.getY()); 
         });
         
         // Mouse being clicked on the view
@@ -106,21 +115,6 @@ public class WorkSpaceController {
                 mouseY_ = event.getY();
                 selectionController_.startSelectionAt(event.getX(), event.getY());
 
-            } 
-            else if (event.getButton() == MouseButton.PRIMARY && event.isAltDown())
-            {
-                if (event.getTarget() instanceof HotSpotView)
-                {
-                   HotSpotView hotspot = (HotSpotView) event.getTarget();
-                   if (hotspot.getHotSpot().getHotSpotType() == HotSpotType.OUTGOING)
-                   {
-                       view_.startPath(hotspot);
-                   }
-                   else 
-                   {
-                       view_.endPath(hotspot);
-                   }
-                }
             }
             else if (event.getButton() == MouseButton.SECONDARY) {
                 // Do Nothing
@@ -153,6 +147,7 @@ public class WorkSpaceController {
             }
         });
 
+              
         // Mouse being dragged
         view.setOnMouseDragged((MouseEvent event) -> {
             if (event.getButton() == MouseButton.PRIMARY) {
@@ -229,6 +224,7 @@ public class WorkSpaceController {
     {
         model_.addConnector(path.getPath());
     }
+    
     /**
      * Move the elements that are currently selected in the GraphView. Informs
      * the graphview that the element need to move.

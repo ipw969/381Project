@@ -1,5 +1,6 @@
 package views;
 
+import events.HotSpotEvent;
 import events.PathEvent;
 import factories.WorkSpaceViewElementFactory;
 import java.util.ArrayList;
@@ -31,13 +32,15 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
         viewElements_ = new ArrayList<>();
         selectionSet_ = new ArrayList<>();
         paths_ = new ArrayList<>();
-        
+
         selectionRectangle_ = new Rectangle(0, 0, 0, 0);
         selectionRectangle_.setStroke(Color.WHITE);
         selectionRectangle_.setStrokeWidth(2);
         selectionRectangle_.setFill(Color.rgb(100, 149, 237, 0.6));
         elementPane_ = new Pane();
         pathPane_ = new Pane();
+        tempLine_ = new Line();
+        pathPane_.getChildren().add(tempLine_);
         Pane selectionOverlayPane = new Pane();
         selectionOverlayPane.getChildren().add(selectionRectangle_);
 
@@ -45,7 +48,6 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
 
         elementPane_.setPickOnBounds(false);
         selectionOverlayPane.setPickOnBounds(false);
-
 
     }
 
@@ -169,19 +171,24 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
             elementPane_.getChildren().add(elementToAdd);
             viewElements_.add(elementToAdd);
             elementToAdd.update();
+            // This is a latent bug but I don't have time right now to figure out
+            // a fix. If the onHotSpotClicked_ handler is altered after an element
+            // is added then this won't be wired up correctly. This isn't an issue
+            // with the way the system is at the moment, but we are aware of this bug
+            elementToAdd.setOnHotSpotClicked(onHotSpotClicked_);
         }
     }
 
-    /**Deletes every element that is currently selected.
-     * 
+    /**
+     * Deletes every element that is currently selected.
+     *
      */
-    public void deleteSelectionModel()
-    {
-        for(WorkSpaceViewElement viewElement : selectionSet_)
-        {
+    public void deleteSelectionModel() {
+        for (WorkSpaceViewElement viewElement : selectionSet_) {
             viewElement.onDelete(null);
         }
     }
+
     /**
      * Handles a WorkSpaceGraph element being removed from the WorkSpaceGraph
      * model
@@ -191,18 +198,18 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
      */
     @Override
     public void onElementRemoved(WorkSpaceGraphElement element) {
-                
+
         for (WorkSpaceViewElement viewElement : viewElements_) {
             if (viewElement.getElement() == element) {
 
-                viewElement.onDelete(new EventHandler<ActionEvent>(){
+                viewElement.onDelete(new EventHandler<ActionEvent>() {
 
                     @Override
                     public void handle(ActionEvent event) {
                         elementPane_.getChildren().remove(viewElement);
                         viewElements_.remove(viewElement);
                     }
-                    
+
                 });
 
             }
@@ -223,21 +230,17 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
                 viewElement.relocate(element.getX(), element.getY());
                 viewElement.update();
                 return;
-            }            
-        }
-        
-        for (PathView p : paths_)
-        {
-            Path temp = p.getPath();
-            if(temp.getStart().getParent().equals(element))
-            {
-                p.setStartX(element.getX()+temp.getStart().getHotSpotx());
-                p.setStartY(element.getY()+temp.getStart().getHotSpoty());
             }
-            else if(temp.getEnd().getParent() == element)
-            {
-                p.setEndX(element.getX()+temp.getEnd().getHotSpotx());
-                p.setEndY(element.getY()+temp.getEnd().getHotSpoty());
+        }
+
+        for (PathView p : paths_) {
+            Path temp = p.getPath();
+            if (temp.getStart().getParent().equals(element)) {
+                p.setStartX(element.getX() + temp.getStart().getHotSpotx());
+                p.setStartY(element.getY() + temp.getStart().getHotSpoty());
+            } else if (temp.getEnd().getParent() == element) {
+                p.setEndX(element.getX() + temp.getEnd().getHotSpotx());
+                p.setEndY(element.getY() + temp.getEnd().getHotSpoty());
             }
         }
     }
@@ -289,55 +292,53 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
             element.translate(deltaX, deltaY);
         }
     }
-    
-    public void onPathAdded(Path path)
-    {
-        
+
+    public void onPathAdded(Path path) {
+
         PathView newPath = new PathView(path);
         paths_.add(newPath);
         pathPane_.getChildren().add(newPath);
-        
+
     }
-    
-    public void startPath(HotSpotView hotspot)
-    {
-        HotSpot h = hotspot.getHotSpot();
-        tempLine = new Line(h.getParent().getX()+h.getHotSpotx(), h.getParent().getY()+h.getHotSpoty(), 0, 0);
-        tempStart = h;
+
+    public void startPath(HotSpot hotspot) {
+        System.out.println("Path Started");
+        double positionX = hotspot.getParent().getX() + hotspot.getHotSpotx();
+        double positionY = hotspot.getParent().getY() + hotspot.getHotSpoty();
+        tempLine_.setStartX(positionX);
+        tempLine_.setStartY(positionY);
+        tempLine_.setEndX(positionX);
+        tempLine_.setEndY(positionY);
+        tempStart_ = hotspot;
     }
-    
-    public void updateCurrentPath(double x, double y)
-    {
-        if(tempLine.getStartX()!= 0 && tempLine.getStartY() != 0)
-            {
-                tempLine.setEndX(x);
-                tempLine.setEndY(y);
-                
-            }
-    }
-    
-    public void onPathDrawComplete(EventHandler<PathEvent> handler)
-    {
-        onPathDrawComplete_ = handler; 
-    }
-    
-    public void endPath(HotSpotView hotspot)
-    {
-        HotSpot h = hotspot.getHotSpot();
-        tempLine.setStartX(0);
-        tempLine.setStartY(0);
-        tempLine.setEndX(0);
-        tempLine.setEndY(0);
-        
-        if(onPathDrawComplete_ != null)
-        {
-            onPathDrawComplete_.handle(new PathEvent(new Path(tempStart, h)));
+
+    public void updateCurrentPath(double x, double y) {
+        if (tempLine_.getStartX() != 0 && tempLine_.getStartY() != 0) {
+            tempLine_.setEndX(x);
+            tempLine_.setEndY(y);
         }
     }
-    
+
+    public void setOnPathDrawComplete(EventHandler<PathEvent> handler) {
+        onPathDrawComplete_ = handler;
+    }
+
+    public void endPath(HotSpot hotspot) {
+        tempLine_.setStartX(0);
+        tempLine_.setStartY(0);
+        tempLine_.setEndX(0);
+        tempLine_.setEndY(0);
+
+        if (onPathDrawComplete_ != null) {
+            onPathDrawComplete_.handle(new PathEvent(new Path(tempStart_, hotspot)));
+        }
+    }
+
+    public void setOnHotSpotClicked(EventHandler<HotSpotEvent> onHotSpotClicked) {
+        onHotSpotClicked_ = onHotSpotClicked;
+    }
 
     // Private Methods
-
     /**
      * Selects the WorkSpaceViewElement which is being used to visualize the
      * provided WorkSpaceGraphElement
@@ -363,8 +364,6 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
             }
         }
     }
-    
-    
 
     // Private Member Variables
     private final Pane elementPane_;
@@ -374,7 +373,8 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
     private final ArrayList<WorkSpaceViewElement> viewElements_;
     private final List<WorkSpaceViewElement> selectionSet_;
     private ArrayList<PathView> paths_;
-    private Line tempLine;
-    private HotSpot tempStart;
+    private Line tempLine_;
+    private HotSpot tempStart_;
     private EventHandler<PathEvent> onPathDrawComplete_;
+    private EventHandler<HotSpotEvent> onHotSpotClicked_;
 }
