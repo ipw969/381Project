@@ -309,7 +309,7 @@ public class WorkSpaceView extends Pane implements WorkSpaceGraphListener {
      * @param deltaX : The amount that the mouse moved in the x coordinate
      * plane. Should be positive if the mouse moved to the right, and negative
      * if it moved to the left.
-     * @parem deltaY : The amount that the mouse moved in the y coordinate
+     * @param deltaY : The amount that the mouse moved in the y coordinate
      * plane. Should be positive if the mouse moves down, and negative if it
      * moves to the left.
      */

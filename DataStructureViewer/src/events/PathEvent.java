@@ -1,29 +1,33 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package events;
 
 import javafx.event.ActionEvent;
 import models.Path;
 
 /**
+ * A Class which encapsulates all the data related to a PathEvent
  *
  * @author anjagilje
  */
-public class PathEvent  extends ActionEvent{
-    
-    public PathEvent(Path path)
-    {
+public class PathEvent extends ActionEvent {
+
+    // Constructor
+    /**
+     * Creates an instance of a PathEvent with the provided Path
+     * @param path::Path ~ The Path related to the event
+     */
+    public PathEvent(Path path) {
         path_ = path;
     }
-    
-    public Path getPath()
-    {
+
+    // Public Methods
+    /**
+     * The Path related to the event
+     */
+    public Path getPath() {
         return path_;
     }
-    
-    private Path path_;
-    
+
+    // Private Methods
+    private final Path path_;
+
 }

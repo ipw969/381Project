@@ -1,24 +1,39 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package models;
 
 /**
- *
+ * A class representing a Path which connects two HotSpots
  * @author anjagilje
  */
 public class Path {
-     private final HotSpot start_;
-     private final HotSpot end_;
-    
-    public Path(HotSpot start, HotSpot end)
-    {
+
+    // Constructor
+    /**
+     * Creates a new instance of a Path which connects the provided HotSpots
+     * @param start::HotSpot ~ The HotSpot at the beginning of the Path
+     * @param end::HotSpot ~ The HotSpot at the end of the Path
+     */
+    public Path(HotSpot start, HotSpot end) {
         start_ = start;
         end_ = end;
     }
-    
-    public HotSpot getStart() {return start_;}
-    public HotSpot getEnd() {return end_;}
+
+    // Public Methods
+    /**
+     * The HotSpot at the start of the Path
+     */
+    public HotSpot getStart() {
+        return start_;
+    }
+
+    /**
+     * The HotSpot at the end of the Path
+     * @return 
+     */
+    public HotSpot getEnd() {
+        return end_;
+    }
+
+    // Private Member Variables
+    private final HotSpot start_;
+    private final HotSpot end_;
 }

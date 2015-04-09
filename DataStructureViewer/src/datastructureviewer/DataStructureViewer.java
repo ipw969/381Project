@@ -6,15 +6,12 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import models.LinkedListElement;
 import models.WorkSpaceGraph;
-import views.LinkedListViewElement;
 import views.Toolbox;
 import views.WorkSpaceView;
 
 /**
- *
- * @author Iain Workman 11139430 ipw969
+ * The main Application class of the DataStructureViewer
  */
 public class DataStructureViewer extends Application {
 

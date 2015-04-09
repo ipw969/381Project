@@ -1,10 +1,9 @@
 package views;
 
-import Enumerators.Enumerators;
-import Enumerators.Enumerators.TransformerLocation;
+import enumerators.TransformerLocation;
+import enumerators.TransformerType;
 import events.HotSpotEvent;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import javafx.animation.ScaleTransition;
 import javafx.beans.value.ChangeListener;
@@ -200,7 +199,7 @@ public abstract class WorkSpaceViewElement extends StackPane {
     /**
      * Sets the handler for the onHotSpotClicked event
      *
-     * @param onHotSpotClicked::EventHandler<HotSpotEvent> ~ The handler which
+     * @param onHotSpotClicked::EventHandler ~ The handler which
      * will be run when the HotSpot is clicked
      */
     public void setOnHotSpotClicked(EventHandler<HotSpotEvent> onHotSpotClicked) {
@@ -208,19 +207,19 @@ public abstract class WorkSpaceViewElement extends StackPane {
     }
 
     /**
-     * SEts up the transformers for this element. NOTE: The transformers are
+     * Sets up the transformers for this element. NOTE: The transformers are
      * added to this as children. Currently supports TOPLEFT: DIAGONAL TOPRIGHT:
      * DIAGONAL BOTTOMLEFT: DIAGONAL BOTTOMRIGHT: DIAGONAL
      */
     public void setupTransformers() {
-        TransformSpot topLeft = new TransformSpot(Enumerators.TransformerType.DIAGONAL, Enumerators.TransformerLocation.TOPLEFT, this);
-        TransformSpot topRight = new TransformSpot(Enumerators.TransformerType.DIAGONAL, Enumerators.TransformerLocation.TOPRIGHT, this);
-        TransformSpot bottomLeft = new TransformSpot(Enumerators.TransformerType.DIAGONAL, Enumerators.TransformerLocation.BOTTOMLEFT, this);
-        TransformSpot bottomRight = new TransformSpot(Enumerators.TransformerType.DIAGONAL, Enumerators.TransformerLocation.BOTTOMRIGHT, this);
-        TransformSpot middleLeft = new TransformSpot(Enumerators.TransformerType.HORIZONTAL, Enumerators.TransformerLocation.MIDDLELEFT, this);
-        TransformSpot middleRight = new TransformSpot(Enumerators.TransformerType.HORIZONTAL, Enumerators.TransformerLocation.MIDDLERIGHT, this);
-        TransformSpot middleTop = new TransformSpot(Enumerators.TransformerType.VERTICAL, Enumerators.TransformerLocation.MIDDLETOP, this);
-        TransformSpot middleBottom = new TransformSpot(Enumerators.TransformerType.VERTICAL, Enumerators.TransformerLocation.MIDDLEBOTTOM, this);
+        TransformSpot topLeft = new TransformSpot(TransformerLocation.TOPLEFT, this);
+        TransformSpot topRight = new TransformSpot(TransformerLocation.TOPRIGHT, this);
+        TransformSpot bottomLeft = new TransformSpot(TransformerLocation.BOTTOMLEFT, this);
+        TransformSpot bottomRight = new TransformSpot( TransformerLocation.BOTTOMRIGHT, this);
+        TransformSpot middleLeft = new TransformSpot(TransformerLocation.MIDDLELEFT, this);
+        TransformSpot middleRight = new TransformSpot(TransformerLocation.MIDDLERIGHT, this);
+        TransformSpot middleTop = new TransformSpot(TransformerLocation.MIDDLETOP, this);
+        TransformSpot middleBottom = new TransformSpot(TransformerLocation.MIDDLEBOTTOM, this);
         hotSpotPane_.getChildren().add(topLeft);
         hotSpotPane_.getChildren().add(topRight);
         hotSpotPane_.getChildren().add(bottomLeft);
@@ -258,7 +257,7 @@ public abstract class WorkSpaceViewElement extends StackPane {
      * undergo a transformation. It informs the model that it needs to change
      *
      * @param deltaX - The amount the mouse moved in the x coordinate plane.
-     * @ param deltaY - the amount the mouse moved in the y coordinate plane. *
+     * @param deltaY - the amount the mouse moved in the y coordinate plane. *
      */
     public void translate(double deltaX, double deltaY) {
         this.getElement().translate(deltaX, deltaY);

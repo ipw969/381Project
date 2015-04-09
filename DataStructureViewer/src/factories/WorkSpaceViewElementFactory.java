@@ -29,9 +29,9 @@ public class WorkSpaceViewElementFactory {
         if (element instanceof LinkedListElement) {
             return new LinkedListViewElement((LinkedListElement) element);
         } else if (element instanceof LinkedListNodeElement) {
-            return new LinkedListNodeViewElement(element);
+            return new LinkedListNodeViewElement((LinkedListNodeElement)element);
         } else if (element instanceof BinaryTreeElement) {
-            return new BinaryTreeElementView(element);
+            return new BinaryTreeElementView((BinaryTreeElement)element);
         }
         return null;
     }

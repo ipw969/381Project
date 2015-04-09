@@ -75,19 +75,6 @@ public class WorkSpaceGraph {
         hotSpots_.add(h);
     }
     
-    public HotSpot isHotSpot(double x, double y)
-     {
-       for(HotSpot h : hotSpots_)
-         {
-             if(h.contains(x, y))
-             {
-                 return h;
-             } 
-         }
-         return null;
-         
-     }
-    
     /**
      * Adds a WorkSpaceGraphListener to this WorkSpaceGraph which is to be
      * informed of changes.
@@ -284,7 +271,7 @@ public class WorkSpaceGraph {
     }
 
     /**
-     * @return The lowest Z index of any item within the WorkSpaceGraph
+     * The lowest Z index of any item within the WorkSpaceGraph
      */
     private int getLowestZIndex() {
         int currentLowestZIndex = 0;

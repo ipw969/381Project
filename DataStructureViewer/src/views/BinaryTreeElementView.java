@@ -7,17 +7,21 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import models.HotSpot;
-import models.WorkSpaceGraphElement;
+import models.BinaryTreeElement;
 
 /**
- *
+ * A class for the visual representation of a BinaryTreeElement
  * @author Iain Workman
  */
 public class BinaryTreeElementView extends WorkSpaceViewElement {
 
     // Constructor
-    public BinaryTreeElementView(WorkSpaceGraphElement element) {
+    /**
+     * Creates an instance of a BinaryTreeElementView which visualizes the provided
+     * BinaryTreeElement
+     * @param element 
+     */
+    public BinaryTreeElementView(BinaryTreeElement element) {
         super(element);
 
         backgroundRectangle_ = new Rectangle(0, 0, getWidth() - 1, getHeight() - 1);
@@ -49,6 +53,10 @@ public class BinaryTreeElementView extends WorkSpaceViewElement {
     }
 
     // Public Methods
+    /**
+     * Updates the BinaryTreeElementView when the underlying BinaryTreeElement
+     * has been changed.
+     */
     @Override
     public void update() {
         this.setSize(getElement().getWidth(), getElement().getHeight());

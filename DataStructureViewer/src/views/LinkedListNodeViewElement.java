@@ -19,7 +19,13 @@ import models.WorkSpaceGraphElement;
 public class LinkedListNodeViewElement extends WorkSpaceViewElement {
 
     // Constructor
-    public LinkedListNodeViewElement(WorkSpaceGraphElement element) {
+    /**
+     * Creates a new instance of a LinkedListNodeViewElement which visualizes the
+     * provided LinkedListNodeElement
+     * @param element::LinkedListNodeElement ~ The LinkedListNodeElement which this
+     * LinkedListNodeViewElement will visualize.
+     */
+    public LinkedListNodeViewElement(LinkedListNodeElement element) {
         super(element);
 
         // Initialize UI
@@ -60,6 +66,10 @@ public class LinkedListNodeViewElement extends WorkSpaceViewElement {
     }
 
     // Public Methods
+    /**
+     * Updates this LinkedListNodeViewElement to correctly represent the data within
+     * the LinkedListNodeElement
+     */
     @Override
     public void update() {
         // Scale This

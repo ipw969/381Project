@@ -1,13 +1,8 @@
 package views;
 
 import javafx.beans.value.ObservableValue;
-import javafx.event.EventHandler;
-import javafx.scene.Cursor;
 import javafx.scene.control.Label;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -48,7 +43,7 @@ public class LinkedListViewElement extends WorkSpaceViewElement {
         tailLabel_.setTextFill(Color.WHITE);
 
         countLabel_ = new Label("Count");
-        countLabel_.relocate(5, 45);
+        countLabel_.relocate(8, 45);
 
         countLabel_.setFont(Font.font("Arial", FontWeight.NORMAL, 16));
         countLabel_.setTextFill(Color.WHITE);
@@ -76,6 +71,10 @@ public class LinkedListViewElement extends WorkSpaceViewElement {
     }
 
     // Public Methods
+    /**
+     * LinkedListViewElement when the data of the underlying WorkSpaceGraphElement
+     * has been altered
+     */
     @Override
     public void update() {
         WorkSpaceGraphElement element = getElement();
@@ -94,6 +93,5 @@ public class LinkedListViewElement extends WorkSpaceViewElement {
     private final Label headLabel_;
     private final Label tailLabel_;
     private final Label countLabel_;
-    private Label editLabel_;
 
 }

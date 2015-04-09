@@ -1,7 +1,7 @@
 package views;
 
-import Enumerators.Enumerators.TransformerLocation;
-import Enumerators.Enumerators.TransformerType;
+import enumerators.TransformerLocation;
+import enumerators.TransformerType;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
@@ -22,13 +22,10 @@ public class TransformSpot extends Rectangle {
 
     /**
      *
-     * @param type The type of the Transformer. This is to indicate in what
-     * direction it can move in.
      * @param location The location of the Transformer relative to its parent.
      * @param parent The parent of this TransformerSpot.
      */
-    public TransformSpot(TransformerType type, TransformerLocation location, WorkSpaceViewElement parent) {
-        this.type_ = type;
+    public TransformSpot(TransformerLocation location, WorkSpaceViewElement parent) {
         this.location_ = location;
         this.parent_ = parent;
 
@@ -205,16 +202,10 @@ public class TransformSpot extends Rectangle {
     private double previousMousePositionX_;
     private double previousMousePositionY_;
 
-    //Whether or not the parent is currently being resized.
-    private boolean dragInProgress_ = false;
-
     //The location of this transformer relative to its parent.
     private TransformerLocation location_;
 
     private WorkSpaceViewElement parent_;
-
-    //The type of the transformer, used to determine what direction it can move.
-    private TransformerType type_;
 
     private Cursor cursorType_;
     private boolean enabled_;

@@ -1,7 +1,6 @@
 package models;
 
-import Enumerators.Enumerators;
-import Enumerators.Enumerators.HotSpotType;
+import enumerators.HotSpotType;
 
 /**
  * A class which represents a binary tree node
@@ -23,11 +22,11 @@ public class BinaryTreeElement extends WorkSpaceGraphElement {
      */
     public BinaryTreeElement(double positionX, double positionY, int zIndex, WorkSpaceGraph parent) {
         super(positionX, positionY, zIndex, 60, 60, 60, 60, parent);
-        
+
         incomingHotSpot_ = new HotSpot(30, 5, HotSpotType.INCOMING, this);
         outgoingLeft_ = new HotSpot(15, 50, HotSpotType.OUTGOING, this);
         outgoingRight_ = new HotSpot(45, 50, HotSpotType.OUTGOING, this);
-        
+
         getHotSpots().add(incomingHotSpot_);
         getHotSpots().add(outgoingLeft_);
         getHotSpots().add(outgoingRight_);
@@ -53,21 +52,24 @@ public class BinaryTreeElement extends WorkSpaceGraphElement {
     }
 
     // Protected Methods
-        @Override
+    
+    /**
+     * Defines the actions to take when the Element is resized
+     */
+    @Override
     protected final void resizeImplementation() {
         incomingHotSpot_.setX(getWidth() / 2);
         outgoingLeft_.setX(getWidth() / 3);
         outgoingLeft_.setY(getHeight() - 5);
-        
+
         outgoingRight_.setX((getWidth() / 3) * 2);
-        outgoingRight_.setY(getHeight() - 5);        
+        outgoingRight_.setY(getHeight() - 5);
     }
-    
+
     // Private Member Variables
     private int value_;
     private final HotSpot incomingHotSpot_;
     private final HotSpot outgoingLeft_;
     private final HotSpot outgoingRight_;
-
 
 }

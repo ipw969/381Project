@@ -1,7 +1,6 @@
 package models;
 
-import Enumerators.Enumerators.HotSpotType;
-
+import enumerators.HotSpotType;
 
 /**
  * A class which represents a LinkedListElement in the workspace Graph
@@ -32,13 +31,15 @@ public class LinkedListElement extends WorkSpaceGraphElement {
     }
 
     // Public Methods
-
-    // Private Member Variables
-    private HotSpot headHotSpot_;
-    private HotSpot tailHotSpot_;
-
+    
+    // Protected Methods
     @Override
     protected void resizeImplementation() {
         // Nothing doing
     }
+
+    // Private Member Variables
+    private final HotSpot headHotSpot_;
+    private final HotSpot tailHotSpot_;
+
 }

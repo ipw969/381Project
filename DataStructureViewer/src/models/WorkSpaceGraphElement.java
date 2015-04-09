@@ -1,6 +1,6 @@
 package models;
 
-import Enumerators.Enumerators;
+import enumerators.TransformerLocation;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.geometry.Point2D;
@@ -254,7 +254,7 @@ public abstract class WorkSpaceGraphElement {
      * corresponds to the location that the transformation occurred.
      */
     public void transform(double deltaX, double deltaY,
-            Enumerators.TransformerLocation location) {
+            TransformerLocation location) {
         double newX = this.getX();
         double newY = this.getY();
         double minWidth = this.getMinWidth();
@@ -263,7 +263,7 @@ public abstract class WorkSpaceGraphElement {
         double currentHeight = this.getHeight();
         double newWidth = currentWidth;
         double newHeight = currentHeight;
-        if (location.equals(Enumerators.TransformerLocation.TOPLEFT)) {
+        if (location.equals(TransformerLocation.TOPLEFT)) {
             //If the mouse moved to the left, we need to increase the width to keep the element in place.
             double deltaWidth = (-1) * deltaX;
 
@@ -285,7 +285,7 @@ public abstract class WorkSpaceGraphElement {
                 newHeight = minHeight;
                 newY = newY + heightOffset;
             }
-        } else if (location.equals(Enumerators.TransformerLocation.TOPRIGHT)) {
+        } else if (location.equals(TransformerLocation.TOPRIGHT)) {
             //The width should increase if the mouse moved to the right, and vice-versa
             double deltaWidth = deltaX;
 
@@ -307,7 +307,7 @@ public abstract class WorkSpaceGraphElement {
                 newHeight = minHeight;
                 newY = newY + heightOffset;
             }
-        } else if (location.equals(Enumerators.TransformerLocation.BOTTOMLEFT)) {
+        } else if (location.equals(TransformerLocation.BOTTOMLEFT)) {
             //The width should increase if the mouse moves to the left.
             double deltaWidth = (-1) * deltaX;
 
@@ -330,7 +330,7 @@ public abstract class WorkSpaceGraphElement {
                 newHeight = minHeight;
             }
 
-        } else if (location.equals(Enumerators.TransformerLocation.BOTTOMRIGHT)) {
+        } else if (location.equals(TransformerLocation.BOTTOMRIGHT)) {
             //The width should increase if the mouse moves to the right.
             double deltaWidth = deltaX;
 
@@ -352,7 +352,7 @@ public abstract class WorkSpaceGraphElement {
                 newHeight = minHeight;
             }
 
-        } else if (location.equals(Enumerators.TransformerLocation.MIDDLELEFT)) {
+        } else if (location.equals(TransformerLocation.MIDDLELEFT)) {
             //The width should increase when the mouse moves left.
             double deltaWidth = (-1) * deltaX;
 
@@ -368,7 +368,7 @@ public abstract class WorkSpaceGraphElement {
                 newWidth = minWidth;
                 newX = newX + widthOffset;
             }
-        } else if (location.equals(Enumerators.TransformerLocation.MIDDLEBOTTOM)) {
+        } else if (location.equals(TransformerLocation.MIDDLEBOTTOM)) {
             //The height should increase when the mouse moves down.
             double deltaHeight = deltaY;
 
@@ -381,7 +381,7 @@ public abstract class WorkSpaceGraphElement {
             if (newHeight < minHeight) {
                 newHeight = minHeight;
             }
-        } else if (location.equals(Enumerators.TransformerLocation.MIDDLERIGHT)) {
+        } else if (location.equals(TransformerLocation.MIDDLERIGHT)) {
             //The width should increase when the mouse moved to the right.
             double deltaWidth = deltaX;
 
@@ -395,7 +395,7 @@ public abstract class WorkSpaceGraphElement {
             if (newWidth < minWidth) {
                 newWidth = minWidth;
             }
-        } else if (location.equals(Enumerators.TransformerLocation.MIDDLETOP)) {
+        } else if (location.equals(TransformerLocation.MIDDLETOP)) {
             //Only the height and y coordinate ever changes.
 
             double deltaHeight = (-1) * deltaY;

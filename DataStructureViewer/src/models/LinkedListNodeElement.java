@@ -1,7 +1,7 @@
 package models;
 
-import Enumerators.Enumerators;
-import Enumerators.Enumerators.HotSpotType;
+
+import enumerators.HotSpotType;
 
 /**
  *  A class representing a Node of a LinkedList

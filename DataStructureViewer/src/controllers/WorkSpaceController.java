@@ -1,7 +1,6 @@
 package controllers;
 
-import Enumerators.Enumerators;
-import Enumerators.Enumerators.HotSpotType;
+import enumerators.HotSpotType;
 import controllers.SelectionController.SelectionModifier;
 import events.HotSpotEvent;
 import events.PathEvent;
@@ -22,7 +21,6 @@ import models.LinkedListElement;
 import models.Path;
 import models.WorkSpaceGraph;
 import models.WorkSpaceGraphElement;
-import views.HotSpotView;
 import views.PathView;
 import views.TransformSpot;
 import views.WorkSpaceView;
@@ -50,20 +48,20 @@ public class WorkSpaceController {
         viewContextMenu_ = new ContextMenu();
         MenuItem bringToFrontMenuItem = new MenuItem("Bring to Front");
         view_ = view;
-        
+
         view_.setOnHotSpotClicked((HotSpotEvent event) -> {
-            if(event.getHotSpot().getHotSpotType() == HotSpotType.OUTGOING) {
+            if (event.getHotSpot().getHotSpotType() == HotSpotType.OUTGOING) {
                 view_.startPath(event.getHotSpot());
             } else {
                 view_.endPath(event.getHotSpot());
             }
         });
-        
+
         view_.setOnPathDrawComplete((PathEvent event) -> {
 
             model_.addPath(event.getPath());
         });
-        
+
         // Bring to front item in context menu being clicked
         bringToFrontMenuItem.setOnAction((ActionEvent event) -> {
             if (this.contextMenuElement_ == null) {
@@ -85,17 +83,16 @@ public class WorkSpaceController {
         });
 
         MenuItem deleteElementMenuItem = new MenuItem("Delete Element");
-        
+
         //delete the element that was clicked on.
-        deleteElementMenuItem.setOnAction(new EventHandler<ActionEvent>(){
+        deleteElementMenuItem.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
             public void handle(ActionEvent event) {
-                if (contextMenuElement_ == null)
-                {
+                if (contextMenuElement_ == null) {
                     return;
                 }
-                
+
                 contextMenuElement_.delete();
             }
 
@@ -104,11 +101,10 @@ public class WorkSpaceController {
                 bringToFrontMenuItem, deleteElementMenuItem);
 
         //Handle the mouse being movved over the view.
-        
         view.setOnMouseMoved((MouseEvent event) -> {
-           view_.updateCurrentPath(event.getX(), event.getY()); 
+            view_.updateCurrentPath(event.getX(), event.getY());
         });
-        
+
         // Mouse being clicked on the view
         view.setOnMousePressed((MouseEvent event) -> {
             if (event.getButton() == MouseButton.PRIMARY) {
@@ -121,12 +117,10 @@ public class WorkSpaceController {
                 mouseY_ = event.getY();
                 selectionController_.startSelectionAt(event.getX(), event.getY());
 
-            }
-            else if (event.getButton() == MouseButton.SECONDARY) {
+            } else if (event.getButton() == MouseButton.SECONDARY) {
                 // Do Nothing
             }
-            
-            
+
         });
 
         // Mouse click released
@@ -144,10 +138,11 @@ public class WorkSpaceController {
                         = model_.getElementAt(event.getX(), event.getY());
 
                 if (elementUnderMouse == null) {
-                    if(view.isPathBeingDrawn())
+                    if (view.isPathBeingDrawn()) {
                         view.cancelPath();
-                    else          
+                    } else {
                         view.clearSelection();
+                    }
                     viewContextMenu_.hide();
                 } else {
                     contextMenuElement_ = elementUnderMouse;
@@ -156,7 +151,6 @@ public class WorkSpaceController {
             }
         });
 
-              
         // Mouse being dragged
         view.setOnMouseDragged((MouseEvent event) -> {
             if (event.getButton() == MouseButton.PRIMARY) {
@@ -183,7 +177,6 @@ public class WorkSpaceController {
                 }
             }
         });
-
 
         selectionController_.setOnPointSelection((PointSelectionEvent event) -> {
             view.selectAt(event.getPointX(), event.getPointY(), event.getSelectionModifier() == SelectionModifier.Append);
@@ -227,13 +220,10 @@ public class WorkSpaceController {
         });
     }
 
-    
-    
-    public void onPathAdded(PathView path)
-    {
+    public void onPathAdded(PathView path) {
         model_.addConnector(path.getPath());
     }
-    
+
     /**
      * Move the elements that are currently selected in the GraphView. Informs
      * the graphview that the element need to move.
@@ -246,10 +236,6 @@ public class WorkSpaceController {
         mouseY_ = event.getY();
         view_.moveSelection(distanceMovedX, distanceMovedY);
     }
-    
-
-
-    
 
     // Private Member Variables
     private WorkSpaceView view_;
