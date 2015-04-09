@@ -14,8 +14,8 @@ JRE v1.8 (Available from https://www.java.com/en/download/)
 From the command line type:
 `java -jar DataStructureViewer.jar `
 
-*NOTE1: This assumes that java is available in the $PATH envvar*
-*NOTE2: This assumes that the version of java within the $PATH envvar is v1.8+ (to check this type `java -version`)*
+- *NOTE1: This assumes that java is available in the $PATH envvar*
+- *NOTE2: This assumes that the version of java within the $PATH envvar is v1.8+ (to check this type `java -version`)*
 
 ## The Source Code:
 The source code can be browsed at:
